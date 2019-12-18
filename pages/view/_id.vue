@@ -23,8 +23,13 @@
 import axios from 'axios';
 export default {
   async asyncData({ params, $axios }) {
-    const response = await $axios.$get(`http://localhost:3000/api/getOne?id=${params.id}`);
+    try {
+      const response = await $axios.$get(`api/getOne?id=${params.id}`);
     return response;
+    } catch(error) {
+      console.error(error);
+      return error;
+    }
     /*
       returns:
       "name": "Tamas",
