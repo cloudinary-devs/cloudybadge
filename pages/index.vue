@@ -1,7 +1,8 @@
 <template>
   <section class="container">
     <div>
-      <h1>
+      <cld-image public-id="_cloudybadge/hackb4xmas/assets/badge-bg-svg.png" height="150" crop="scale"/>
+      <h1 class="my-3">
         Welcome to CloudyBadge
       </h1>
       <form @submit="register" class="flex flex-col text-left mt-5">
@@ -27,7 +28,7 @@ export default {
       name: '',
       company: '',
       title: '',
-      email: ''
+      email: '',
     }
   },
   methods: {
@@ -43,7 +44,9 @@ export default {
         const response = await axios.post(`/api/insert`, {
           payload
         });
-        console.log('response.data', response.data)
+        this.$router.push({
+          path: `/upload/${response.data.id}`
+      })
       } catch(error) {
         console.error('error', error)
       }

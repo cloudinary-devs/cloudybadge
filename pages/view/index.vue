@@ -3,14 +3,16 @@
     <div class="my-5">
       <h2 class="text-center">Vote for the badge you ❤️</h2>
     </div>
-    <div class="flex flex-wrap">
+    <div class="flex flex-wrap" v-if="users">
       <div v-for="(user, i) in users" :key="i" class="relative m-3">
         <nuxt-link :to="`/view/${user.id}`">
         <cld-image public-id="_cloudybadge/hackb4xmas/assets/badge-bg.png" width="200" crop="scale"
           class="border-2"
             :transformation="getTransformation(user)"
+          v-if="user.avatar"
         >
         </cld-image>
+        <h4>{{user.name}}</h4>
         <button class="favorite absolute outline-none focus:outline-none" @click.prevent="favoriteIt(user)">
           <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill="#ef2e4f">
             <path
@@ -20,13 +22,14 @@
         </nuxt-link>
       </div>
     </div>
-    <div class="flex justify-center">
+    <div class="flex justify-center" v-if="users">
       <nuxt-link to="/leaderboard">
         <button class="bg-green-dark hover:bg-green-darker text-white font-bold p-4 rounded mt-4 m-auto">
           Who is winning?
         </button>
       </nuxt-link>
     </div>
+    <div v-else>Error loading the list of badges</div>
   </div>
 </template>
 <script>
@@ -35,79 +38,20 @@ export default {
     try {
       const response = await $axios.$get(`api/getAll`);
       console.log(response);
-      return response;
-      /* returns:
-        [{
-          "ref": {
-            ...
-          },
-          "data": {
-            "name": "Tamas",
-            ...
-          }
-        }, {
-          "ref": {
-            ...
-          },
-          "data": {
-            "name": "Maya",
-            ...
-          }
-        }]
-      */
+      debugger
+      return {
+        users: response.map(entry => entry.data).filter(entry => enter.avatar)
+      }
     } catch(error) {
       console.error(error);
       return error;
     }
   },
-  // data() {
-  //   return {
-  //     users: [{
-  //       name: "Maya Shavin",
-  //       company: 'Cloudinary',
-  //       title: 'SRE',
-  //       avatar: {
-  //         public_id: "_cloudybadge/hackb4xmas/assets/blbhofoixmaaqju9hecw",
-  //         transformation: {
-  //           name: 'Hokusai',
-  //           crop: 'fill',
-  //           dpr: 'auto',
-  //           effect: 'art:hokusai',
-  //         }
-  //       },
-  //       id: 1,
-  //     }, {
-  //       name: "Maya Shavin",
-  //       company: 'Cloudinary',
-  //       title: 'SRE',
-  //       avatar: {
-  //         public_id: "_cloudybadge/hackb4xmas/assets/blbhofoixmaaqju9hecw",
-  //         transformation: {
-  //           name: 'Hokusai',
-  //           crop: 'fill',
-  //           dpr: 'auto',
-  //           effect: 'art:hokusai',
-  //         }
-  //       },
-  //       id: 2,
-  //     }, {
-  //       name: "Maya Shavin",
-  //       company: 'Cloudinary',
-  //       title: 'SRE',
-  //       avatar: {
-  //         public_id: "_cloudybadge/hackb4xmas/assets/blbhofoixmaaqju9hecw",
-  //         transformation: {
-  //           name: 'Hokusai',
-  //           crop: 'fill',
-  //           dpr: 'auto',
-  //           effect: 'art:hokusai',
-  //         }
-  //       },
-  //       id: 3
-  //     }],
-  //     favoriteBadge: ''
-  //   };
-  // },
+  data() {
+    return {
+      users: []
+    }
+  },
   methods: {
     getTransformation(user) {
       return [{

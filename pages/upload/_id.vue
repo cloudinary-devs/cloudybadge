@@ -27,10 +27,12 @@
         </div>
       </div>
     </div>
-    <button class="bg-green-dark hover:bg-green-darker text-white font-bold p-4 rounded mt-4 m-auto">Save your badge</button>
+    <button class="bg-green-dark hover:bg-green-darker text-white font-bold p-4 rounded mt-4 m-auto" @click="saveBadge">Save your badge</button>
   </div>
 </template>
 <script>
+import axios from 'axios';
+
 const effects = [{
   name: 'Original',
   crop: 'fill',
@@ -66,49 +68,18 @@ const effects = [{
 export default {
   async asyncData({ params, $axios }) {
     const response = await $axios.$get(`api/getOne?id=${params.id}`);
-    return response;
+    return {
+      ...response.data,
+      ref: response.ref['@ref'].i
+    };
   },
-  // data() {
-  //   return {
-  //     uploadWidget: null,
-  //     avatar: '',
-  //     name: 'Nadav Ofir',
-  //     title: 'Walker',
-  //     company: 'The Galaxy',
-  //     selectedEffect: {},
-  //     effects: [{
-  //       name: 'Original',
-  //       crop: 'fill',
-  //     }, {
-  //       name: 'Hokusai',
-  //       crop: 'fill',
-  //       dpr: 'auto',
-  //       effect: 'art:hokusai',
-  //     }, {
-  //       name: "Stamp",
-  //       crop: 'fill',
-  //       dpr: "auto",
-  //       effect: 'red:50',
-  //     }, {
-  //       name: "Duetone",
-  //       crop: 'fill',
-  //       dpr: 'auto',
-  //       effect: "tint:100:6736dd:0p:00ffe3:100p",
-  //       quality: "auto",
-  //       focus: "auto",
-  //     }, {
-  //       name: "Improve",
-  //       crop: 'fill',
-  //       dpr: 'auto',
-  //       effect: "improve"
-  //     }, {
-  //       name: "Retro",
-  //       crop: 'fill',
-  //       dpr: 'auto',
-  //       effect: "pixelate:40"
-  //     }]
-  //   }
-  // },
+  data() {
+    return {
+      avatar: null,
+      effects: effects,
+      selectedEffect: {},
+    }
+  },
   computed: {
     nameOverlay() {
       return `text:Roboto_80:${this.name}`
@@ -147,6 +118,14 @@ export default {
     },
     applyEffect(effect) {
       this.selectedEffect =  effect;
+    },
+    async saveBadge() {
+      await axios.post(`api/update?ref=${this.ref}`, {
+        avatar: {
+          public_id: this.avatar.public_id,
+          transformation: this.selectedEffect,
+        }
+      });
     }
   },
   mounted() {

@@ -25,6 +25,10 @@ export default {
   async asyncData({ params, $axios }) {
     try {
       const response = await $axios.$get(`api/getOne?id=${params.id}`);
+    return {
+      ...response.data,
+      ref: response.ref['@ref'].id
+    };
     return response;
     } catch(error) {
       console.error(error);

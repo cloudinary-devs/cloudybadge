@@ -16,10 +16,7 @@ module.exports = async (req, res) => {
         )
       )
     );
-    return res.json(queryResponse.data);
-    // return res.json({
-    //   body: queryResponse.data
-    // });
+    return res.json(queryResponse);
   } catch(error) {
     console.error(error);
     return res.json({
