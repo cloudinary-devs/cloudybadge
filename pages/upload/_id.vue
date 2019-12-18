@@ -40,10 +40,10 @@ const effects = [{
   dpr: 'auto',
   effect: 'art:hokusai',
 }, {
-  name: "Stamp",
+  name: "Poster",
   crop: 'fill',
   dpr: "auto",
-  effect: 'red:50',
+  effect: 'vectorize:2:0.8',
 }, {
   name: "Duetone",
   crop: 'fill',
@@ -60,7 +60,7 @@ const effects = [{
   name: "Retro",
   crop: 'fill',
   dpr: 'auto',
-  effect: "pixelate:40"
+  effect: "saturation:300"
 }];
 
 export default {
