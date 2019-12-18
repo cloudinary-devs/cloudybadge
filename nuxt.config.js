@@ -37,6 +37,7 @@ export default {
   ** Plugins to load before mounting the App
   */
   plugins: [
+    "./plugins/cloudinary"
   ],
 
   /*
@@ -52,7 +53,16 @@ export default {
     /*
     ** You can extend webpack config here
     */
+    dir: 'public',
     extend(config, ctx) {
     }
+  },
+  generate: {
+    dir: "public"
+  },
+  env: {
+    uploadPreset: process.env.CLOUDYBADGE_UPLOAD_PRESET,
+    uploadFolder: process.env.CLOUDYBADGE_UPLOAD_FOLDER,
+    cloudName: process.env.CLOUDYBADGE_CLOUDNAME,
   }
 }

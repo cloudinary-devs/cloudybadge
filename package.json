@@ -11,6 +11,7 @@
     "generate": "nuxt generate"
   },
   "dependencies": {
+    "cloudinary-vue": "^1.0.0",
     "cross-env": "^5.2.0",
     "nuxt": "^2.4.0"
   },
