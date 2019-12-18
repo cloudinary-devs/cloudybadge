@@ -23,19 +23,15 @@
 import axios from 'axios';
 export default {
   async asyncData({ params, $axios }) {
-    const response = await $axios.$get(`/api/getOne?id=${params.id}`);
-    // const data = await response.json()
-    return params.id;
-    // return response.body;
+    const response = await $axios.$get(`http://localhost:3000/api/getOne?id=${params.id}`);
+    return response;
     /*
       returns:
-      "body": {
-        "name": "Tamas",
-        "company": "Cloudinary",
-        "title": "DevRel King",
-        "email": "tamas@cloudinary.com",
-        "id": "aRltl-vu"
-      }
+      "name": "Tamas",
+      "company": "Cloudinary",
+      "title": "DevRel King",
+      "email": "tamas@cloudinary.com",
+      "id": "aRltl-vu"
     */
   },
   // data() {
