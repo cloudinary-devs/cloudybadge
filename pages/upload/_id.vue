@@ -68,9 +68,11 @@ const effects = [{
 export default {
   async asyncData({ params, $axios }) {
     const response = await $axios.$get(`api/getOne?id=${params.id}`);
+    console.log(response);
+
     return {
       ...response.data,
-      ref: response.ref['@ref'].i
+      ref: response.ref['@ref'].id
     };
   },
   data() {
@@ -120,7 +122,7 @@ export default {
       this.selectedEffect =  effect;
     },
     async saveBadge() {
-      await axios.post(`api/update?ref=${this.ref}`, {
+      await axios.post(`/api/update?ref=${this.ref}`, {
         avatar: {
           public_id: this.avatar.public_id,
           transformation: this.selectedEffect,

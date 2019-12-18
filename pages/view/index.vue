@@ -9,10 +9,8 @@
         <cld-image public-id="_cloudybadge/hackb4xmas/assets/badge-bg.png" width="200" crop="scale"
           class="border-2"
             :transformation="getTransformation(user)"
-          v-if="user.avatar"
         >
         </cld-image>
-        <h4>{{user.name}}</h4>
         <button class="favorite absolute outline-none focus:outline-none" @click.prevent="favoriteIt(user)">
           <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill="#ef2e4f">
             <path
@@ -40,7 +38,7 @@ export default {
       console.log(response);
       debugger
       return {
-        users: response.map(entry => entry.data).filter(entry => enter.avatar)
+        users: response.map(entry => entry.data).filter(entry => entry.avatar)
       }
     } catch(error) {
       console.error(error);
@@ -55,7 +53,7 @@ export default {
   methods: {
     getTransformation(user) {
       return [{
-        overlay: user.avatar.public_id.replace(/\//gm, ':'),
+        overlay: user.avatar ? user.avatar.public_id.replace(/\//gm, ':') : "fetch:https://res.cloudinary.com/mayashavin/image/upload/v1576215298/avatar_person.svg",
         radius:"max",
         width:"800",
         height:"800",

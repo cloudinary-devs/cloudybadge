@@ -34,28 +34,7 @@ export default {
       console.error(error);
       return error;
     }
-    /*
-      returns:
-      "name": "Tamas",
-      "company": "Cloudinary",
-      "title": "DevRel King",
-      "email": "tamas@cloudinary.com",
-      "id": "aRltl-vu"
-    */
   },
-  // data() {
-  //   return {
-  //     avatar: '',
-  //     name: 'Nadav Ofir',
-  //     title: 'Walker',
-  //     company: 'The Galaxy',
-  //     effect: {
-  //       crop: 'fill',
-  //       dpr: 'auto',
-  //       effect: "pixelate:40"
-  //     }
-  //   }
-  // },
   computed: {
     nameOverlay() {
       return `text:Roboto_80:${this.name}`

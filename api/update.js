@@ -9,10 +9,13 @@ const client = new faunadb.Client({
 
 module.exports = async (req, res) => {
     const ref = req.query.ref;
-  const data = req.body.payload;
+  const data = req.body;
+  console.log(req.body);
   const badge = {
     data: data
   };
+
+  console.log(badge);
 
   try {
     const response = await client.query(
