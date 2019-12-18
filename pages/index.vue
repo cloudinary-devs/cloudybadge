@@ -20,18 +20,33 @@
 </template>
 
 <script>
-
+import axios from 'axios'
 export default {
   data() {
     return {
       name: '',
       company: '',
+      title: '',
       email: ''
     }
   },
   methods: {
-    register() {
-      console.log('register');
+    async register(e) {
+      e.preventDefault();
+      const payload = {
+        name: this.name,
+        company: this.company,
+        title: this.title,
+        email: this.email
+      };
+      try {
+        const response = await axios.post(`/api/insert`, {
+          payload
+        });
+        console.log('response.data', response.data)
+      } catch(error) {
+        console.error('error', error)
+      }
     }
   }
 }

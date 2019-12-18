@@ -11,13 +11,20 @@
     "generate": "nuxt generate"
   },
   "dependencies": {
+    "@nuxtjs/axios": "^5.9.0",
     "cloudinary-vue": "^1.0.0",
     "cross-env": "^5.2.0",
-    "nuxt": "^2.4.0"
+    "dotenv": "^8.2.0",
+    "faunadb": "^2.10.0",
+    "nuxt": "^2.4.0",
+    "shortid": "^2.2.15"
   },
   "devDependencies": {
     "nodemon": "^1.18.9",
     "autoprefixer": "^8.6.4",
     "tailwindcss": "^0.7.0"
+  },
+  "engines": {
+    "node": ">=10.x"
   }
 }
