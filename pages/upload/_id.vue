@@ -64,17 +64,51 @@ const effects = [{
 }];
 
 export default {
-  data() {
-    return {
-      uploadWidget: null,
-      avatar: '',
-      name: 'Nadav Ofir',
-      title: 'Walker',
-      company: 'The Galaxy',
-      selectedEffect: {},
-      effects: effects,
-    }
+  async asyncData({ params, $axios }) {
+    const response = await $axios.$get(`api/getOne?id=${params.id}`);
+    return response;
   },
+  // data() {
+  //   return {
+  //     uploadWidget: null,
+  //     avatar: '',
+  //     name: 'Nadav Ofir',
+  //     title: 'Walker',
+  //     company: 'The Galaxy',
+  //     selectedEffect: {},
+  //     effects: [{
+  //       name: 'Original',
+  //       crop: 'fill',
+  //     }, {
+  //       name: 'Hokusai',
+  //       crop: 'fill',
+  //       dpr: 'auto',
+  //       effect: 'art:hokusai',
+  //     }, {
+  //       name: "Stamp",
+  //       crop: 'fill',
+  //       dpr: "auto",
+  //       effect: 'red:50',
+  //     }, {
+  //       name: "Duetone",
+  //       crop: 'fill',
+  //       dpr: 'auto',
+  //       effect: "tint:100:6736dd:0p:00ffe3:100p",
+  //       quality: "auto",
+  //       focus: "auto",
+  //     }, {
+  //       name: "Improve",
+  //       crop: 'fill',
+  //       dpr: 'auto',
+  //       effect: "improve"
+  //     }, {
+  //       name: "Retro",
+  //       crop: 'fill',
+  //       dpr: 'auto',
+  //       effect: "pixelate:40"
+  //     }]
+  //   }
+  // },
   computed: {
     nameOverlay() {
       return `text:Roboto_80:${this.name}`

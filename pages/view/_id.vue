@@ -20,20 +20,38 @@
   </div>
 </template>
 <script>
+import axios from 'axios';
 export default {
-  data() {
-    return {
-      avatar: '',
-      name: 'Nadav Ofir',
-      title: 'Walker',
-      company: 'The Galaxy',
-      effect: {
-        crop: 'fill',
-        dpr: 'auto',
-        effect: "pixelate:40"
-      }
+  async asyncData({ params, $axios }) {
+    try {
+      const response = await $axios.$get(`api/getOne?id=${params.id}`);
+    return response;
+    } catch(error) {
+      console.error(error);
+      return error;
     }
+    /*
+      returns:
+      "name": "Tamas",
+      "company": "Cloudinary",
+      "title": "DevRel King",
+      "email": "tamas@cloudinary.com",
+      "id": "aRltl-vu"
+    */
   },
+  // data() {
+  //   return {
+  //     avatar: '',
+  //     name: 'Nadav Ofir',
+  //     title: 'Walker',
+  //     company: 'The Galaxy',
+  //     effect: {
+  //       crop: 'fill',
+  //       dpr: 'auto',
+  //       effect: "pixelate:40"
+  //     }
+  //   }
+  // },
   computed: {
     nameOverlay() {
       return `text:Roboto_80:${this.name}`
