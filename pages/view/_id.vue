@@ -7,12 +7,16 @@
         >
         </cld-image>
       </div>
-      <div class="flex justify-center">
-        <div class="vote--wrapper">
+      <div class="flex flex-col p-4">
+        <div class="flex flex-col">
+          <h3>Transformations used: </h3>
+          <div v-for="(value, name) in effect" :key="name" class="my-3">
+            <span class="font-bold capitalize">{{name}}: </span><span class="italic">{{value}}</span>
+          </div>
         </div>
+        <button class="bg-green-dark hover:bg-green-darker text-white font-bold p-4 rounded mt-4 m-auto">❤️ this badge!</button>
       </div>
     </div>
-    <button class="bg-green-dark hover:bg-green-darker text-white font-bold p-4 rounded mt-4 m-auto">❤️ this badge!</button>
   </div>
 </template>
 <script>
@@ -23,6 +27,11 @@ export default {
       name: 'Nadav Ofir',
       title: 'Walker',
       company: 'The Galaxy',
+      effect: {
+        crop: 'fill',
+        dpr: 'auto',
+        effect: "pixelate:40"
+      }
     }
   },
   computed: {
@@ -46,7 +55,8 @@ export default {
         height:"800",
         x:"6",
         y:"320",
-        crop:"thumb"
+        crop:"thumb",
+        ...this.effect,
       }, {
         overlay: this.nameOverlay,
         y: "-1000"
@@ -65,6 +75,6 @@ export default {
 .vote--wrapper {
   display: grid;
   grid-template-columns: 40% 60%;
-  grid-gap: 0.2rem;
+  grid-gap: 1rem;
 }
 </style>
