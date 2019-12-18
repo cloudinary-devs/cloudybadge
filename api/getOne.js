@@ -7,7 +7,7 @@ const client = new faunadb.Client({
 });
 
 module.exports = async (req, res) => {
-  const id = req.params.id;
+  const id = req.query.id;
   try {
     const queryResponse = await client.query(
       q.Get(
@@ -16,10 +16,10 @@ module.exports = async (req, res) => {
         )
       )
     );
-   
-    return res.json({
-      body: queryResponse.data
-    });
+    return res.json(queryResponse.data);
+    // return res.json({
+    //   body: queryResponse.data
+    // });
   } catch(error) {
     console.error(error);
     return res.json({

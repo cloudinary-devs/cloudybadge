@@ -20,8 +20,8 @@
     "shortid": "^2.2.15"
   },
   "devDependencies": {
-    "nodemon": "^1.18.9",
     "autoprefixer": "^8.6.4",
+    "nodemon": "^1.18.9",
     "tailwindcss": "^0.7.0"
   },
   "engines": {
