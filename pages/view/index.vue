@@ -35,10 +35,10 @@ export default {
   async asyncData({ params, $axios }) {
     try {
       const response = await $axios.$get(`api/getAll`);
-      console.log(response);
-      debugger
+      const users = response.map(entry => entry.data);
+      console.log(users);
       return {
-        users: response.map(entry => entry.data).filter(entry => entry.avatar)
+        users
       }
     } catch(error) {
       console.error(error);
@@ -47,22 +47,23 @@ export default {
   },
   data() {
     return {
-      users: []
+      users: [],
+      favoriteBadge: '',
     }
   },
   methods: {
     getTransformation(user) {
       return [{
-        overlay: user.avatar ? user.avatar.public_id.replace(/\//gm, ':') : "fetch:https://res.cloudinary.com/mayashavin/image/upload/v1576215298/avatar_person.svg",
+        overlay: user.avatar && user.avatar.public_id ? user.avatar.public_id.replace(/\//gm, ':') : "fetch:https://res.cloudinary.com/mayashavin/image/upload/v1576215298/avatar_person.svg",
         radius:"max",
         width:"800",
         height:"800",
         x:"6",
         y:"320",
         crop:"thumb",
-        ...user.avatar.transformation,
+        ...(user.avatar ? user.avatar.transformation : {}),
       }, {
-        overlay: `text:Roboto_80:${user.name}`,
+        overlay: `text:Roboto_80:${user.name ? user.name : `${user.firstName} ${user.lastName}`}`,
         y: "-1000"
       }, {
         overlay: `text:Roboto_50:${user.company}`,

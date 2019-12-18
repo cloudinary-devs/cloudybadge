@@ -5,6 +5,7 @@
         <cld-image public-id="_cloudybadge/hackb4xmas/assets/badge-bg.png"
           class="border-2 self-center"
           :transformation="transformation"
+          height="800" crop="fill"
         >
         </cld-image>
       </div>

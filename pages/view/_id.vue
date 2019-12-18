@@ -1,16 +1,18 @@
 <template>
   <div class="m-5 flex justify-center flex-col">
     <div class="vote--wrapper mt-3">
-      <div class="vote--result--wrapper border-2">
+      <div class="vote--result--wrapper flex">
         <cld-image public-id="_cloudybadge/hackb4xmas/assets/badge-bg.png"
           :transformation="transformation"
+          height="800" crop="fill"
+          class="border-2 self-center"
         >
         </cld-image>
       </div>
       <div class="flex flex-col p-4">
         <div class="flex flex-col">
           <h3>Transformations used: </h3>
-          <div v-for="(value, name) in effect" :key="name" class="my-3">
+          <div v-for="(value, name) in avatar.transformation" :key="name" class="my-3">
             <span class="font-bold capitalize">{{name}}: </span><span class="italic">{{value}}</span>
           </div>
         </div>
