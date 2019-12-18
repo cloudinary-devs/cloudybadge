@@ -11,8 +11,7 @@ const client = new faunadb.Client({
 module.exports = async (req, res) => {
   const data = req.body.payload;
   const uniquePath = shortid.generate();
-  data[`edit+${uniquePath}`] = uniquePath;
-  data[`view+${uniquePath}`] = uniquePath;
+  data.id = uniquePath;
   const badge = {
     data: data
   };
