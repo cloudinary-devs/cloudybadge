@@ -1,35 +1,38 @@
 <template>
   <section class="container">
     <div>
-      <logo />
-      <h1 class="title">
-        thbc-cloudybadge
+      <h1>
+        Welcome to CloudyBadge
       </h1>
-      <h2 class="subtitle">
-        CloudyBadge
-      </h2>
-      <div class="links">
-        <a
-          href="https://nuxtjs.org/"
-          target="_blank"
-          class="button--green"
-        >Documentation</a>
-        <a
-          href="https://github.com/nuxt/nuxt.js"
-          target="_blank"
-          class="button--grey"
-        >GitHub</a>
-      </div>
+      <form @submit="register" class="flex flex-col text-left mt-5">
+        <label for="name">Name</label>
+        <input name="name" v-model="name" type="text" required class="p-3 border-b mt-2"/>
+        <label for="company" class=" mt-3">Company</label>
+        <input name="company" v-model="company" type="text" required  class="p-3 border-b mt-2"/>
+        <label for="title" class=" mt-3">Title</label>
+        <input name="title" v-model="title" type="text" required  class="p-3 border-b mt-2"/>
+        <label for="email" class=" mt-3">Email</label>
+        <input name="email" v-model="email" type="text" required class="p-3 border-b mt-2"/>
+        <button type="submit" class="button--green m-4">Register me!</button>
+      </form>
     </div>
   </section>
 </template>
 
 <script>
-import Logo from '~/components/Logo.vue'
 
 export default {
-  components: {
-    Logo
+  data() {
+    return {
+      name: '',
+      company: '',
+      email: ''
+    }
+  },
+  methods: {
+    register() {
+      console.log('register');
+    }
   }
 }
 </script>
