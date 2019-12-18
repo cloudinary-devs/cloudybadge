@@ -62,7 +62,7 @@
 ### Database Schema
 
 - Each event is assigned a separate table (named as the event shortcode)
-- Columns: firstname, lastname, title, company, editkey, viewkey,
+- Columns: eventcode, firstname, lastname, title, company, editkey, viewkey,
   PhotoID, Transfo, VoteID
 
 #### notes
