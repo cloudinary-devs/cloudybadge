@@ -61,12 +61,13 @@
 
 ### Database Schema
 
-- Each event is assigned a separate table (named as the event shortcode)
-- Columns: firstname, lastname, title, company, editkey, viewkey,
-  PhotoID, Transfo, VoteID
+- Collection name is 'badges' (in database 'cloudybadge' under root database 'cloudy')
+- Columns: eventCode, firstName, lastName, title, company, editKey, viewKey,
+  photoID, tranStr, voteID
 
 #### notes
 
+- editkey is the reference value for the record in the collection
 - PhotoID is the ID of the asset in Cloudinary for the RA's uploaded photo
 - Transfo encodes the photo transforms submitted by RA (null otherwise)
 - VoteID is the editkey of the VIEW page voted by RA (null otherwise)
