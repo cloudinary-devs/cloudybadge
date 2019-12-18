@@ -11,7 +11,7 @@
             :transformation="getTransformation(user)"
         >
         </cld-image>
-        <button class="favorite absolute outline-none focus:outline-none" @click.stop="favoriteIt(user)">
+        <button class="favorite absolute outline-none focus:outline-none" @click.prevent="favoriteIt(user)">
           <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill="#ef2e4f">
             <path
               :d="getFavoriteIcon(user)"/>
@@ -19,6 +19,13 @@
         </button>
         </nuxt-link>
       </div>
+    </div>
+    <div class="flex justify-center">
+      <nuxt-link to="/leaderboard">
+        <button class="bg-green-dark hover:bg-green-darker text-white font-bold p-4 rounded mt-4 m-auto">
+          Who is winning?
+        </button>
+      </nuxt-link>
     </div>
   </div>
 </template>
