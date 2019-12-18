@@ -24,54 +24,83 @@
 </template>
 <script>
 export default {
-  data() {
-    return {
-      users: [{
-        name: "Maya Shavin",
-        company: 'Cloudinary',
-        title: 'SRE',
-        avatar: {
-          public_id: "_cloudybadge/hackb4xmas/assets/blbhofoixmaaqju9hecw",
-          transformation: {
-            name: 'Hokusai',
-            crop: 'fill',
-            dpr: 'auto',
-            effect: 'art:hokusai',
+  async asyncData({ params, $axios }) {
+    try {
+      const response = await $axios.$get(`api/getAll`);
+      console.log(response);
+      return response;
+      /* returns:
+        [{
+          "ref": {
+            ...
+          },
+          "data": {
+            "name": "Tamas",
+            ...
           }
-        },
-        id: 1,
-      }, {
-        name: "Maya Shavin",
-        company: 'Cloudinary',
-        title: 'SRE',
-        avatar: {
-          public_id: "_cloudybadge/hackb4xmas/assets/blbhofoixmaaqju9hecw",
-          transformation: {
-            name: 'Hokusai',
-            crop: 'fill',
-            dpr: 'auto',
-            effect: 'art:hokusai',
+        }, {
+          "ref": {
+            ...
+          },
+          "data": {
+            "name": "Maya",
+            ...
           }
-        },
-        id: 2,
-      }, {
-        name: "Maya Shavin",
-        company: 'Cloudinary',
-        title: 'SRE',
-        avatar: {
-          public_id: "_cloudybadge/hackb4xmas/assets/blbhofoixmaaqju9hecw",
-          transformation: {
-            name: 'Hokusai',
-            crop: 'fill',
-            dpr: 'auto',
-            effect: 'art:hokusai',
-          }
-        },
-        id: 3
-      }],
-      favoriteBadge: ''
-    };
+        }]
+      */
+    } catch(error) {
+      console.error(error);
+      return error;
+    }
   },
+  // data() {
+  //   return {
+  //     users: [{
+  //       name: "Maya Shavin",
+  //       company: 'Cloudinary',
+  //       title: 'SRE',
+  //       avatar: {
+  //         public_id: "_cloudybadge/hackb4xmas/assets/blbhofoixmaaqju9hecw",
+  //         transformation: {
+  //           name: 'Hokusai',
+  //           crop: 'fill',
+  //           dpr: 'auto',
+  //           effect: 'art:hokusai',
+  //         }
+  //       },
+  //       id: 1,
+  //     }, {
+  //       name: "Maya Shavin",
+  //       company: 'Cloudinary',
+  //       title: 'SRE',
+  //       avatar: {
+  //         public_id: "_cloudybadge/hackb4xmas/assets/blbhofoixmaaqju9hecw",
+  //         transformation: {
+  //           name: 'Hokusai',
+  //           crop: 'fill',
+  //           dpr: 'auto',
+  //           effect: 'art:hokusai',
+  //         }
+  //       },
+  //       id: 2,
+  //     }, {
+  //       name: "Maya Shavin",
+  //       company: 'Cloudinary',
+  //       title: 'SRE',
+  //       avatar: {
+  //         public_id: "_cloudybadge/hackb4xmas/assets/blbhofoixmaaqju9hecw",
+  //         transformation: {
+  //           name: 'Hokusai',
+  //           crop: 'fill',
+  //           dpr: 'auto',
+  //           effect: 'art:hokusai',
+  //         }
+  //       },
+  //       id: 3
+  //     }],
+  //     favoriteBadge: ''
+  //   };
+  // },
   methods: {
     getTransformation(user) {
       return [{
