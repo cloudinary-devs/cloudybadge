@@ -70,7 +70,7 @@
 
 #### Flow Diagram
 
-![CloudyBadge Flow](hackathon-cloudybadge.png)
+![CloudyBadge Flow](https://res.cloudinary.com/mayashavin/image/upload/v1576658640/cloudybadge/hackathon-cloudybadge.png)
 
 ### Implementation Stack
 
