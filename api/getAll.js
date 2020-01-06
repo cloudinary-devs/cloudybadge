@@ -11,7 +11,7 @@ module.exports = async (req, res) => {
     const queryResponse = await client.query(
       q.Paginate(
         q.Match(
-          q.Index('all_cbadge')
+          q.Index(process.env.FAUNA_QUERY_ALL)
         )
       )
     );

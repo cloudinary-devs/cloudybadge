@@ -11,7 +11,13 @@ const client = new faunadb.Client({
 module.exports = async (req, res) => {
   const data = req.body.payload;
   const uniquePath = shortid.generate();
-  data.id = uniquePath;
+
+  data.voteID = uniquePath;
+  data.eventCode = process.env.CLOUDYBADGE_EVENT
+  data.editKey = shortid.generate();
+  data.viewKey = shortid.generate();
+  data.tranStr = '';
+
   const badge = {
     data: data
   };
@@ -19,7 +25,7 @@ module.exports = async (req, res) => {
   try {
     const response = await client.query(
       q.Create(
-        q.Collection('cbadge'),
+        q.Collection(process.env.FAUNA_COLLECTION),
         badge
       )
     );

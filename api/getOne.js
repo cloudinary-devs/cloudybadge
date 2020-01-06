@@ -8,11 +8,12 @@ const client = new faunadb.Client({
 
 module.exports = async (req, res) => {
   const id = req.query.id;
+  const indexToQuery = `${process.env.FAURNA_QUERY_ONE_PREFIX}${req.query.byKey}`
   try {
     const queryResponse = await client.query(
       q.Get(
         q.Match(
-          q.Index('user_by_id'), id
+          q.Index(indexToQuery), id
         )
       )
     );

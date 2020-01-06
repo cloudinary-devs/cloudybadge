@@ -19,7 +19,7 @@ module.exports = async (req, res) => {
 
   try {
     const response = await client.query(
-        q.Update(q.Ref(q.Collection('cbadge'), ref),
+        q.Update(q.Ref(q.Collection(process.env.FAUNA_COLLECTION), ref),
         badge,
       ));
     // TODO

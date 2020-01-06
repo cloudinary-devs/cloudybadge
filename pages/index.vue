@@ -6,8 +6,10 @@
         Welcome to CloudyBadge
       </h1>
       <form @submit="register" class="flex flex-col text-left mt-5">
-        <label for="name">Name</label>
-        <input name="name" v-model="name" type="text" required class="p-3 border-b mt-2"/>
+        <label for="name">First Name</label>
+        <input name="name" v-model="fname" type="text" required class="p-3 border-b mt-2"/>
+        <label for="name">Last Name</label>
+        <input name="name" v-model="lname" type="text" required class="p-3 border-b mt-2"/>
         <label for="company" class=" mt-3">Company</label>
         <input name="company" v-model="company" type="text" required  class="p-3 border-b mt-2"/>
         <label for="title" class=" mt-3">Title</label>
@@ -25,7 +27,8 @@ import axios from 'axios'
 export default {
   data() {
     return {
-      name: '',
+      fname: '',
+      lname: '',
       company: '',
       title: '',
       email: '',
@@ -35,7 +38,8 @@ export default {
     async register(e) {
       e.preventDefault();
       const payload = {
-        name: this.name,
+        firstName: this.fname,
+        lastName: this.lname,
         company: this.company,
         title: this.title,
         email: this.email
@@ -45,7 +49,7 @@ export default {
           payload
         });
         this.$router.push({
-          path: `/upload/${response.data.id}`
+          path: `/upload/${response.data.editKey}`
       })
       } catch(error) {
         console.error('error', error)

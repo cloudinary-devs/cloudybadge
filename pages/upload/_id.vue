@@ -68,7 +68,7 @@ const effects = [{
 
 export default {
   async asyncData({ params, $axios }) {
-    const response = await $axios.$get(`api/getOne?id=${params.id}`);
+    const response = await $axios.$get(`/api/getOne?id=${params.id}&byKey=editkey`);
     console.log(response);
 
     return {
@@ -85,7 +85,7 @@ export default {
   },
   computed: {
     nameOverlay() {
-      return `text:Roboto_80:${this.name}`
+      return `text:Roboto_80:${this.firstName}`
     },
     companyOverlay() {
       return `text:Roboto_50:${this.company}`
@@ -138,7 +138,6 @@ export default {
       folder: "_cloudybadge/hackb4xmas/assets"
       }, (error, result) => { 
         if (!error && result && result.event === "success") { 
-          console.log('Done! Here is the image info: ', result.info); 
           this.avatar = result.info;
         }
       }
