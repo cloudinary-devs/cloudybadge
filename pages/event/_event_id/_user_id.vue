@@ -79,13 +79,15 @@ import Back from '@/components/Back';
 import TopBar from '@/components/Header.vue';
 import Preset from '@/components/Preset.vue';
 import Badge from '@/components/Badge.vue';
+import EffectDetails from '@/components/EffectDetails.vue';
 
 export default {
   components: {
     Back,
     TopBar,
     Preset,
-    Badge
+    Badge,
+    EffectDetails
   },
   head() {
     return {
