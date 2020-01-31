@@ -1,0 +1,31 @@
+export default [{
+  name: 'Original',
+  crop: 'fill',
+}, {
+  name: 'Hokusai',
+  crop: 'fill',
+  dpr: 'auto',
+  effect: 'art:hokusai',
+}, {
+  name: "Poster",
+  crop: 'fill',
+  dpr: "auto",
+  effect: 'vectorize:2:0.8',
+}, {
+  name: "Duetone",
+  crop: 'fill',
+  dpr: 'auto',
+  effect: "tint:100:6736dd:0p:00ffe3:100p",
+  quality: "auto",
+  focus: "auto",
+}, {
+  name: "Improve",
+  crop: 'fill',
+  dpr: 'auto',
+  effect: "improve"
+}, {
+  name: "Retro",
+  crop: 'fill',
+  dpr: 'auto',
+  effect: "saturation:300"
+}];

@@ -22,18 +22,10 @@ module.exports = async (req, res) => {
         q.Update(q.Ref(q.Collection(process.env.FAUNA_COLLECTION), ref),
         badge,
       ));
-    // TODO
-    try {
-      // invoke ZEIT build process programmatically
-    } catch(error) { }
-
-    return res.json(response.data)
+    return res.json(response.data);
   } catch(error) {
-    console.error(error);
     return res.json({
-      body: {
-        error
-      }
+      error: error.message
     });
   }
   

@@ -1,59 +1,57 @@
 <template>
-  <section class="container">
-    <div>
-      <cld-image public-id="_cloudybadge/hackb4xmas/assets/badge-bg-svg.png" height="150" crop="scale"/>
-      <h1 class="my-3">
-        Welcome to CloudyBadge
+  <section class="min-h-screen text-center mx-auto overflow-hidden flex flex-col">
+    <div class="flex items-center justify-center">
+      <cld-image public-id="https://res.cloudinary.com/cloudinary/image/upload/c_scale,w_100/v1/logo/for_white_bg/cloudinary_icon_for_white_bg.png"/>
+      <h1 class="mx-5 text-orange-dark">
+        CloudyBadge
       </h1>
-      <form @submit="register" class="flex flex-col text-left mt-5">
-        <label for="name">First Name</label>
-        <input name="name" v-model="fname" type="text" required class="p-3 border-b mt-2"/>
-        <label for="name">Last Name</label>
-        <input name="name" v-model="lname" type="text" required class="p-3 border-b mt-2"/>
-        <label for="company" class=" mt-3">Company</label>
-        <input name="company" v-model="company" type="text" required  class="p-3 border-b mt-2"/>
-        <label for="title" class=" mt-3">Title</label>
-        <input name="title" v-model="title" type="text" required  class="p-3 border-b mt-2"/>
-        <label for="email" class=" mt-3">Email</label>
-        <input name="email" v-model="email" type="text" required class="p-3 border-b mt-2"/>
-        <button type="submit" class="button--green m-4">Register me!</button>
-      </form>
+      <h4>V0.0.1</h4>
+    </div>
+    <div class="overflow-auto flex flex-col flex-1">
+      <h3 class="text-grey-dark font-mono font-thin" v-if="events.length > 0">_Have fun customizing your conference badge_</h3>
+      <main class="mt-5 bg-grey flex-1">
+        <div class="mx-8 mt-8">
+          <div class="text-2xl text-indigo-dark">Choose your conference and let's get started!</div>
+          <list :items="currEvents" grid class="flex my-5 p-0 flex-wrap justify-center">          
+            <card slot-scope="item" v-bind="item" :link="`/event/${item.id}`"/>
+          </list>
+        </div>
+        <div class="pt-5 border-t border-grey-light mx-8">
+          <div class="text-2xl text-indigo-dark">CloudyBadge in past tours</div>
+          <list :items="pastEvents" grid class="flex my-5 p-0 flex-wrap justify-center">          
+            <card slot-scope="item" v-bind="item" :link="`/event/${item.id}`"/>
+          </list>
+        </div>
+      </main>
     </div>
   </section>
 </template>
 
 <script>
 import axios from 'axios'
+import Card from '@/components/Card';
+import List from '@/components/List.vue';
+
 export default {
+  components: { Card, List }, 
+  async asyncData({ params, $axios }) {
+    const response = await $axios.$get(`api/getAllEvents`);
+    return !response.error ? {
+      events: response.events
+    } : {}
+  },
   data() {
     return {
-      fname: '',
-      lname: '',
-      company: '',
-      title: '',
-      email: '',
+      events: []
     }
   },
-  methods: {
-    async register(e) {
-      e.preventDefault();
-      const payload = {
-        firstName: this.fname,
-        lastName: this.lname,
-        company: this.company,
-        title: this.title,
-        email: this.email
-      };
-      try {
-        const response = await axios.post(`/api/insert`, {
-          payload
-        });
-        this.$router.push({
-          path: `/upload/${response.data.editKey}`
-      })
-      } catch(error) {
-        console.error('error', error)
-      }
+  computed: {
+    currEvents() {
+      //TODO - should be filtered by event.duration and event.active?
+      return this.events.filter(event => event.active);
+    },
+    pastEvents() {
+      return this.events.filter(event => !event.active);
     }
   }
 }

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <nuxt />
+    <nuxt class="app-entrance"/>
   </div>
 </template>
 
@@ -15,6 +15,10 @@ html {
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   box-sizing: border-box;
+}
+
+html, body, #__nuxt, #__layout, #__layout > div, .app-entrance {
+  height: 100%;
 }
 
 *,

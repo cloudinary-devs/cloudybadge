@@ -1,19 +1,12 @@
 require('dotenv').config();
-const faunadb = require('faunadb');
+const { q, client } = require('./setup');
 const shortid = require('shortid');
-// const axios = require('axios');
-
-const q = faunadb.query;
-const client = new faunadb.Client({
-  secret: process.env.FAUNADB
-});
 
 module.exports = async (req, res) => {
   const data = req.body.payload;
   const uniquePath = shortid.generate();
 
   data.voteID = uniquePath;
-  data.eventCode = process.env.CLOUDYBADGE_EVENT
   data.editKey = shortid.generate();
   data.viewKey = shortid.generate();
   data.tranStr = '';
