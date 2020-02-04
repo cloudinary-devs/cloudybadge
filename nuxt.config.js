@@ -77,9 +77,4 @@ export default {
   generate: {
     dir: "public"
   },
-  env: {
-    uploadPreset: process.env.CLOUDYBADGE_UPLOAD_PRESET,
-    uploadFolder: process.env.CLOUDYBADGE_UPLOAD_FOLDER,
-    cloudName: process.env.CLOUDYBADGE_CLOUDNAME,
-  }
 }
