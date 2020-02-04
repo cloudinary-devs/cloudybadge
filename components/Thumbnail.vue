@@ -1,6 +1,6 @@
 <template>
-  <div slot-scope="item" class="mb-4 mr-4 hover:border-green-dark border-transparent border-2 p-1 rounded-full relative">
-    <nuxt-link :to="`/event/${id}`">
+  <div>
+    <nuxt-link :to="`/event/${id}`" v-if="!readOnly">
       <cld-image :public-id="`${publicId}.png`"
         :transformation="transformation"
           width="150" crop="scale"
@@ -18,6 +18,11 @@
       </button>
       </div>
     </nuxt-link>
+    <cld-image :public-id="`${publicId}.png`"
+      :transformation="transformation"
+      width="150" crop="scale"
+      v-else
+    />
   </div>
 </template>
 <script>
@@ -41,6 +46,14 @@ export default {
     isFavorited: {
       type: Boolean,
       default: false
+    },
+    readOnly: {
+      type: Boolean,
+      default: false
+    },
+    index: {
+      type: Number,
+      default: 0
     }
   },
   computed: {
@@ -69,7 +82,10 @@ export default {
   },
   methods: {
     favoriteIt() {
-      this.$emit('favorite', this.id);
+      this.$emit('favorite', {
+        index: this.index,
+        upvote: !this.isFavorited
+      });
     }
   }
 }

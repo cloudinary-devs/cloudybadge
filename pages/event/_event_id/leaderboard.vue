@@ -1,101 +1,106 @@
 <template>
-    <div>
-        <div class="flex flex-col">
-        <h2 class="mx-auto my-3">And the winner is...</h2>
-        <div class="flex items-center justify-center p-3 bg-grey-light">
-            <svg xmlns="http://www.w3.org/2000/svg" width="150" height="150" viewBox="0 0 24 24" class="mr-5">
-                <path d="M13.408 18c.498-3.947 5.592-7.197 5.592-17h-14c0 9.803 5.105 13.053 5.604 17h2.804zm-3.614-11.472l1.46-.202.643-1.326.643 1.326 1.46.202-1.063 1.021.26 1.451-1.3-.695-1.3.695.26-1.451-1.063-1.021zm-3.803 4.128c.286.638.585 1.231.882 1.783-4.065-1.348-6.501-5.334-6.873-9.439h4.077c.036.482.08.955.139 1.405h-2.689c.427 2.001 1.549 4.729 4.464 6.251zm10.009 10.963v1.381h-8v-1.381c1.941 0 2.369-1.433 2.571-2.619h2.866c.193 1.187.565 2.619 2.563 2.619zm8-18.619c-.372 4.105-2.808 8.091-6.873 9.438.297-.552.596-1.145.882-1.783 2.915-1.521 4.037-4.25 4.464-6.251h-2.688c.059-.45.103-.922.139-1.405h4.076z"/>
-            </svg>
-            <cld-image public-id="_cloudybadge/hackb4xmas/assets/badge-bg.png"
-                :transformation="getTransformation(winner)"  width="150" crop="scale" class="ml-5 border-2"/>
+    <div class="overflow-hidden bg-grey-lightest" v-if="event">
+      <top-bar class="bg-grey-dark">
+        <back :link="`/event/${event.id}/`"/>
+        <div class="flex items-center justify-center" v-if="event">
+            <icon size="32" color="white" :path="cup" class="mr-3"/>
+            <cld-image :public-id="event.logo" width="32" crop="scale"/>
+            <h2 class="mx-5 flex items-center">
+            {{event.name}} 
+            </h2>
+            <icon size="32" color="white" :path="cup" class="ml-3"/>
         </div>
+      </top-bar>
+      <div class="flex flex-col items-center">
+        <div class="my-4">
+          <button :class="['capitalize px-3 py-2 focus:outline-none font-bold', isTop5 ? 'text-black' : 'text-grey']" @click="selectTab('top5')">Top 5</button>
+          <button :class="['capitalize px-3 py-2 border-l border-grey focus:outline-none font-bold', isAll ? 'text-black' : 'text-grey']" @click="selectTab('all')">All</button>
         </div>
-        <div class="m-5">
-            <h3 class="mb-5">Our top ❤️ badges: </h3>
-            <div class="flex flex-wrap"> 
-                <div v-for="(user, i) in list" :key="i" class="flex mx-3 flex-no-shrink">
-                    <cld-image public-id="_cloudybadge/hackb4xmas/assets/badge-bg.png"
-                    :transformation="getTransformation(user)"
-                    width="100" crop="scale" 
-                    class="border-2"
-                    />
-                </div>
-            </div>
-        </div>
+      </div>
+      <div class="flex overflow-hidden items-start h-full">
+        <badge class="flex leaderboard--badge"
+          :badgeUrl="event.badge"
+          :name="top5Users[0].name"
+          :company="top5Users[0].company"
+          :title="top5Users[0].title"
+          :avatarOverlay="top5Users[0].avatar.public_id.replace(/\//gm, ':')"
+          :effect="top5Users[0].avatar.transformation"
+        />
+        <leaderboard-list
+          :items="top5Users"
+          :boardLength="leaderboard.length"
+          v-show="isTop5"
+        />
+        <leaderboard-list
+          :items="allUsers"
+          :boardLength="leaderboard.length"
+          v-show="isAll"
+        />
+      </div>
+    </div>
+    <div v-else>
+      Event doesn't exist.
     </div>
 </template>
 <script>
+import TopBar from '@/components/Header.vue';
+import Back from '@/components/Back.vue';
+import Badge from '@/components/Badge.vue';
+import LeaderboardList from '@/components/LeaderboardList.vue';
+import Icon from '@/components/Icon.vue';
+import { cup } from '@/static/icons';
+
 export default {
-    methods: {
-        getTransformation(user) {
-            return [{
-                overlay: user.avatar.public_id.replace(/\//gm, ':'),
-                radius:"max",
-                width:"800",
-                height:"800",
-                x:"6",
-                y:"320",
-                crop:"thumb",
-                ...user.avatar.transformation,
-            }, {
-                overlay: `text:Roboto_80:${user.name}`,
-                y: "-1000"
-            }, {
-                overlay: `text:Roboto_50:${user.company}`,
-                y: "-900"
-            }, {
-                overlay: `text:Roboto_50:${user.title}`,
-                y: "-800"
-            }]
-            },
-    },
-    data() {
-        return {
-            winner: {
-                name: "Maya Shavin",
-                company: 'Cloudinary',
-                title: 'SRE',
-                avatar: {
-                public_id: "_cloudybadge/hackb4xmas/assets/blbhofoixmaaqju9hecw",
-                transformation: {
-                    name: 'Hokusai',
-                    crop: 'fill',
-                    dpr: 'auto',
-                    effect: 'art:hokusai',
-                }
-                },
-                id: 1,
-            },
-            list: [{
-                name: "Maya Shavin",
-                company: 'Cloudinary',
-                title: 'SRE',
-                avatar: {
-                    public_id: "_cloudybadge/hackb4xmas/assets/blbhofoixmaaqju9hecw",
-                    transformation: {
-                        name: 'Hokusai',
-                        crop: 'fill',
-                        dpr: 'auto',
-                        effect: 'art:hokusai',
-                    }
-                },
-                id: 2,
-            }, {
-                name: "Maya Shavin",
-                company: 'Cloudinary',
-                title: 'SRE',
-                avatar: {
-                    public_id: "_cloudybadge/hackb4xmas/assets/blbhofoixmaaqju9hecw",
-                    transformation: {
-                        name: 'Hokusai',
-                        crop: 'fill',
-                        dpr: 'auto',
-                        effect: 'art:hokusai',
-                    }
-                },
-                id: 3
-            }]
-        }
+  components: {
+    Back,
+    TopBar,
+    Badge,
+    Icon,
+    LeaderboardList
+  },
+  async asyncData({ params, $axios, query }) {
+    const response = await $axios.$get(`api/getLeaderboard?id=${params.event_id}`);
+    return !response.error ? {
+      ...response,
+      voteId: query.vid,
+    } : {
+      voteId: query.vid,
+    };
+  },
+  data() {
+    return {
+      selectedTab: 'top5',
+      voteId: '',
+      event: null,
+      leaderboard: [],
+      cup
     }
+  },
+  computed: {
+    isTop5() { return this.selectedTab === 'top5' },
+    isAll() { return this.selectedTab === 'all' },
+    allUsers() {
+      return this.leaderboard.sort((badgeA, badgeB) => badgeB.votes - badgeA.votes);
+    },
+    top5Users() {
+      return this.allUsers.slice(0, 5);
+    },
+  },
+  methods: {
+    selectTab(tab) { this.selectedTab = tab; },
+  },
 }
 </script>
+<style scoped>
+.leaderboard--badge {
+  width: 250px;
+  margin-left: 1.5rem;
+  display: none;
+}
+
+@media only screen and (min-width: 650px) {
+  .leaderboard--badge {
+    display: block;
+  }
+}
+</style>

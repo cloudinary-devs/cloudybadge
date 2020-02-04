@@ -25,15 +25,29 @@ module.exports = async (req, res) => {
 
     const response = await client.query(allBadgesQuery);
 
-    const users = response.map(badge => {
-      delete badge.data.editKey; //remove Edit key
-      delete badge.data.email;
-      return badge.data;
+    const leaderboard = response.map(badge => {
+      const data = badge.data;
+
+      return {
+        votes: data.votes ? data.votes.length : 0,
+        name: `${data.firstName} ${data.lastName}`,
+        firstName: data.firstName,
+        lastName: data.lastName,
+        viewKey: data.viewKey,
+        avatar: data.avatar,
+        company: data.company,
+        title: data.title
+      };
     });
 
     return res.json({
-      users,
-      event: eventResponse.data
+      leaderboard,
+      event: {
+        name: eventResponse.data.name,
+        id: eventResponse.data.id,
+        badge: eventResponse.data.badge,
+        logo: eventResponse.data.logo
+      }
     });
 
   } catch(error) {
@@ -43,5 +57,4 @@ module.exports = async (req, res) => {
       error: error.message
     });
   }
-  
 };

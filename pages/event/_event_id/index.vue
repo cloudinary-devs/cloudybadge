@@ -1,10 +1,10 @@
 <template>
   <div class="overflow-hidden bg-grey event-container" v-if="event">
-    <top-bar class="bg-indigo-dark">
+    <top-bar class="bg-grey-dark">
       <back link="/"/>
       <div class="flex items-center justify-center" v-if="event">
         <cld-image :public-id="event.logo" width="50" crop="scale"/>
-        <h2 class="mx-5 text-orange-dark">
+        <h2 class="mx-5">
           {{event.name}}
         </h2>
       </div>
@@ -13,7 +13,7 @@
       <h2 class="text-center">{{headerTitle}}</h2>
     </div>
     <div class="flex justify-center items-center" v-if="users">
-      <nuxt-link :to="`/event/${event.id}/leaderboard`" v-if="users">
+      <nuxt-link :to="`/event/${event.id}/leaderboard?vid=${voteId}`" v-if="users">
         <button class="bg-green-dark hover:bg-green-darker text-white font-bold p-3 rounded mx-2 m-auto">
           View leaderboard
         </button>
@@ -29,6 +29,8 @@
         :hasWinnerIcon="item.isWinner && !event.active"
         :hasFavoriteIcon="event.active && voteId && voteId !== item.voteId"
         :isFavorited="favoriteBadge === item.viewKey"
+        :index="item.id"
+        @favorite="upvote"
       />        
     </list>
     <div v-else>Error loading the list of badges</div>
@@ -70,9 +72,21 @@ export default {
   },
   async asyncData({ params, query, $axios }) {
     const response = await $axios.$get(`api/getAllPerEvent?id=${params.event_id}`);
+    let favoriteBadge = '';
+
+    if (!response.error && query.vid) {
+      const users = response.users;
+      users.forEach(user => {
+        if (user.votes.indexOf(query.vid) !== -1) {
+          favoriteBadge = user.viewKey;
+        }
+      });
+    }
+
     return !response.error ? {
       ...response,
       voteId: query.vid,
+      favoriteBadge,
     } : {};
   },
   data() {
@@ -91,6 +105,29 @@ export default {
       return this.users.filter(user => user.avatar && user.avatar.public_id);
     }
   },
+  methods: {
+    async vote({index, upvote}) {
+      const user = this.users[index];
+
+      upvote ? user.votes.push(this.voteId) : user.votes.splice(user.votes.indexOf(this.voteId), 1);
+
+      if (user.voteId !== this.voteId) {
+        const response = await this.$axios.$post(`/api/update?id=${user.viewKey}`, {
+          votes: user.votes
+        });
+
+        if (response.error) {
+          this.$toast.error('Unable to update your favorite', {
+            duration: 2000
+          });
+        }
+        else {
+          this.favoriteBadge = user.viewKey;
+        }
+      }
+      
+    }
+  }
 }
 </script>
 <style scoped>

@@ -1,5 +1,5 @@
 <template>
-  <div class="upload--result--wrapper flex mr-3">
+  <div class="flex mr-3">
     <cld-image :public-id="badgeUrl"
       class="border-2 self-center"
       :transformation="transformation"
