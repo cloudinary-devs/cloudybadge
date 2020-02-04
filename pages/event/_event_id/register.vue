@@ -80,6 +80,7 @@ export default {
         title: this.title,
         email: this.email,
         eventId: this.event.id,
+        eventName: this.event.name,
       };
 
       const response = await axios.post(`/api/insert`, {
@@ -89,7 +90,9 @@ export default {
       if (response.error) {
         this.$toast.error('Failed to register. Please try again.');
       } else {
-        this.$toast.success('Registered succeeded. Redirecting to your badge page');
+        this.$toast.success('Registered succeeded. Redirecting to your badge page', {
+          duration: 2000,
+        });
         this.$router.push({
           path: `/event/${this.event.id}/${response.data.editKey}`
         });

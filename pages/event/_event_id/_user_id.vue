@@ -3,7 +3,7 @@
     <top-bar>
       <back :link="`/event/${eventId}`"/>
       <div class="uppercase">{{title}}</div>
-      <button v-if="!isView && event && event.active" class="bg-transparent text-white hover:bg-grey-darker border border-white uppercase px-3 py-2" @click="saveBadge">Save</button>
+      <button v-if="!isView && event && event.active" class="bg-transparent text-white hover:bg-grey-darker border border-white uppercase px-3 py-2" @click="saveBadge" :disabled="saveBtnLabel === 'Saving...'">{{saveBtnLabel}}</button>
     </top-bar>
     <div v-if="!user" class="bg-grey-dark mx-3 mb-3 flex items-center justify-center text-white text-3xl">
       <span>User doesn't exist!</span>
@@ -98,7 +98,6 @@ export default {
     const response = await $axios.$get(`/api/getUser?id=${params.user_id}&vid=${query.vid}`);
     const event = !response.info.error ? await $axios.$get(`api/getEvent?id=${params.event_id}`) : null;     
 
-  console.log(event);
     return {
       voteId: response.hasVoter && event && event.active ? query.vid : '',
       user: !response.info.error ? response.info.data : null,
@@ -122,6 +121,7 @@ export default {
       avatar: null,
       ref: '',
       saved: false,
+      saveBtnLabel: 'Save'
     };
   },
   computed: {
@@ -149,6 +149,7 @@ export default {
   },
   methods: {
     async saveBadge() {
+      this.saveBtnLabel = "Saving..."
       const response = await this.$axios.$post(`/api/update?ref=${this.ref}`, {
         avatar: {
           public_id: this.avatar.public_id,
@@ -156,8 +157,12 @@ export default {
         }
       });
 
+      this.saveBtnLabel = "Save";
       if (!response.error) {
         this.saved = true;
+      }
+      else {
+        this.$toast.error("Unable to save. Please try again.");
       }
     },
     upload() {

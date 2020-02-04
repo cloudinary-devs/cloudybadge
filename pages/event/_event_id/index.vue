@@ -1,5 +1,5 @@
 <template>
-  <div class="overflow-hidden bg-grey event-container">
+  <div class="overflow-hidden bg-grey event-container" v-if="event">
     <top-bar class="bg-indigo-dark">
       <back link="/"/>
       <div class="flex items-center justify-center" v-if="event">
@@ -12,11 +12,14 @@
     <div class="my-5">
       <h2 class="text-center">{{headerTitle}}</h2>
     </div>
-    <div class="flex justify-center" v-if="users">
-      <nuxt-link :to="`/event/${event.id}/leaderboard`">
-        <button class="bg-green-dark hover:bg-green-darker text-white font-bold p-4 rounded mt-4 m-auto">
-          View board
+    <div class="flex justify-center items-center" v-if="users">
+      <nuxt-link :to="`/event/${event.id}/leaderboard`" v-if="users">
+        <button class="bg-green-dark hover:bg-green-darker text-white font-bold p-3 rounded mx-2 m-auto">
+          View leaderboard
         </button>
+      </nuxt-link>
+      <nuxt-link :to="`/event/${event.id}/register`" v-if="event.active">
+        <button class="border-orange-dark border hover:bg-orange-dark text-orange-dark hover:text-white p-3 rounded mx-2">Register to event</button>
       </nuxt-link>
     </div>
     <list :items="filteredUsers" grid v-if="users" class="m-8 overflow-auto border-2 border-grey-light p-3 justify-center flex-1">
@@ -29,6 +32,16 @@
       />        
     </list>
     <div v-else>Error loading the list of badges</div>
+  </div>
+  <div v-else class="bg-grey justify-center items-center h-full w-full flex flex-col">
+    <div class="text-2xl">
+      Event does not exist. Maybe try our list of events?
+    </div>
+    <nuxt-link to="/">
+      <button class="bg-green-dark hover:bg-green-darker text-white font-bold p-4 rounded mt-4 m-auto">
+        Back to events list
+      </button>
+    </nuxt-link>
   </div>
 </template>
 <script>
