@@ -77,7 +77,7 @@ export default {
     if (!response.error && query.vid) {
       const users = response.users;
       users.forEach(user => {
-        if (user.votes.indexOf(query.vid) !== -1) {
+        if (user.votes && user.votes.indexOf(query.vid) !== -1) {
           favoriteBadge = user.viewKey;
         }
       });
@@ -102,7 +102,7 @@ export default {
       return this.event.active ? "Vote for the badge you ❤️" : "We ❤️ all the badges";
     },
     filteredUsers() {
-      return this.users.filter(user => user.avatar && user.avatar.public_id);
+      return this.users.filter(user => user.avatar && user.avatar.public_id).sort(function() { return 0.5 - Math.random() });
     }
   },
   methods: {
