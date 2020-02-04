@@ -58,6 +58,16 @@ export default {
     Icon,
     LeaderboardList
   },
+  head() {
+    const content = this.event ? `for ${this.event.name}` : ' per conference';
+
+    return {
+      title: `Leaderboard ${content}`,
+      meta: [
+        { hid: 'description', name: 'description', content: `Leaderboard ${content}` }
+      ]
+    };
+  },
   async asyncData({ params, $axios, query }) {
     const response = await $axios.$get(`api/getLeaderboard?id=${params.event_id}`);
     return !response.error ? {

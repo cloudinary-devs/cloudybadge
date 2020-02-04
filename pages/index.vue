@@ -34,6 +34,14 @@ import List from '@/components/List.vue';
 
 export default {
   components: { Card, List }, 
+  head() {
+    return {
+      title: `CloudyBadge by Cloudinary`,
+      meta: [
+        { hid: 'description', name: 'description', content: 'CloudyBadge in conferences' }
+      ]
+    };
+  },
   async asyncData({ params, $axios }) {
     const response = await $axios.$get(`api/getAllEvents`);
     return !response.error ? {

@@ -59,6 +59,16 @@ export default {
 
     return !event.error ? { event } : {};
   },
+  head() {
+    const content = this.event ? `for ${this.event.name}` : ' per conference';
+
+    return {
+      title: `CloudyBadge registration ${content}`,
+      meta: [
+        { hid: 'description', name: 'description', content: `Register CloudyBadge ${content}` }
+      ]
+    };
+  },
   data() {
     return {
       fname: '',
