@@ -44,11 +44,23 @@ export default {
   ** Nuxt.js modules
   */
   modules: [
-    '@nuxtjs/axios'
+    '@nuxtjs/axios',
+    '@nuxtjs/auth',
+    '@nuxtjs/toast'
   ],
 
   axios: {
     baseURL: process.env.baseURL || 'http://localhost:3000'
+  },
+  toast: {
+    position: 'bottom-center',
+    singleton: true,
+    duration: 5000,
+  },
+  auth: {
+    redirect: {
+      login: '/admin/login'
+    },
   },
 
   /*
