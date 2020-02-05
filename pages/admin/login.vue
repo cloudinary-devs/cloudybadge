@@ -34,20 +34,20 @@ export default {
         password: this.password,
       };
 
-      const response = await this.$auth.loginWith('local', {
-        data: {
-          email: this.email,
-          password: this.password
-        }
-      });
+      // const response = await this.$auth.loginWith('local', {
+      //   data: {
+      //     email: this.email,
+      //     password: this.password
+      //   }
+      // });
 
-      if (!response.error) {
-        this.$router.push(`/admin/${response.data.id}`);
-      } else {
-        this.$toast.error('Failed to log in.', {
-          duration: 3000
-        });
-      }
+      // if (!response.error) {
+      //   this.$router.push(`/admin/${response.data.id}`);
+      // } else {
+      //   this.$toast.error('Failed to log in.', {
+      //     duration: 3000
+      //   });
+      // }
     }
   }
 }

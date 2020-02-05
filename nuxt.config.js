@@ -45,7 +45,6 @@ export default {
   */
   modules: [
     '@nuxtjs/axios',
-    '@nuxtjs/auth',
     '@nuxtjs/toast'
   ],
 
@@ -74,8 +73,4 @@ export default {
     extend(config, ctx) {
     }
   },
-  generate: {
-    dir: "dist"
-  },
-  buildDir: 'dist'
 }
