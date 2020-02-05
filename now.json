@@ -1,0 +1,17 @@
+{
+  "build": {
+    "env": {
+      "CLOUDYBADGE_CLOUDNAME":"@cloudybadge_cloudname",
+      "FAUNADB":"@faunadb",
+      "FAUNA_COLLECTION":"@fauna_collection",
+      "FAUNA_QUERY_ALL":"@fauna_query_all",
+      "FAUNA_QUERY_ONE_PREFIX":"@fauna_query_one_prefix",
+      "FAUNA_QUERY_ALL_PER_EVENT":"@fauna_query_all_per_event",
+      "FAUNA_QUERY_EVENT":"@fauna_query_event",
+      "FAUNA_QUERY_EVENTS":"@fauna_query_events",
+      "SENDGRID_EMAIL":"@sendgrid_email",
+      "SENDGRID_API_KEY": "@sendgrid_api_key",
+      "SENDGRID_TEMPLATE_REGISTER": "@sendgrid_template_register"
+    }
+  }
+}
