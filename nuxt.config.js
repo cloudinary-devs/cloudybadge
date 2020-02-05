@@ -49,6 +49,7 @@ export default {
   ],
 
   axios: {
+    baseURL: "https://thbc-cloudybadge.now.sh"
   },
   toast: {
     position: 'bottom-center',
