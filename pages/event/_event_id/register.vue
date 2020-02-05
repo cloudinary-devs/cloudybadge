@@ -34,7 +34,9 @@
         </div>
         <div class="flex flex-col text-left">
           <label for="email" class=" mt-3">Email</label>
-          <input name="email" v-model="email" type="text" required class="p-3 border-b mt-2"/>
+          <input name="email" v-model="email" type="text" required class="p-3 border-b mt-2" 
+            pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$"
+            title="Not a valid email format"/>
         </div>
         <button type="submit" class="button--green m-4">Register me!</button>
       </form>
@@ -97,8 +99,10 @@ export default {
         payload
       });
 
-      if (response.error) {
-        this.$toast.error('Failed to register. Please try again.');
+      console.log(response);
+
+      if (response.error || response.data.error) {
+        this.$toast.error(response.data.error || response.error);
       } else {
         this.$toast.success('Registered succeeded. Redirecting to your badge page', {
           duration: 2000,

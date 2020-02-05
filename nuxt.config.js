@@ -70,11 +70,11 @@ export default {
     /*
     ** You can extend webpack config here
     */
-    dir: 'public',
+    dir: 'dist',
     extend(config, ctx) {
     }
   },
   generate: {
-    dir: "public"
+    dir: "dist"
   },
 }
