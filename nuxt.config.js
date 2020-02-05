@@ -77,4 +77,5 @@ export default {
   generate: {
     dir: "dist"
   },
+  buildDir: 'dist'
 }
