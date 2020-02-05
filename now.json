@@ -13,7 +13,8 @@
       "SENDGRID_EMAIL":"@sendgrid_email",
       "SENDGRID_API_KEY": "@sendgrid_api_key",
       "SENDGRID_TEMPLATE_REGISTER": "@sendgrid_template_register",
-      "baseURL": "@base_url"
+      "baseURL": "@base_url",
+      "FAUNA_COLLECTION_CONFERENCE":"@fauna_collection_conferences"
     }
   }
 }

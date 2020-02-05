@@ -13,30 +13,8 @@
         <button @click="logOut" class="text-white uppercase p-3 hover:text-grey hover:font-bold focus:outline-none border-l border-grey-darker">Log out</button>
       </div>
     </top-bar>
-    <div class="admin-dashboard">
-      <div class="flex w-full border-b py-4 items-center">
-        <div class="text-grey-darkest text-xl mx-4">Your conference list</div>
-        <nuxt-link to="/admin/newEvent" class="no-underline focus:outline-none">
-          <button class="flex items-center uppercase px-4 py-3 hover:bg-grey-light">
-            <icon :path="add_circle" size="20" color="#613b1f"/>
-            <span class="ml-3">New Event</span>
-          </button>
-        </nuxt-link>
-      </div>
-      <div class="bg-grey-light p-3 admin-dashboard--table overflow-hidden">
-        <div class="border bg-grey-darker text-white events-table-row">
-          <div class="py-2 px-3 border-r uppercase text-center">Name</div>
-          <div class="py-2 px-3 border-r uppercase text-center">Event ID</div>
-          <div class="py-2 px-3 border-r uppercase text-center">Upload Preset</div>
-          <div class="py-2 px-3 border-r uppercase text-center">Active</div>
-          <div class="py-2 px-3 border-r uppercase text-center">Logo</div>
-          <div class="py-2 px-3 border-r uppercase text-center">Action</div>
-        </div>
-        <list :items="events" class="bg-white admin-dashboard--table--body overflow-auto">
-          <event-row slot-scope="item" :item="item"/>
-        </list>
-      </div>
-    </div>
+    <nuxt-child :key="$route.params.id" class="admin--main"/>
+    <v-dialog/>
   </div>
 </template>
 <script>
@@ -67,22 +45,7 @@ export default {
 }
 </script>
 <style scoped>
-.admin-dashboard {
-  height: calc(100% - 80px);
-}
-
-.admin-dashboard--table {
+.admin--main {
   height: calc(100% - 75px);
-}
-
-.admin-dashboard--table--body {
-  max-height: calc(100% - 35px);
-}
-
-.events-table-row {
-  display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  align-items: center;
-  justify-content: center;
 }
 </style>

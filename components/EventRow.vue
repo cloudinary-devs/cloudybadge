@@ -8,8 +8,8 @@
     </div>
     <cld-image :public-id="item.logo" width="30" crop="scale" class="m-auto flex items-center"/>
     <div class="border-r text-center uppercase border-l h-full flex items-center justify-center py-2">
-      <button class="hover:bg-grey-light p-3 mr-3 uppercase">Edit</button>
-      <button class="hover:bg-grey-light p-3 uppercase">Delete</button>
+      <button class="hover:bg-grey-light p-3 mr-3 uppercase" @click="edit">Edit</button>
+      <button class="hover:bg-grey-light p-3 uppercase" @click="deleteIt">Delete</button>
     </div>
   </div>
 </template>
@@ -32,8 +32,44 @@ export default {
     }
   },
   methods: {
-    edit() {},
-    delete() {}
+    edit() {
+      this.$router.push({
+        path: `/admin/${this.$route.params.id}/${this.item.id}`
+      });
+    },
+    deleteIt() {
+      console.log('delete');
+      const modal = this.$modal;
+      
+      this.$modal.show('dialog', {
+        title: 'Confirm deletion'.toUpperCase(),
+        text: `Are you sure you want to delete event ${this.item.name}?`,
+        buttons: [
+          {
+            title: 'Cancel'.toUpperCase(),
+          },
+          {
+            title: 'Confirm'.toUpperCase(),
+            default: true,
+            handler: async () => { 
+              const response = await this.$axios.$post(`/api/deleteEvent?id=${this.item.id}`);
+              this.$modal.hide('dialog'); 
+
+              if (response.success) {
+                this.$toast.success(`Event ${this.item.name} has been deleted.`, {
+                  duration: 2000
+                });
+                this.$emit('delete_event', this.item.id);
+              }else {
+                this.$toast.error(response.error, {
+                  duration: 2000
+                });
+              }
+            }
+          },
+        ]
+      })
+    }
   }
 }
 </script>
