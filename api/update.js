@@ -26,12 +26,13 @@ module.exports = async (req, res) => {
     const id = req.query.id;
 
     try {
-      const queryResponse = await getUserByKey(id, 'viewKey');
-
-      //TODO - how to get ref key from here
-      return res.json(queryResponse);
+      const queryResponse = await getUserByKey(id, 'viewkey');
+      const response = await client.query(
+        q.Update(queryResponse.ref,
+        badge,
+      ));
+    return res.json(response.data);
     } catch(error) {
-      console.error(error);
       return res.json({
         body: {
           error

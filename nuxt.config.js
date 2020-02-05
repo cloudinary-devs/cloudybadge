@@ -49,17 +49,12 @@ export default {
   ],
 
   axios: {
-    baseURL: "https://thbc-cloudybadge.now.sh"
+    baseURL: process.env.baseURL || 'http://localhost:3000'
   },
   toast: {
     position: 'bottom-center',
     singleton: true,
     duration: 5000,
-  },
-  auth: {
-    redirect: {
-      login: '/admin/login'
-    },
   },
 
   /*

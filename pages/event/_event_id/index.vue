@@ -30,7 +30,7 @@
         :hasFavoriteIcon="event.active && voteId && voteId !== item.voteId"
         :isFavorited="favoriteBadge === item.viewKey"
         :index="item.id"
-        @favorite="upvote"
+        @favorite="vote"
       />        
     </list>
     <div v-else>Error loading the list of badges</div>
@@ -122,10 +122,9 @@ export default {
           });
         }
         else {
-          this.favoriteBadge = user.viewKey;
+          upvote ? this.favoriteBadge = user.viewKey : this.favoriteBadge = '';
         }
-      }
-      
+      }      
     }
   }
 }
