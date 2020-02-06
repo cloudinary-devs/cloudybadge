@@ -4,7 +4,7 @@ const getUserByKey = require('./getUserByKey');
 
 module.exports = async (req, res) => {
   const ref = req.query.ref;
-  const data = req.body.payload;
+  const data = req.body;
   const badge = {
     data: data
   };
