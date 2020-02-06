@@ -15,10 +15,11 @@ module.exports =  async (user, eventName) => {
     templateId: templates.registerSuccess,
     dynamic_template_data: {
       name: user.firstName,
-      vote_id: user.voteID,
       edit_id: user.editKey,
+      view_id: user.viewKey,
       event_id: user.eventId,
-      event: eventName
+      event: eventName,
+      base_url: process.env.baseURL 
     }
   }
 

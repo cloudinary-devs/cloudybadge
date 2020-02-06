@@ -21,12 +21,11 @@ const insert = async (userData, eventName) => {
 
 module.exports = async (req, res) => {
   const data = req.body.payload;
-  const uniquePath = shortid.generate();
   const eventName = data.eventName;
 
-  data.voteID = uniquePath;
   data.editKey = shortid.generate();
   data.viewKey = shortid.generate();
+  data.voteID = editKey;
   data.tranStr = '';
   data.votes = [];
 
