@@ -51,7 +51,7 @@ export default {
   ],
 
   axios: {
-    baseURL: process.env.baseURL || 'http://localhost:3000'
+    baseURL: process.env.baseURL
   },
   toast: {
     position: 'bottom-center',
