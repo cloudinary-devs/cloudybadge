@@ -25,7 +25,7 @@ module.exports = async (req, res) => {
 
   data.editKey = shortid.generate();
   data.viewKey = shortid.generate();
-  data.voteID = editKey;
+  data.voteID = data.editKey;
   data.tranStr = '';
   data.votes = [];
 
