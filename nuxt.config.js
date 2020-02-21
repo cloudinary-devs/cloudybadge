@@ -39,7 +39,7 @@ export default {
   plugins: [
     "./plugins/vueToggle",
     "./plugins/cloudinary",
-    './plugins/vue-js-modal'
+  './plugins/vue-js-modal'
   ],
 
   /*
@@ -50,9 +50,10 @@ export default {
     '@nuxtjs/toast'
   ],
 
-  axios: {
-    baseURL: process.env.baseURL
+  serverMiddleware: {
+    '/api': '~/api/index.js'
   },
+
   toast: {
     position: 'bottom-center',
     singleton: true,
