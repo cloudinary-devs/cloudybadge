@@ -1,52 +1,81 @@
 <template>
-  <div class="m-3 mb-5 flex-no-shrink hover:bg-grey user--preset-item">
-    <h4 class="uppercase text-center ml-2 mr-2 mb-3 mt-2">{{effect.name}}</h4>
-    <div  @click="applyEffect" class="container-transformation-effect cursor-pointer m-2 mt-0">
-      <cld-image v-bind="effect" :public-id="`${avatar.public_id}.png`" width="1080" height="1080" radius="max">
-        <cld-transformation v-if="effect.extra" v-bind="extra"/>
+  <div
+    class="m-3 mb-5 flex-shrink-0 user--preset-item pt-3"
+    :class="showHint ? 'hover:bg-white' : ''"
+    v-if="avatar"
+  >
+    <div @click="applyEffect" class="cursor-pointer" :class="presetClass">
+      <cld-image
+        v-bind="effect"
+        :public-id="`${avatar.public_id}.png`"
+        :width="presetImageSize"
+        :height="presetImageSize"
+        quality="auto"
+        radius="max"
+        class="border-4 rounded-full border-white w-fit"
+      >
+        <cld-transformation v-if="effect.extra" v-bind="extra" />
       </cld-image>
     </div>
-    <div class="relative w-full">
-      <div class="text-center p-2 pt-4 text-black user--preset-item--effect hidden absolute bg-grey w-full border-t">
-        <h5 class="uppercase mb-3 text-black">Effect used</h5>
-        <effect-details :effect="effect"/>
+    <h4
+      class="uppercase text-center m-2 text-sm text-cloudinary px-3"
+      :class="chosenEffectClass"
+    >
+      {{ $t(`editBadge.effects.${effect.name}`) }}
+    </h4>
+    <div class="relative w-full" v-if="showHint">
+      <div
+        class="text-center text-xs p-2 bg-white pt-0 w-full hidden user--preset-item--effect absolute"
+      >
+        <h5 class="mb-3 text-cloudinary-orange">
+          {{ $t("editBadge.editSection.effectStyle") }}
+        </h5>
+        <effects :effect="effect" />
       </div>
     </div>
   </div>
 </template>
 <script>
-import EffectDetails from '@/components/EffectDetails';
+import { isMobileOnly } from "mobile-device-detect";
+import Effects from "@/components/Effects";
 
 export default {
-  components: { EffectDetails },
+  components: { Effects },
   props: {
     effect: {
       type: Object,
-      require: true
+      require: true,
     },
     avatar: {
       type: Object,
       require: true,
-    }
+    },
+    selected: {
+      type: Boolean,
+      default: false,
+    },
+  },
+  data() {
+    return {
+      showHint: !isMobileOnly,
+      presetClass: isMobileOnly ? "mx-2" : "m-2 mt-0 px-3",
+      presetImageSize: isMobileOnly ? "100" : "180",
+    };
   },
   methods: {
     applyEffect() {
-      this.$emit('applyeffect', this.effect);
-    }
-  }
-}
+      this.$emit("applyeffect", this.effect);
+    },
+  },
+  computed: {
+    chosenEffectClass() {
+      return this.selected ? "font-semibold" : "";
+    },
+  },
+};
 </script>
 <style scoped>
-.container-transformation-effect {
-  width: 200px;
-  height: 200px;
-}
-
 .user--preset-item:hover .user--preset-item--effect {
   display: block;
-}
-
-.user--preset-item {
-  max-width: 220px;
 }
 </style>

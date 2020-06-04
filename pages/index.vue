@@ -1,67 +1,92 @@
 <template>
-  <section class="min-h-screen text-center mx-auto overflow-hidden flex flex-col">
-    <div class="flex items-center justify-center">
-      <cld-image public-id="https://res.cloudinary.com/cloudinary/image/upload/c_scale,w_100/v1/logo/for_white_bg/cloudinary_icon_for_white_bg.png"/>
-      <h1 class="mx-5 text-orange-dark">
-        CloudyBadge
-      </h1>
-      <h4>V0.0.1</h4>
+  <div>
+    <div class="bg-cloudinary py-5 flex flex-col items-center">
+      <div class="flex items-center justify-center">
+        <cld-image
+          cloudName="cloudinary"
+          public-id="logo/for_black_bg/cloudinary_icon_for_black_bg"
+          width="80"
+          quality="auto"
+          fetchFormat="auto"
+          crop="scale"
+        />
+        <h1
+          class="mx-3 font-display self-end text-cloudinary-light text-title leading-title"
+        >
+          {{ $t("title") }}
+        </h1>
+      </div>
+      <h3
+        class="text-grey-dark font-mono font-thin mt-3 have-fun bg-white px-4 text-center mx-4 text-cloudinary-black text-lg font-code"
+      >
+        {{ $t("landing.subTitle") }}
+      </h3>
     </div>
     <div class="overflow-auto flex flex-col flex-1">
-      <h3 class="text-grey-dark font-mono font-thin" v-if="events.length > 0">_Have fun customizing your conference badge_</h3>
       <main class="mt-5 bg-grey flex-1">
-        <div class="mx-8 mt-8">
-          <div class="text-2xl text-indigo-dark">Choose your conference and let's get started!</div>
-          <list :items="currEvents" grid class="flex my-5 p-0 flex-wrap justify-center">          
-            <card slot-scope="item" v-bind="item" :link="`/event/${item.id}`"/>
+        <div class="mx-8">
+          <div class="text-2xl font-display text-center text-cloudinary">
+            {{ $t("landing.activeEvents") }}
+          </div>
+          <list
+            :items="activeConfs"
+            grid
+            class="flex my-5 p-0 flex-wrap justify-center"
+          >
+            <card slot-scope="item" v-bind="item" :link="`/event/${item.id}`" />
           </list>
         </div>
-        <div class="pt-5 border-t border-grey-light mx-8">
-          <div class="text-2xl text-indigo-dark">CloudyBadge in past tours</div>
-          <list :items="pastEvents" grid class="flex my-5 p-0 flex-wrap justify-center">          
-            <card slot-scope="item" v-bind="item" :link="`/event/${item.id}`"/>
+        <div class="mrt3 mx-8" v-if="pastConfs.length > 0">
+          <div class="text-2xl font-display text-center text-cloudinary">
+            {{ $t("landing.pastEvents") }}
+          </div>
+          <list
+            :items="pastConfs"
+            grid
+            class="flex my-5 p-0 flex-wrap justify-center"
+          >
+            <card slot-scope="item" v-bind="item" :link="`/event/${item.id}`" />
           </list>
         </div>
       </main>
     </div>
-  </section>
+  </div>
 </template>
 
 <script>
-import Card from '@/components/Card';
-import List from '@/components/List.vue';
+import Card from "@/components/Card";
+import List from "@/components/List.vue";
 
 export default {
-  components: { Card, List }, 
+  components: { Card, List },
   head() {
     return {
-      title: `CloudyBadge by Cloudinary`,
-      meta: [
-        { hid: 'description', name: 'description', content: 'CloudyBadge in conferences' }
-      ]
+      title: this.$t("title"),
     };
   },
   async asyncData({ params, $axios }) {
     const response = await $axios.$get(`/api/getAllEvents`);
-    return !response.error ? {
-      events: response.events
-    } : {}
+    return !response.error
+      ? {
+          events: response.events,
+        }
+      : {};
   },
   data() {
     return {
-      events: []
-    }
+      events: [],
+    };
   },
   computed: {
-    currEvents() {
+    activeConfs() {
       //TODO - should be filtered by event.duration and event.active?
-      return this.events.filter(event => event.active);
+      return this.events.filter((event) => event.active);
     },
-    pastEvents() {
-      return this.events.filter(event => !event.active);
-    }
-  }
-}
+    pastConfs() {
+      return this.events.filter((event) => !event.active);
+    },
+  },
+};
 </script>
 
 <style>
@@ -80,8 +105,8 @@ export default {
 }
 
 .title {
-  font-family: 'Quicksand', 'Source Sans Pro', -apple-system, BlinkMacSystemFont,
-    'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  font-family: "Quicksand", "Source Sans Pro", -apple-system, BlinkMacSystemFont,
+    "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   display: block;
   font-weight: 300;
   font-size: 100px;

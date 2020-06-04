@@ -1,0 +1,38 @@
+[
+  {
+    "name": "orginal",
+    "crop": "fill"
+  },
+  {
+    "name": "hokusai",
+    "crop": "fill",
+    "dpr": "auto",
+    "effect": "art:hokusai"
+  },
+  {
+    "name": "posterized",
+    "crop": "fill",
+    "dpr": "auto",
+    "effect": "vectorize:2:0.8"
+  },
+  {
+    "name": "duotone",
+    "crop": "fill",
+    "dpr": "auto",
+    "effect": "tint:100:6736dd:0p:00ffe3:100p",
+    "quality": "auto",
+    "focus": "auto"
+  },
+  {
+    "name": "enhanced",
+    "crop": "fill",
+    "dpr": "auto",
+    "effect": "improve"
+  },
+  {
+    "name": "retro",
+    "crop": "fill",
+    "dpr": "auto",
+    "effect": "saturation:300"
+  }
+]

@@ -1,89 +1,150 @@
 <template>
-  <section class="container flex-col">
-    <div class="flex">
-      <cld-image public-id="https://res.cloudinary.com/cloudinary/image/upload/c_scale,w_100/v1/logo/for_white_bg/cloudinary_vertical_logo_for_white_bg.png"/>
-      <div class="flex items-center" v-if="event && event.logo">
-        <span class="text-3xl ml-5 mr-5">❤️</span>
-        <cld-image :public-id="event.logo" width="80" crop="scale"/>
-      </div>      
-    </div>
-    <div v-if="event" class="max-w-sm flex flex-col">
-      <h1 class="my-3">
-        Welcome to CloudyBadge
-      </h1>
-      <h3 class="text-grey-darker">
-        Presented at {{event.name}}
+  <div>
+    <div class="bg-cloudinary text-white text-center font-display">
+      <h2 class="py-3 text-2xl">
+        {{ $t("register.title") }} {{ $t("title") }}
+      </h2>
+      <div class="flex items-center justify-center">
+        <cld-image
+          cloudName="cloudinary"
+          public-id="logo/for_black_bg/cloudinary_icon_for_black_bg"
+          width="60"
+          quality="auto"
+          fetchFormat="auto"
+          crop="scale"
+        />
+        <div class="flex items-center" v-if="event && event.logo">
+          <span class="text-3xl ml-5 mr-5">❤️</span>
+          <cld-image :public-id="event.logo" width="60" crop="scale" />
+        </div>
+      </div>
+      <h3 class="my-3 text-xl">
+        {{ $t("register.heading") }} {{ event.name }}
       </h3>
-      <div class="border-b-2 border-dashed w-1/6 self-center mt-3 mb-3" />
-      <form @submit.prevent="register" class="mt-5">
-        <div class="flex flex-col text-left">
-          <label for="name">First Name</label>
-          <input name="name" v-model="fname" type="text" required class="p-3 border-b mt-2"/>
-        </div>
-        <div class="flex flex-col text-left">
-          <label for="name">Last Name</label>
-          <input name="name" v-model="lname" type="text" required class="p-3 border-b mt-2"/>
-        </div>
-        <div class="flex flex-col text-left">
-          <label for="company" class=" mt-3">Company</label>
-          <input name="company" v-model="company" type="text" required  class="p-3 border-b mt-2"/>
-        </div>
-        <div class="flex flex-col text-left">
-          <label for="title" class=" mt-3">Title</label>
-          <input name="title" v-model="title" type="text" required  class="p-3 border-b mt-2"/>
-        </div>
-        <div class="flex flex-col text-left">
-          <label for="email" class=" mt-3">Email</label>
-          <input name="email" v-model="email" type="text" required class="p-3 border-b mt-2" 
-            pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$"
-            title="Not a valid email format"/>
-        </div>
-        <button type="submit" class="button--green m-4">Register me!</button>
+      <p class="text-sm mb-5">
+        {{ $t("register.description") }}
+      </p>
+    </div>
+    <div
+      v-if="event"
+      class="flex flex-col flex-1 items-center justify-center font-display relative"
+    >
+      <form @submit.prevent="register" class="mt-5 w-5/6 overflow-auto">
+        <Input
+          :label="$t('register.form.firstName')"
+          name="fname"
+          :value="fname"
+          @input="fname = $event"
+          required
+        />
+        <Input
+          :label="$t('register.form.lastName')"
+          name="lname"
+          :value="lname"
+          @input="lname = $event"
+          required
+          class="mt-3"
+        />
+        <Input
+          :label="$t('register.form.company')"
+          name="company"
+          :value="company"
+          @input="company = $event"
+          required
+          class="mt-3"
+        />
+        <Input
+          :label="$t('register.form.title')"
+          name="title"
+          :value="title"
+          @input="title = $event"
+          required
+          class="mt-3"
+        />
+        <Input
+          :label="$t('register.form.email')"
+          name="email"
+          type="email"
+          :value="email"
+          @input="email = $event"
+          required
+          class="mt-3"
+          pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$"
+          :title="$t('register.validation.errorEmail')"
+        />
+        <button
+          type="submit"
+          :disabled="disabled"
+          class="text-white px-5 py-3 rounded block mx-auto mt-8 mb-4 font-semibold"
+          :class="disableClass"
+        >
+          Register me!
+        </button>
       </form>
     </div>
-    <div v-else>
-      <h2 class="mt-5 mb-5">Looks like the event does not exist.</h2>
-      <h3 class="text-grey-darker">Go back to event list maybe?</h3>
-      <nuxt-link to="/">
-        <button class="button--green m-4">Yes, take me home.</button>
-      </nuxt-link>
-    </div>
-  </section>
+  </div>
 </template>
 
 <script>
-import axios from 'axios';
+import Input from "@/components/Input";
+import axios from "axios";
 
-//TODO - change to middleware
 export default {
   async asyncData({ params, query, $axios }) {
-    const event = await $axios.$get(`api/getEvent?id=${params.event_id}`);      
+    const event = await $axios.$get(`api/getEvent?id=${params.event_id}`);
 
     return !event.error ? { event } : {};
   },
   head() {
-    const content = this.event ? `for ${this.event.name}` : ' per conference';
+    const content = this.event ? `to ${this.event.name}` : " per conference";
 
     return {
-      title: `CloudyBadge registration ${content}`,
+      title: `Register ${content}`,
       meta: [
-        { hid: 'description', name: 'description', content: `Register CloudyBadge ${content}` }
-      ]
+        {
+          hid: "description",
+          name: "description",
+          content: `Register ${content}`,
+        },
+      ],
     };
   },
+  components: { Input },
   data() {
     return {
-      fname: '',
-      lname: '',
-      company: '',
-      title: '',
-      email: '',
+      fname: "",
+      lname: "",
+      company: "",
+      title: "",
+      email: "",
       event: null,
-    }
+    };
+  },
+  computed: {
+    disabled() {
+      return (
+        !this.fname ||
+        !this.lname ||
+        !this.company ||
+        !this.title ||
+        !this.email ||
+        !/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(this.email) ||
+        this.emailExisted
+      );
+    },
+    disableClass() {
+      return this.disabled ? "bg-gray-300" : "bg-cloudinary-green";
+    },
+    emailExisted() {
+      // return this.$page.Fauna.Badges.data.find(
+      //   (badge) => badge.email === this.email
+      // )
+      return false;
+    },
   },
   methods: {
     async register(e) {
-      this.$toast.info('Registering...');
+      this.$toast.info(this.$t("register.status.registering"));
 
       const payload = {
         firstName: this.fname,
@@ -96,24 +157,26 @@ export default {
       };
 
       const response = await axios.post(`/api/insert`, {
-        payload
+        payload,
       });
 
-      console.log(response);
-
       if (response.error || response.data.error) {
-        this.$toast.error(response.data.error || response.error);
+        const text =
+          response.data.error ||
+          response.error ||
+          this.$t("register.status.error");
+        this.$toast.error(text);
       } else {
-        this.$toast.success('Registered succeeded. Redirecting to your badge page', {
-          duration: 2000,
-        });
+        const text = this.$t("register.status.success");
+        this.$toast.success(text);
+
         this.$router.push({
-          path: `/event/${this.event.id}/${response.data.editKey}`
+          path: `/event/${this.event.id}/badge/${response.data.editKey}`,
         });
       }
-    }
-  }
-}
+    },
+  },
+};
 </script>
 
 <style>
@@ -132,8 +195,8 @@ export default {
 }
 
 .title {
-  font-family: 'Quicksand', 'Source Sans Pro', -apple-system, BlinkMacSystemFont,
-    'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  font-family: "Quicksand", "Source Sans Pro", -apple-system, BlinkMacSystemFont,
+    "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   display: block;
   font-weight: 300;
   font-size: 100px;

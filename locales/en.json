@@ -1,0 +1,108 @@
+{
+  "title": "CloudyBADGE",
+  "landing": {
+    "subTitle": "Have fun customizing your conference badge!",
+    "activeEvents": "Choose your conference and let's get started!",
+    "pastEvents": "CloudyBADGE in past tours"
+  },
+  "conference": {
+    "registerAndVote": "Register and vote for the badge you ❤️",
+    "vote": "Vote for the badge you ❤️ the most",
+    "viewBoard": "View Leaderboard",
+    "register": "Register to Event"
+  },
+  "register": {
+    "heading": "For",
+    "title": "Register to",
+    "description": "Register below to vote for your favorite badge and create your own.",
+    "form": {
+      "firstName": "First Name",
+      "lastName": "Last Name",
+      "company": "Company",
+      "title": "Title",
+      "email": "Email"
+    },
+    "status": {
+      "registering": "Registering...",
+      "success": "Registered succeeded. Redirecting to your badge page.",
+      "error": "Something wrong with the registration. Please try again."
+    },
+    "validation": {
+      "errorEmail": "Not a valid email format"
+    }
+  },
+  "leaderboard": {
+    "heading": "Current Leaderboard",
+    "section": {
+      "title": "Full Leaderboard"
+    }
+  },
+  "viewBadge": {
+    "heading": "'s Badge",
+    "positionInVote": "Current place in leaderboard:",
+    "totalVotes": "Number of votes:",
+    "transformationEffect": "Applied transformation effects"
+  },
+  "editBadge": {
+    "heading": "Customize your badge",
+    "badge": "Your current badge:",
+    "editSection": {
+      "heading": "Next, transform your image with Cloudinary",
+      "upload": "First, upload an image to begin customizing",
+      "presetTab": "Preset Effects",
+      "customizeTab": "Customize Effect",
+      "effectStyle": "Effect style:"
+    },
+    "customizer": {
+      "adjust": "Adjust",
+      "brightness": "Brightness",
+      "contrast": "Contrast",
+      "exposure": "Exposure",
+      "colorize": "Color",
+      "warmth": "Warmth",
+      "rotate_left": "Rotate 90° left",
+      "rotate_right": "Rotate 90° right",
+      "opacity": "Opacity",
+      "shadow": "Shadows",
+      "highlight": "Highlight"
+    },
+    "effects": {
+      "orginal": "Original",
+      "hokusai": "Hokusai",
+      "posterized": "Posterized",
+      "duotone": "Duotone",
+      "enhanced": "Enhanced",
+      "retro": "Retro"
+    },
+    "actions": {
+      "save": "Save",
+      "apply": "Apply",
+      "upload": "Upload",
+      "share": "Share",
+      "copy": "Copy",
+      "viewVote": "View & Vote",
+      "edit": "Edit again",
+      "cancel": "Cancel",
+      "reset": "Reset"
+    },
+    "status": {
+      "success": "Your badge has been saved."
+    }
+  },
+  "admin": {
+    "login": {
+      "heading": "Admin Console",
+      "form": {
+        "email": "Email",
+        "password": "Password"
+      },
+      "actions": {
+        "login": "Log In"
+      }
+    },
+    "actions": {
+      "logout": "Log Out"
+    }
+  },
+  "version": "v0.01"
+}

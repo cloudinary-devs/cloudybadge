@@ -1,5 +1,5 @@
 <template>
-  <div :class="containerClass">
+  <div :class="listClass">
     <div v-for="(value, key) in filterItems" :key="key" :class="itemClass">
       <slot v-bind="{ id: key, ...value }" />
     </div>
@@ -8,32 +8,31 @@
 <script>
 export default {
   props: {
-      items: Array | Object,
-      grid: {
-        type: Boolean,
-        required: false,
-        default: false,
-      }
+    items: {
+      type: [Array, Object],
+      default: () => [],
+    },
+    grid: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
   },
   computed: {
-    containerClass() {
-      return 'list--container'
-    },
     itemClass() {
-      return `list--item pa-2 d-flex ${this.grid ? 'grid' : ''}`
+      return `list--item pa-2 ${this.grid ? "grid--view" : ""}`;
     },
     filterItems() {
-      return this.items
-    }
-  }
-}
+      return this.items;
+    },
+    listClass() {
+      return this.grid ? "flex" : "flex flex-col";
+    },
+  },
+};
 </script>
 <style scoped>
-.list--container {
-    display: flex;
-    flex-wrap: wrap;
-}
-.list--item:not(.grid){
+.list--item:not(.grid--view) {
   width: 100%;
 }
 </style>

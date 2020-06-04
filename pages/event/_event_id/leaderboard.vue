@@ -1,105 +1,167 @@
 <template>
-    <div class="overflow-hidden bg-grey-lightest" v-if="event">
-      <top-bar class="bg-grey-dark">
-        <back :link="`/event/${event.id}/`"/>
-        <div class="flex items-center justify-center" v-if="event">
-            <icon size="32" color="white" :path="cup" class="mr-3"/>
-            <cld-image :public-id="event.logo" width="32" crop="scale"/>
-            <h2 class="mx-5 flex items-center">
-            {{event.name}} 
-            </h2>
-            <icon size="32" color="white" :path="cup" class="ml-3"/>
-        </div>
-      </top-bar>
-      <div class="flex flex-col items-center">
-        <div class="my-4">
-          <button :class="['capitalize px-3 py-2 focus:outline-none font-bold', isTop5 ? 'text-black' : 'text-grey']" @click="selectTab('top5')">Top 5</button>
-          <button :class="['capitalize px-3 py-2 border-l border-grey focus:outline-none font-bold', isAll ? 'text-black' : 'text-grey']" @click="selectTab('all')">All</button>
+  <div class="overflow-hidden">
+    <top-bar class="py-3 items-center">
+      <back
+        :link="`/event/${event.id}/`"
+        class="text-white mx-4 flex"
+        size="32px"
+      />
+      <div class="flex items-center justify-center mx-3">
+        <cld-image :public-id="event.logo" width="50" crop="scale" />
+        <h2 class="mx-3 font-display text-xl md:text-title text-center">
+          {{ event.name }}
+        </h2>
+      </div>
+    </top-bar>
+    <div class="overflow-y-auto board">
+      <h2
+        class="text-lg md:text-2xl font-display text-center my-3 md:my-5 md:mt-8 md:mb-6 px-2"
+      >
+        {{ $t("leaderboard.heading") }}
+      </h2>
+      <div
+        class="lg:grid grid-cols-2 overflow-hidden items-start px-3 md:px-12 gap-10"
+      >
+        <list :items="winners" list class="flex flex-col mt-2 md:mt-3">
+          <div
+            slot-scope="item"
+            class="flex font-display justify-between items-center text-white p-3"
+            :class="getClassRow(item.id)"
+          >
+            <div class="flex items-center">
+              <thumbnail
+                :id="item.viewKey"
+                width="40"
+                :avatar="item.avatar"
+                class="border-2 rounded-full border-white"
+              />
+              <span class="ml-4 pr-2 border-r mr-2">
+                <span class="font-semibold">{{ item.id + 1 }}</span>
+                - {{ item.firstName }} {{ item.lastName }}
+              </span>
+              <div class="font-semibold">
+                <span>{{ item.votes.length }}</span>
+                <span>/{{ users.length }}</span>
+              </div>
+            </div>
+            <div class="mr-2">
+              <button
+                v-if="
+                  event.active &&
+                  currentViewer &&
+                  currentViewer !== item.viewKey
+                "
+              >
+                <svg-icon
+                  :icon="heart.path"
+                  :viewBox="heart.viewBox"
+                  class="text-white hover:text-red-600"
+                  size="24px"
+                />
+              </button>
+              <cld-image
+                public-id="_cloudybadge/resources/trophy"
+                fetchFormat="auto"
+                quality="auto"
+                width="32"
+                crop="scale"
+                v-else-if="item.id === 0 && !event.active"
+              />
+            </div>
+          </div>
+        </list>
+        <div class="font-display bg-cloudinary-light p-6 mt-3">
+          <h4
+            class="border-b border-gray-500 px-2 pb-1 mr-6 text-md font-semibold"
+          >
+            {{ $t("leaderboard.section.title") }}
+          </h4>
+          <list
+            :items="users"
+            list
+            class="my-2 list--full overflow-y-auto text-cloudinary"
+          >
+            <div slot-scope="item" class="py-1">
+              <span class="ml-4">
+                {{ item.id + 1 }}. {{ item.firstName }}
+                {{ item.lastName }}
+              </span>
+            </div>
+          </list>
+          <div
+            class="bg-cloudinary-pink bg-cloudinary-pale bg-cloudinary-indigo bg-cloudinary-sunny bg-cloudinary-sea"
+          />
         </div>
       </div>
-      <div class="flex overflow-hidden items-start h-full">
-        <badge class="flex leaderboard--badge"
-          :badgeUrl="event.badge"
-          :name="top5Users[0].name"
-          :company="top5Users[0].company"
-          :title="top5Users[0].title"
-          :avatarOverlay="top5Users[0].avatar.public_id.replace(/\//gm, ':')"
-          :effect="top5Users[0].avatar.transformation"
-        />
-        <leaderboard-list
-          :items="top5Users"
-          :boardLength="leaderboard.length"
-          v-show="isTop5"
-        />
-        <leaderboard-list
-          :items="allUsers"
-          :boardLength="leaderboard.length"
-          v-show="isAll"
-        />
-      </div>
     </div>
-    <div v-else>
-      Event doesn't exist.
-    </div>
+  </div>
 </template>
 <script>
-import TopBar from '@/components/Header.vue';
-import Back from '@/components/Back.vue';
-import Badge from '@/components/Badge.vue';
-import LeaderboardList from '@/components/LeaderboardList.vue';
-import Icon from '@/components/Icon.vue';
-import { cup } from '@/static/icons';
+import TopBar from "@/components/TopBar";
+import Thumbnail from "@/components/Thumbnail";
+import Back from "@/components/BackBtn";
+import List from "@/components/List";
+import { heart, favorited } from "@/assets/icons";
 
 export default {
-  components: {
-    Back,
-    TopBar,
-    Badge,
-    Icon,
-    LeaderboardList
-  },
+  components: { TopBar, List, Thumbnail, Back },
   head() {
-    const content = this.event ? `for ${this.event.name}` : ' per conference';
-
     return {
-      title: `Leaderboard ${content}`,
+      title: `Leaderboard of ${this.event.name}-${this.$t("title")}`,
       meta: [
-        { hid: 'description', name: 'description', content: `Leaderboard ${content}` }
-      ]
-    };
-  },
-  async asyncData({ params, $axios, query }) {
-    const response = await $axios.$get(`api/getLeaderboard?id=${params.event_id}`);
-    return !response.error ? {
-      ...response,
-      voteId: query.vid,
-    } : {
-      voteId: query.vid,
+        {
+          hid: "description",
+          name: "description",
+          content: `Leaderboard of ${this.event.name}-${this.$t("title")}`,
+        },
+      ],
     };
   },
   data() {
     return {
-      selectedTab: 'top5',
-      voteId: '',
-      event: null,
+      heart,
+      favorited,
       leaderboard: [],
-      cup
-    }
+      event: null,
+    };
+  },
+  async asyncData({ params, $axios, query }) {
+    const response = await $axios.$get(
+      `api/getLeaderboard?id=${params.event_id}`
+    );
+    return !response.error
+      ? {
+          ...response,
+          voteId: query.vid,
+        }
+      : {
+          voteId: query.vid,
+        };
   },
   computed: {
-    isTop5() { return this.selectedTab === 'top5' },
-    isAll() { return this.selectedTab === 'all' },
-    allUsers() {
-      return this.leaderboard.sort((badgeA, badgeB) => badgeB.votes - badgeA.votes);
+    users() {
+      // const { data: badges } = this.leaderboard
+
+      return this.leaderboard.sort(
+        (badgeA, badgeB) => badgeA.votes.length - badgeB.votes.length
+      );
     },
-    top5Users() {
-      return this.allUsers.slice(0, 5);
+    winners() {
+      return this.users.slice(0, 5);
+    },
+    currentViewer() {
+      return this.$route.query?.vid;
     },
   },
   methods: {
-    selectTab(tab) { this.selectedTab = tab; },
+    getClassRow(id) {
+      const marginBottom = id < this.winners.length - 1 ? "mb-5 md:mb-8" : "";
+      const bgs = ["pale", "pink", "indigo", "sunny", "sea"];
+
+      return `${marginBottom} bg-cloudinary-${bgs[id]}`;
+    },
   },
-}
+};
 </script>
 <style scoped>
 .leaderboard--badge {

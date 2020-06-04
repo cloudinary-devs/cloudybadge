@@ -1,14 +1,21 @@
 {
   "name": "thbc-cloudybadge",
   "version": "1.0.0",
-  "description": "CloudyBadge",
+  "description": "CloudyBADGE",
   "author": "Maya Shavin",
   "private": true,
   "scripts": {
     "dev": "nuxt",
-    "build": "nuxt generate",
+    "build": "nuxt build",
     "start": "nuxt start",
+    "storybook": "start-storybook -p 6006",
+    "build-storybook": "build-storybook -c .storybook -o .out",
     "generate": "nuxt generate"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "pretty-quick --staged"
+    }
   },
   "dependencies": {
     "@nuxtjs/axios": "^5.9.0",
@@ -16,20 +23,37 @@
     "@sendgrid/mail": "^6.5.1",
     "body-parser": "^1.19.0",
     "cloudinary-vue": "^1.0.0",
+    "core-js": "2",
     "cross-env": "^5.2.0",
+    "current-script-polyfill": "^1.0.0",
     "dotenv": "^8.2.0",
     "esm": "^3.2.25",
     "express": "^4.17.1",
     "faunadb": "^2.10.0",
+    "mobile-device-detect": "^0.3.3",
     "nuxt": "^2.4.0",
     "shortid": "^2.2.15",
+    "vue-i18n": "^8.18.1",
     "vue-js-modal": "^1.3.31",
     "vue-js-toggle-button": "^1.3.3"
   },
   "devDependencies": {
+    "@nuxtjs/tailwindcss": "^2.0.0",
+    "@storybook/addon-actions": "^5.3.19",
+    "@storybook/addon-links": "^5.3.19",
+    "@storybook/theming": "^5.3.19",
+    "@storybook/vue": "^5.3.19",
     "autoprefixer": "^8.6.4",
-    "nodemon": "^1.18.9",
-    "tailwindcss": "^0.7.0"
+    "babel-eslint": "^10.1.0",
+    "babel-preset-vue": "^2.0.2",
+    "eslint": "^7.1.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-loader": "^4.0.2",
+    "eslint-plugin-prettier": "^3.1.3",
+    "eslint-plugin-vue": "^6.2.2",
+    "husky": "^4.2.5",
+    "prettier": "^2.0.5",
+    "pretty-quick": "^2.0.1"
   },
   "engines": {
     "node": ">=10.x"
