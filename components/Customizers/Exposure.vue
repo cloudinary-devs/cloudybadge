@@ -19,22 +19,36 @@ import InputSlider from "@/components/InputSlider";
 
 export default {
   components: { InputSlider },
-  data() {
-    return {
-      exposureValue: "50",
-      shadow: "50",
-    };
+  props: {
+    exposure: {
+      type: Object,
+      default: () => ({
+        value: "50",
+      }),
+    },
+    shadowValue: {
+      type: Object,
+      default: () => ({
+        value: "50",
+      }),
+    },
+  },
+  computed: {
+    exposureValue() {
+      return this.exposure.value || "50";
+    },
+    shadow() {
+      return this.shadowValue.value || "50";
+    },
   },
   methods: {
     setExposure(fill_light) {
-      this.exposureValue = fill_light;
       this.$emit("customize", {
         effect: { effect: `fill_light:${fill_light}` },
         type: "exposure",
       });
     },
     setShadow(shadow) {
-      this.shadow = shadow;
       this.$emit("customize", {
         effect: { effect: `shadow:${shadow}` },
         type: "shadow",

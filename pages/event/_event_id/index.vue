@@ -12,12 +12,13 @@
     <h2
       class="text-lg md:text-2xl font-display text-center mt-5 md:mt-8 mb-4 px-2"
     >
-      {{
-        currentViewer ? $t("conference.vote") : $t("conference.registerAndVote")
-      }}
+      {{ voteId ? $t("conference.vote") : $t("conference.registerAndVote") }}
     </h2>
     <div class="flex justify-center items-center font-display my-3 md:my-5">
-      <nuxt-link :to="`/event/${event.id}/leaderboard?vid=${currentViewer}`">
+      <nuxt-link
+        :to="`/event/${event.id}/leaderboard?vid=${voteId}`"
+        v-if="badges && badges.length"
+      >
         <div
           class="bg-cloudinary-green hover:bg-green-700 text-white font-semibold p-3 rounded mx-2 m-auto"
         >
@@ -26,7 +27,7 @@
       </nuxt-link>
       <nuxt-link
         :to="`/event/${event.id}/register`"
-        v-if="event.active && !currentViewer"
+        v-if="event.active && !voteId"
       >
         <div
           class="bg-cloudinary-orange hover:bg-orange-700 text-white p-3 rounded mx-2 font-semibold"
@@ -39,12 +40,10 @@
       :items="badges"
       grid
       class="mx-8 my-4 overflow-auto p-3 justify-center flex-1 bg-cloudinary-light flex-wrap"
+      v-if="badges && badges.length > 0"
     >
       <div slot-scope="item" class="m-6 relative">
-        <button
-          class="absolute bg-white p-2 rounded-full settings"
-          v-if="event.active && currentViewer && currentViewer === item.viewKey"
-        >
+        <button class="absolute bg-white p-2 rounded-full settings ml-5 mt-5">
           <svg-icon
             :view-box="settings.viewBox"
             size="26px"
@@ -52,9 +51,7 @@
             :icon="settings.path"
           />
         </button>
-        <nuxt-link
-          :to="`/event/${event.id}/badge/${item.viewKey}?vid=${currentViewer}`"
-        >
+        <nuxt-link :to="`/event/${event.id}/${item.viewKey}?vid=${voteId}`">
           <thumbnail
             :id="item.viewKey"
             width="250"
@@ -73,16 +70,16 @@
           </div>
         </nuxt-link>
         <button
-          class="absolute bg-white p-2 rounded-full favorite right-0"
-          v-if="event.active && currentViewer && currentViewer !== item.viewKey"
+          class="absolute bg-white p-2 rounded-full favorite right-0 top-0 mr-5 mt-5"
+          v-if="event.active && !item.isCurrVoter"
           @click="toggleVote(item)"
         >
           <svg-icon
-            :view-box="getFavoriteIcon(item.votes).viewBox"
+            :view-box="getFavoriteIcon(item.isFavorited).viewBox"
             size="26px"
             class="hover:text-red-600"
-            :class="getColor(item.votes)"
-            :icon="getFavoriteIcon(item.votes).path"
+            :class="getColor(item.isFavorite)"
+            :icon="getFavoriteIcon(item.isFavorited).path"
           />
         </button>
       </div>
@@ -96,8 +93,8 @@ import Thumbnail from "@/components/Thumbnail";
 import Back from "@/components/BackBtn";
 import { settings, heart, favorited } from "@/assets/icons";
 
-//TODO: Add metadata
 export default {
+  name: "EventView",
   components: { TopBar, List, Thumbnail, Back },
   head() {
     return {
@@ -105,31 +102,28 @@ export default {
     };
   },
   async asyncData({ params, query, $axios }) {
-    const response = await $axios.$get(
-      `api/getAllPerEvent?id=${params.event_id}`
+    const response = await $axios.$post(
+      `api/event/load?id=${params.event_id}`,
+      {
+        payload: {
+          viewKey: query.vid,
+        },
+      }
     );
+
     let favoriteBadge = "";
-
-    if (!response.error && query.vid) {
-      const users = response.users;
-      users.forEach((user) => {
-        if (user.votes && user.votes.indexOf(query.vid) !== -1) {
-          favoriteBadge = user.viewKey;
-        }
-      });
-    }
-
     return !response.error
       ? {
           ...response,
-          voteId: query.vid,
+          attendants: response.event.attendants,
+          voteId: query.vid || "",
           favoriteBadge,
         }
       : {};
   },
   data() {
     return {
-      users: [],
+      attendants: [],
       event: null,
       favoriteBadge: "",
       voteId: "",
@@ -137,49 +131,31 @@ export default {
     };
   },
   computed: {
-    currentViewer() {
-      return this.$route.query?.vid;
-    },
-    // currFavorite() {
-    //   const { data } = this.$page.Fauna.Badges
-
-    //   const favoriteBadge = this.currentViewer
-    //     ? data.find((badge) => badge.votes?.includes(this.currentViewer))
-    //     : null
-
-    //   return favoriteBadge?._id
-    // },
     badges() {
-      // const { data: badges } = this.$page.Fauna.Badges
-      return this.users.sort(function () {
+      return this.attendants.sort(function () {
         return 0.5 - Math.random();
       });
     },
   },
   methods: {
     toggleVote(item) {
-      if (!item.votes) item.votes = [];
-      const indexOfCurrentViewer = item.votes.indexOf(this.currentViewer);
+      const currFavorite = this.attendants.find(
+        (badge) => badge.isFavorited === true
+      );
 
-      if (indexOfCurrentViewer === -1) {
-        item.votes.push(this.currentViewer);
-      } else {
-        item.votes.splice(indexOfCurrentViewer, 1);
+      if (currFavorite) {
+        currFavorite.isFavorited = false;
+      }
+
+      if (!currFavorite || item._id !== currFavorite._id) {
+        item.isFavorited = true;
       }
     },
-    getFavoriteIcon(votes) {
-      if (votes?.includes(this.currentViewer)) {
-        return favorited;
-      } else {
-        return heart;
-      }
+    getFavoriteIcon(isFavorite) {
+      return isFavorite ? favorited : heart;
     },
-    getColor(votes) {
-      if (votes?.includes(this.currentViewer)) {
-        return "text-red-600";
-      } else {
-        return "text-gray-600";
-      }
+    getColor(isFavorite) {
+      return isFavorite ? "text-red-600" : "text-gray-600";
     },
   },
 };

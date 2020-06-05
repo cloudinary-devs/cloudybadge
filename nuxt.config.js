@@ -53,6 +53,7 @@ export default {
     "./plugins/vue-js-modal",
     "./plugins/i18n",
     "./plugins/global",
+    "./plugins/vue-debounce",
   ],
 
   /*

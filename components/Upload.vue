@@ -28,6 +28,9 @@ export default {
       (error, result) => {
         if (!error && result && result.event === "success") {
           this.avatar = result.info;
+          this.$emit("avatar", {
+            public_id: this.avatar.public_id,
+          });
         }
       }
     );

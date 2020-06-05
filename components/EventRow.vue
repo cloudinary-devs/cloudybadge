@@ -5,9 +5,11 @@
     <div class="py-2 px-3 border-r text-center h-full">{{ item.id }}</div>
     <div class="py-2 px-3 border-r text-center h-full">
       <icon
-        :path="item.active ? event_active : event_inactive"
-        :color="item.active ? 'green' : 'red'"
-        size="24"
+        :icon="item.active ? event_active.path : event_inactive.path"
+        :viewBox="item.active ? event_active.viewBox : event_inactive.viewBox"
+        class="flex justify-center"
+        :class="item.active ? 'text-cloudinary-green' : 'text-cloudinary-gray'"
+        size="32px"
       />
     </div>
     <cld-image
@@ -19,11 +21,17 @@
     <div
       class="border-r text-center uppercase border-l h-full flex items-center justify-center py-2"
     >
-      <button class="hover:bg-grey-light p-3 mr-3 uppercase" @click="edit">
-        Edit
+      <button
+        class="hover:bg-cloudinary-light p-3 mr-3 uppercase rounded"
+        @click="edit"
+      >
+        {{ $t("admin.dashboard.actions.edit") }}
       </button>
-      <button class="hover:bg-grey-light p-3 uppercase" @click="deleteIt">
-        Delete
+      <button
+        class="hover:bg-cloudinary-light rounded p-3 uppercase"
+        @click="deleteIt"
+      >
+        {{ $t("admin.dashboard.actions.delete") }}
       </button>
     </div>
   </div>
@@ -68,11 +76,11 @@ export default {
             default: true,
             handler: async () => {
               const response = await this.$axios.$post(
-                `/api/deleteEvent?id=${this.item.id}`
+                `/api/event/delete?id=${this.item._id}`
               );
               this.$modal.hide("dialog");
 
-              if (response.success) {
+              if (response.event) {
                 this.$toast.success(
                   `Event ${this.item.name} has been deleted.`,
                   {

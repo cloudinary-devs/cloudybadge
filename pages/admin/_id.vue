@@ -1,22 +1,22 @@
 <template>
-  <div>
-    <top-bar>
+  <div class="font-display">
+    <top-bar class="py-3 items-center px-3">
       <div class="flex items-center justify-center">
         <cld-image
           public-id="https://res.cloudinary.com/cloudinary/image/upload/c_scale,w_45/v1/logo/for_black_bg/cloudinary_icon_for_black_bg.png"
-          class="pr-2 mr-2 border-r border-grey-darker"
+          class="pr-3 mr-2 border-r border-grey-darker"
         />
-        <div class="text-lg">
-          CloudyBadge Admin
+        <div class="text-lg ml-3">
+          {{ $t("admin.dashboard.heading") }}
         </div>
       </div>
       <div></div>
       <div class="flex items-center">
         <icon
-          :path="person"
+          :icon="person.path"
+          :viewBox="person.viewBox"
           size="24"
-          color="grey"
-          class="mr-3 bg-white rounded-full"
+          class="mr-3 bg-white rounded-full text-gray-500"
         />
         <button
           @click="logOut"
@@ -32,26 +32,21 @@
 </template>
 <script>
 import Icon from "@/components/SvgIcon.vue";
-import TopBar from "@/components/Header.vue";
+import TopBar from "@/components/TopBar.vue";
 import EventRow from "@/components/EventRow.vue";
-import { person, add_circle } from "@/assets/icons";
+import { person } from "@/assets/icons";
 import List from "@/components/List.vue";
 
 export default {
   components: { TopBar, Icon, List, EventRow },
-  async asyncData({ params, $axios }) {
-    const response = await $axios.$get(`/api/getAllEvents`);
-    return !response.error
-      ? {
-          events: response.events,
-        }
-      : {};
+  head() {
+    return {
+      title: this.$t("admin.dashboard.heading"),
+    };
   },
   data() {
     return {
       person,
-      add_circle,
-      events: [],
     };
   },
   methods: {

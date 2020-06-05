@@ -78,7 +78,7 @@
           class="text-white px-5 py-3 rounded block mx-auto mt-8 mb-4 font-semibold"
           :class="disableClass"
         >
-          Register me!
+          {{ $t("register.actions.register") }}
         </button>
       </form>
     </div>
@@ -87,11 +87,12 @@
 
 <script>
 import Input from "@/components/Input";
-import axios from "axios";
 
 export default {
   async asyncData({ params, query, $axios }) {
-    const event = await $axios.$get(`api/getEvent?id=${params.event_id}`);
+    const { event } = await $axios.$post(
+      `api/event/load?id=${params.event_id}`
+    );
 
     return !event.error ? { event } : {};
   },
@@ -136,10 +137,11 @@ export default {
       return this.disabled ? "bg-gray-300" : "bg-cloudinary-green";
     },
     emailExisted() {
-      // return this.$page.Fauna.Badges.data.find(
-      //   (badge) => badge.email === this.email
-      // )
-      return false;
+      return (
+        this.event?.attendants?.find(
+          (attendant) => attendant.email === this.email
+        ) || false
+      );
     },
   },
   methods: {
@@ -152,26 +154,23 @@ export default {
         company: this.company,
         title: this.title,
         email: this.email,
-        eventId: this.event.id,
+        eventId: this.event._id,
         eventName: this.event.name,
       };
 
-      const response = await axios.post(`/api/insert`, {
+      const response = await this.$axios.$post(`/api/badge/create`, {
         payload,
       });
 
-      if (response.error || response.data.error) {
-        const text =
-          response.data.error ||
-          response.error ||
-          this.$t("register.status.error");
+      if (response.error) {
+        const text = response.error || this.$t("register.status.error");
         this.$toast.error(text);
       } else {
         const text = this.$t("register.status.success");
         this.$toast.success(text);
 
         this.$router.push({
-          path: `/event/${this.event.id}/badge/${response.data.editKey}`,
+          path: `/event/${this.event.id}/badge/${response.badge.editKey}`,
         });
       }
     },

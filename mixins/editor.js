@@ -1,4 +1,4 @@
-import BadgeComp from "@/components/Badge";
+import Badge from "@/components/Badge";
 import UploadBtn from "@/components/Upload";
 import Preset from "@/components/Preset";
 import presets from "@/assets/presets.json";
@@ -8,7 +8,7 @@ import SaveModal from "@/components/SaveModal";
 
 const editor = {
   components: {
-    BadgeComp,
+    Badge,
     UploadBtn,
     Preset,
     Effects,
@@ -20,16 +20,21 @@ const editor = {
     },
   },
   data() {
+    const transformation = this.badge.avatar?.transformation
+      ? JSON.parse(this.badge.avatar?.transformation.replace(/'/g, `"`))
+      : {};
+
     return {
       selectedTab: "preset",
-      selectedPreset: presets[0],
+      selectedPreset: transformation.selectedPreset || presets[0],
       presets,
       copy,
       share,
       done,
       settings,
-      customEffects: [],
+      customEffects: transformation.customEffects || [],
       showEffects: false,
+      isSaving: false,
     };
   },
   computed: {
@@ -46,13 +51,15 @@ const editor = {
       return !!this.badge.avatar?.public_id;
     },
     saveClass() {
-      return this.hasAvatar ? "bg-cloudinary-green" : "bg-gray-300";
+      return this.hasAvatar && !this.isSaving
+        ? "bg-cloudinary-green"
+        : "bg-gray-300";
     },
     uploadConfig() {
       return {
         cloudName: "cdemo",
         uploadPreset: "hackb4xmas", //TODO: event preset
-        folder: `_cloudybadge/${this.badge.eventId}/assets`,
+        folder: `_cloudybadge/${this.badge.event.id}/assets`,
       };
     },
     chosenEffect() {
@@ -70,6 +77,9 @@ const editor = {
         ? "bg-cloudinary-darkest"
         : "bg-cloudinary-darker";
     },
+    saveBtnLabel() {
+      return this.$t(`editBadge.actions.${this.isSaving ? "saving" : "save"}`);
+    },
   },
   methods: {
     setTab(tab) {
@@ -83,23 +93,53 @@ const editor = {
     applyEffect(effect) {
       this.selectedPreset = effect;
     },
-    saveBadge() {
-      this.$modal.show(
-        SaveModal,
+    async saveBadge() {
+      if (this.isSaving) return;
+
+      this.isSaving = true;
+
+      const transformation = JSON.stringify({
+        customEffects: this.customEffects,
+        selectedPreset: this.selectedPreset,
+      }).replace(/"/g, "'");
+
+      const response = await this.$axios.$post(
+        `/api/avatar/${this.badge.avatar._id ? "update" : "create"}`,
         {
-          voteLink: `/event/${this.badge.eventId}?vid=${this.badge.editKey}`,
-        },
-        {
-          height: "auto",
-          width: "350",
+          payload: {
+            ...this.badge.avatar,
+            transformation,
+            badgeId: this.badge._id,
+          },
         }
       );
+
+      this.isSaving = false;
+
+      if (response.error) {
+        const text = response.error || this.$t("editBadge.status.error");
+        this.$toast.error(text);
+      } else if (response.avatar) {
+        this.$modal.show(
+          SaveModal,
+          {
+            voteLink: `/event/${this.badge.event.id}?vid=${this.badge.editKey}`,
+          },
+          {
+            height: "auto",
+            width: "350",
+          }
+        );
+      }
     },
     customizeEffect(transform) {
       this.customEffects = {
         ...this.customEffects,
         [transform.type]: transform.effect,
       };
+    },
+    updateAvatar(avatar) {
+      this.badge.avatar = avatar;
     },
   },
 };

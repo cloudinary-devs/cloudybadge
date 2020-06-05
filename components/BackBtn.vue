@@ -11,7 +11,7 @@ import { back } from "@/assets/icons";
 export default {
   props: {
     link: {
-      type: String,
+      type: [String, Object],
       require: true,
     },
     size: {

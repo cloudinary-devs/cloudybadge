@@ -27,6 +27,7 @@
     <div class="flex-1 w-full" v-show="selectedTab">
       <adjustment
         @customize="setRotate"
+        :adjustment="adjustment"
         v-show="isSelected(options.adjust.type)"
         class="items-center"
       />
@@ -78,10 +79,13 @@
       <colorize
         @customize="setColorize"
         v-show="isSelected(options.colorize.type)"
+        :colorize="colorize"
       />
       <exposure
         class="py-2"
         v-show="isSelected(options.exposure.type)"
+        :exposure="exposure"
+        :shadow-value="shadow"
         @customize="setExposure"
       />
       <div
@@ -116,41 +120,59 @@ export default {
     },
     cancel() {
       switch (this.selectedTab) {
-        case [options.contrast.type]: {
-          this.setContrast(50);
+        case this.options.contrast.type: {
+          this.setContrast(this.initialEffects?.contrast?.value || "50");
           break;
         }
-        case [options.brightness.type]: {
-          this.setBrightness(50);
+        case this.options.brightness.type: {
+          this.setBrightness(this.initialEffects?.brightness?.value || "50");
           break;
         }
-        case [options.warmth.type]: {
-          this.setWarm(50);
+        case this.options.warmth.type: {
+          this.setWarm(this.initialEffects?.warmth?.value || "50");
           break;
         }
-        case [options.exposure.type]: {
-          //todo
+        case this.options.exposure.type: {
+          this.setExposure({
+            effect: {
+              effect: `fill_light:${
+                this.initialEffects?.exposure?.value || "50"
+              }`,
+              type: this.options.exposure.type,
+            },
+          });
+          this.setExposure({
+            effect: {
+              effect: `shadow:${this.initialEffects?.shadow?.value || "50"}`,
+              type: "shadow",
+            },
+          });
           break;
         }
-        case [options.adjust.type]: {
+        case this.options.adjust.type: {
           this.setRotate({
             effect: {
-              angle: 0,
+              angle: this.initialEffects?.adjust.value || 0,
             },
             type: "adjust",
-          }); //TODO
+          });
           break;
         }
-        case [options.colorize.type]: {
-          //todo
+        case this.options.colorize.type: {
           this.setColorize({
-            color: "",
+            effect: {
+              effect: `colorize:${
+                this.initialEffects?.colorize?.value || "50"
+              }`,
+              color: this.initialEffects?.colorize?.color || "",
+            },
+            type: "colorize",
           });
           break;
         }
       }
 
-      this.selectedTab("");
+      this.selectTab("");
     },
   },
 };

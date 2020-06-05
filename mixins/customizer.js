@@ -5,7 +5,7 @@ import {
   thermometer,
   palette,
   constrast,
-} from "@/plugins/icons";
+} from "@/assets/icons";
 import InputSlider from "@/components/InputSlider";
 import Exposure from "@/components/Customizers/Exposure";
 import Adjustment from "@/components/Customizers/Adjustment";
@@ -40,16 +40,73 @@ const options = {
 
 const types = Object.keys(options);
 
+const normalizeEffects = (transformations) => {
+  const regex = /\:(.*)/;
+  const effects = {};
+
+  Object.keys(transformations).forEach((key) => {
+    const effect = transformations[key].effect;
+
+    if (effect) {
+      effects[key] = {
+        value: regex.exec(effect)[1],
+      };
+
+      if (transformations[key].color) {
+        effects[key].color = transformations[key].color;
+      }
+    } else if (key === "adjust") {
+      effects[key] = {
+        value: transformations[key].angle || 0,
+      };
+    }
+  });
+
+  return effects;
+};
+
 const customizer = {
   components: { InputSlider, Adjustment, Colorize, Exposure },
+  props: {
+    effects: {
+      type: Object,
+      default: () => ({}),
+    },
+  },
   data() {
+    const initialEffects = normalizeEffects(this.effects);
+
     return {
-      brightness: "50",
-      constrastValue: "50",
-      warmth: "50",
+      initialEffects,
       options,
       types,
     };
+  },
+  computed: {
+    transformEffects() {
+      return normalizeEffects(this.effects);
+    },
+    brightness() {
+      return this.transformEffects.brightness?.value || "50";
+    },
+    constrastValue() {
+      return this.transformEffects.contrast?.value || "50";
+    },
+    warmth() {
+      return this.transformEffects.warmth?.value || "50";
+    },
+    adjustment() {
+      return this.transformEffects.adjust;
+    },
+    exposure() {
+      return this.transformEffects.exposure;
+    },
+    colorize() {
+      return this.transformEffects.colorize;
+    },
+    shadow() {
+      return this.transformEffects.shadow;
+    },
   },
   methods: {
     setColorize(colorize) {
@@ -59,7 +116,6 @@ const customizer = {
       this.$emit("customize", direction);
     },
     setBrightness(brightness) {
-      this.brightness = brightness;
       this.$emit("customize", {
         effect: {
           effect: `brightness:${brightness}`,
@@ -68,7 +124,6 @@ const customizer = {
       });
     },
     setContrast(contrast) {
-      this.constrastValue = contrast;
       this.$emit("customize", {
         effect: {
           effect: `contrast:${contrast}`,
@@ -80,7 +135,6 @@ const customizer = {
       this.$emit("customize", exposure);
     },
     setWarm(sepia) {
-      this.warmth = sepia;
       this.$emit("customize", {
         effect: {
           effect: `sepia:${sepia}`,

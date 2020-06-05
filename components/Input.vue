@@ -16,12 +16,22 @@
       @focus="animate"
       @blur="animate"
       @input="animate"
+      ref="inputRef"
       :pattern="pattern"
       :title="title"
     />
   </div>
 </template>
 <script>
+const addAnimation = (target) => {
+  const { previousElementSibling } = target;
+  const { classList } = previousElementSibling;
+  const TARGET_CLASS = "focused";
+  const action = classList.contains(TARGET_CLASS) ? "remove" : "add";
+
+  classList[action](TARGET_CLASS);
+};
+
 export default {
   props: {
     label: String,
@@ -52,15 +62,19 @@ export default {
     animate(event) {
       const { target } = event;
       if (target.value || event.type === "input") return;
-
+      addAnimation(target);
+    },
+    addAnimateEffect(target) {
       const { previousElementSibling } = target;
-      console.log(previousElementSibling);
       const { classList } = previousElementSibling;
       const TARGET_CLASS = "focused";
       const action = classList.contains(TARGET_CLASS) ? "remove" : "add";
-
-      classList[action](TARGET_CLASS);
     },
+  },
+  mounted() {
+    if (this.value) {
+      addAnimation(this.$refs.inputRef);
+    }
   },
 };
 </script>

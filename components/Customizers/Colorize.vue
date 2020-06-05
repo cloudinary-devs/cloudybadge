@@ -42,25 +42,39 @@ import { block } from "@/assets/icons";
 import colorizes from "@/assets/colorizes.json";
 import InputSlider from "@/components/InputSlider";
 
-console.log(isMobileOnly);
 export default {
   components: { InputSlider },
+  props: {
+    colorize: {
+      type: Object,
+      default: () => ({
+        color: "",
+        value: "50",
+      }),
+    },
+  },
   data() {
     return {
       block,
       colorizes,
-      selectedColor: "",
-      opacity: "50",
       colorSize: isMobileOnly ? "14px" : "32px",
       noColorSize: isMobileOnly ? "16px" : "38px",
     };
+  },
+  computed: {
+    selectedColor() {
+      return this.colorize.color || "";
+    },
+    opacity() {
+      return this.colorize.value || "";
+    },
   },
   methods: {
     getSelectedColorClass(color) {
       return this.selectedColor === color ? "border-2 border-cloudinary" : "";
     },
     setSelectedColor(color) {
-      this.selectedColor = color;
+      // this.selectedColor = color;
 
       const effect = color
         ? {
@@ -72,7 +86,7 @@ export default {
       this.$emit("customize", { effect, type: "colorize" });
     },
     setColorOpacity(opacity) {
-      this.opacity = opacity;
+      // this.opacity = opacity;
 
       const effect = this.selectedColor
         ? {

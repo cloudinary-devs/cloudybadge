@@ -16,7 +16,11 @@
           {{ $t(`editBadge.customizer.${key}`) }}
         </span>
       </div>
-      <adjustment @customize="setRotate" v-if="key === options.adjust.type" />
+      <adjustment
+        @customize="setRotate"
+        v-if="key === options.adjust.type"
+        :adjustment="adjustment"
+      />
       <div
         class="flex flex-col self-center justify-center items-center px-8 py-5"
         v-if="key === options.brightness.type"
@@ -40,6 +44,8 @@
       <exposure
         class="py-5"
         v-if="key === options.exposure.type"
+        :exposure="exposure"
+        :shadow-value="shadow"
         @customize="setExposure"
       />
       <div
@@ -48,7 +54,11 @@
       >
         <input-slider :value="warmth" class="self-center" @input="setWarm" />
       </div>
-      <colorize @customize="setColorize" v-if="key === options.colorize.type" />
+      <colorize
+        @customize="setColorize"
+        v-if="key === options.colorize.type"
+        :colorize="colorize"
+      />
     </div>
     <div
       class="bg-colorize-yellow bg-colorize-orange bg-colorize-pink bg-colorize-red bg-colorize-purple bg-colorize-indigo bg-colorize-blue bg-colorize-green"

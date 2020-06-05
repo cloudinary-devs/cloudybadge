@@ -29,6 +29,9 @@
     },
     "validation": {
       "errorEmail": "Not a valid email format"
+    },
+    "actions": {
+      "register": "Register"
     }
   },
   "leaderboard": {
@@ -83,10 +86,12 @@
       "viewVote": "View & Vote",
       "edit": "Edit again",
       "cancel": "Cancel",
-      "reset": "Reset"
+      "reset": "Reset",
+      "saving": "Saving..."
     },
     "status": {
-      "success": "Your badge has been saved."
+      "success": "Your badge has been saved.",
+      "error": "Can't save your badge at the moment. Please try again."
     }
   },
   "admin": {
@@ -102,6 +107,44 @@
     },
     "actions": {
       "logout": "Log Out"
+    },
+    "dashboard": {
+      "heading": "CloudyBADGE Admin Console",
+      "table": "Your conference list",
+      "options": {
+        "name": "Name",
+        "eventId": "Event Id",
+        "preset": "Upload Preset",
+        "logo": "Logo",
+        "badge": "Badge Template",
+        "actions": "Actions",
+        "active": "Active?"
+      },
+      "actions": {
+        "new": "New Event",
+        "edit": "Edit",
+        "delete": "Delete"
+      }
+    },
+    "newEvent": {
+      "heading": "Create New Event",
+      "actions": {
+        "addBadge": "Add Badge Template",
+        "create": "Create",
+        "save": "Save"
+      },
+      "fields": {
+        "logo": "Event logo",
+        "name": "Event Name",
+        "preset": "Event Upload Preset",
+        "id": "Event Id",
+        "location": "Event Location",
+        "activate": "Activate?"
+      },
+      "status": {
+        "creating": "Creating...",
+        "noBadge": "Need to upload badge."
+      }
     }
   },
   "version": "v0.01"

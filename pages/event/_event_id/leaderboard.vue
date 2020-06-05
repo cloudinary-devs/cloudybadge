@@ -2,7 +2,10 @@
   <div class="overflow-hidden">
     <top-bar class="py-3 items-center">
       <back
-        :link="`/event/${event.id}/`"
+        :link="{
+          path: `/event/${event.id}/`,
+          query: { vid: `${currentViewer}` },
+        }"
         class="text-white mx-4 flex"
         size="32px"
       />
@@ -107,12 +110,12 @@ export default {
   components: { TopBar, List, Thumbnail, Back },
   head() {
     return {
-      title: `Leaderboard of ${this.event.name}-${this.$t("title")}`,
+      title: `Leaderboard of ${this.event?.name}-${this.$t("title")}`,
       meta: [
         {
           hid: "description",
           name: "description",
-          content: `Leaderboard of ${this.event.name}-${this.$t("title")}`,
+          content: `Leaderboard of ${this.event?.name}-${this.$t("title")}`,
         },
       ],
     };
@@ -121,36 +124,38 @@ export default {
     return {
       heart,
       favorited,
-      leaderboard: [],
       event: null,
     };
   },
   async asyncData({ params, $axios, query }) {
-    const response = await $axios.$get(
-      `api/getLeaderboard?id=${params.event_id}`
+    const response = await $axios.$post(
+      `api/event/load?id=${params.event_id}`,
+      {
+        payload: {
+          viewKey: query.vid,
+        },
+      }
     );
+
     return !response.error
       ? {
           ...response,
-          voteId: query.vid,
         }
-      : {
-          voteId: query.vid,
-        };
+      : {};
   },
   computed: {
     users() {
-      // const { data: badges } = this.leaderboard
-
-      return this.leaderboard.sort(
-        (badgeA, badgeB) => badgeA.votes.length - badgeB.votes.length
+      return (
+        this.event?.attendants?.sort(
+          (badgeA, badgeB) => badgeA.votes.length - badgeB.votes.length
+        ) || []
       );
     },
     winners() {
-      return this.users.slice(0, 5);
+      return this.users.slice(0, 5) || [];
     },
     currentViewer() {
-      return this.$route.query?.vid;
+      return this.$route.query?.vid || "";
     },
   },
   methods: {
@@ -164,15 +169,15 @@ export default {
 };
 </script>
 <style scoped>
-.leaderboard--badge {
-  width: 250px;
-  margin-left: 1.5rem;
-  display: none;
+.list--full {
+  height: 380px;
 }
 
-@media only screen and (min-width: 650px) {
-  .leaderboard--badge {
-    display: block;
-  }
+.list--full::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.board {
+  height: calc(100% - 10px);
 }
 </style>

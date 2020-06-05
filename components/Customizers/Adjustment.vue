@@ -3,7 +3,7 @@
     <div class="flex mb-5">
       <button
         class="text-xs flex mr-3 hover:text-cloudinary"
-        @click="setRotate(-90)"
+        @click="setRotate(90)"
       >
         <svg-icon
           :icon="rotate_left.path"
@@ -16,7 +16,7 @@
       |
       <button
         class="text-xs flex mx-3 hover:text-cloudinary"
-        @click="setRotate(90)"
+        @click="setRotate(-90)"
       >
         <svg-icon
           :icon="rotate_right.path"
@@ -33,6 +33,14 @@
 import { rotate_right, rotate_left } from "@/assets/icons";
 
 export default {
+  props: {
+    adjustment: {
+      type: Object,
+      default: () => ({
+        value: 0,
+      }),
+    },
+  },
   data() {
     return {
       rotate_right,
@@ -43,7 +51,7 @@ export default {
     setRotate(rotateAngle) {
       this.$emit("customize", {
         effect: {
-          angle: rotateAngle,
+          angle: rotateAngle + this.adjustment.value,
         },
         type: "adjust",
       });

@@ -29,6 +29,18 @@ export default {
         : "https://res.cloudinary.com/mayashavin/image/upload/v1576215298/avatar_person.svg";
     },
     transformation() {
+      const transformation = this.avatar?.transformation
+        ? JSON.parse(this.avatar?.transformation.replace(/'/g, `"`))
+        : {};
+      const effect = {
+        preset: transformation.selectedPreset || {},
+        transformation: transformation.customEffects
+          ? Object.keys(transformation.customEffects).map(
+              (key) => transformation.customEffects[key]
+            )
+          : [],
+      };
+
       return this.avatar && this.avatar.public_id
         ? [
             {
@@ -38,10 +50,9 @@ export default {
               x: "6",
               y: "320",
               crop: "thumb",
-              ...(this.avatar && this.avatar.transformation
-                ? JSON.parse(this.avatar.transformation)
-                : {}),
             },
+            effect.preset || {},
+            ...(effect.transformation || []),
           ]
         : [];
     },

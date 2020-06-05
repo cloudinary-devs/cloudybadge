@@ -1,26 +1,43 @@
 <template>
   <div class="admin-dashboard">
-    <div class="flex w-full border-b py-4 items-center">
-      <div class="text-grey-darkest text-xl mx-4">Your conference list</div>
-      <nuxt-link to="/admin/1/newEvent" class="no-underline focus:outline-none">
-        <button
-          class="flex items-center uppercase px-4 py-3 hover:bg-grey-light"
-        >
-          <icon :path="add_circle" size="20" color="#613b1f" />
-          <span class="ml-3">New Event</span>
-        </button>
+    <div class="flex w-full py-4 items-center">
+      <div class="text-grey-darkest text-xl md:text-title mx-4">
+        {{ $t("admin.dashboard.table") }}
+      </div>
+      <nuxt-link
+        to="/admin/1/newEvent"
+        class="no-underline rounded focus:outline-none flex items-center uppercase px-4 py-3 bg-cloudinary-orange hover:bg-orange-700 text-white"
+      >
+        <icon
+          :icon="add_circle.path"
+          :viewBox="add_circle.viewBox"
+          size="20px"
+        />
+        <span class="ml-3 font-semibold">{{
+          $t("admin.dashboard.actions.new")
+        }}</span>
       </nuxt-link>
     </div>
-    <div class="bg-grey-light p-3 admin-dashboard--table overflow-hidden">
-      <div class="border bg-grey-darker text-white events-table-row">
-        <div class="py-2 px-3 border-r uppercase text-center">Name</div>
-        <div class="py-2 px-3 border-r uppercase text-center">Event ID</div>
+    <div class="bg-cloudinary-light p-3 admin-dashboard--table overflow-hidden">
+      <div class="border bg-cloudinary-darkest text-white events-table-row">
         <div class="py-2 px-3 border-r uppercase text-center">
-          Upload Preset
+          {{ $t("admin.dashboard.options.name") }}
         </div>
-        <div class="py-2 px-3 border-r uppercase text-center">Active</div>
-        <div class="py-2 px-3 border-r uppercase text-center">Logo</div>
-        <div class="py-2 px-3 border-r uppercase text-center">Action</div>
+        <div class="py-2 px-3 border-r uppercase text-center">
+          {{ $t("admin.dashboard.options.eventId") }}
+        </div>
+        <div class="py-2 px-3 border-r uppercase text-center">
+          {{ $t("admin.dashboard.options.preset") }}
+        </div>
+        <div class="py-2 px-3 border-r uppercase text-center">
+          {{ $t("admin.dashboard.options.active") }}
+        </div>
+        <div class="py-2 px-3 border-r uppercase text-center">
+          {{ $t("admin.dashboard.options.logo") }}
+        </div>
+        <div class="py-2 px-3 border-r uppercase text-center">
+          {{ $t("admin.dashboard.options.actions") }}
+        </div>
       </div>
       <list
         :items="events"
@@ -40,7 +57,7 @@ import List from "@/components/List.vue";
 export default {
   components: { Icon, List, EventRow },
   async asyncData({ params, $axios }) {
-    const response = await $axios.$get(`/api/getAllEvents`);
+    const response = await $axios.$get(`/api/allEvents`);
     return !response.error
       ? {
           events: response.events,

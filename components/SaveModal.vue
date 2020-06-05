@@ -34,13 +34,13 @@
       </div>
     </div>
     <div class="flex bg-white px-5 py-2 justify-center">
-      <g-link
+      <nuxt-link
         class="bg-cloudinary-green rounded hover:bg-green-700 capitalize text-xs py-2 px-5 text-white m-3 shadow"
         @click.native="close"
         :to="voteLink"
       >
         {{ $t("editBadge.actions.viewVote") }}
-      </g-link>
+      </nuxt-link>
       <button
         class="bg-cloudinary-orange rounded hover:bg-orange-700 capitalize py-2 px-5 shadow text-xs m-3"
         @click="close"

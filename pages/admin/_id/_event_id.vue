@@ -2,12 +2,12 @@
   <div class="bg-grey-light">
     <div class="flex w-full border-b py-4 items-center bg-white">
       <button
-        class="flex items-center uppercase px-4 py-3 hover:bg-grey-light mx-4"
-        @click="back"
+        class="flex items-center uppercase p-3 hover:text-cloudinary-darkest text-cloudinary-gray mx-4"
+        @click="goBack"
       >
-        Go Back
+        <icon :icon="back.path" :viewBox="back.viewBox" size="28px" />
       </button>
-      <div class="text-grey-darkest text-xl px-4 border-l">
+      <div class="text-cloudinary-gray text-xl md:text-2xl">
         Edit "{{ name }}"
       </div>
     </div>
@@ -25,7 +25,9 @@
         />
         <div v-show="!badge">
           <icon :path="add_photo" color="#bfcbd9" size="50" class="m-4" />
-          <div class="text-grey uppercase">Add badge template</div>
+          <div class="text-grey uppercase">
+            {{ $t("admin.newEvent.actions.addBadge") }}
+          </div>
         </div>
       </button>
       <form @submit.prevent="save" class="w-2/3 p-5 border bg-white">
@@ -54,79 +56,75 @@
           <div class="m-4 text-grey-light" v-show="!logo">Event logo</div>
         </div>
         <div class="flex justify-between my-3 items-center">
-          <div class="flex flex-col text-left flex-1 mr-6">
-            <label for="name">Event Name</label>
-            <input
-              name="name"
-              v-model="name"
-              type="text"
-              required
-              class="p-3 border-b mt-2"
+          <Input
+            :label="$t('admin.newEvent.fields.name')"
+            name="name"
+            :value="newName"
+            @input="newName = $event"
+            required
+            class="flex flex-col text-left flex-1 mr-6"
+          />
+          <div class="text-center mb-3 self-end">
+            <span>{{ $t("admin.newEvent.fields.activate") }}</span>
+            <toggle-button
+              :width="50"
+              :height="30"
+              v-model="active"
+              color="#48bb78"
             />
           </div>
-          <div class="text-center mt-3">
-            <span>Activate?</span>
-            <toggle-button :width="50" :height="30" v-model="active" />
-          </div>
         </div>
-        <div class="flex flex-col text-left my-3">
-          <label for="preset">Event Upload Preset</label>
-          <input
-            name="preset"
-            v-model="preset"
-            type="text"
-            required
-            class="p-3 border-b mt-2"
-          />
-        </div>
-        <div class="flex flex-col text-left my-3">
-          <label for="eventId" class="mt-3">Event Id</label>
-          <input
-            name="eventId"
-            v-model="id"
-            type="text"
-            required
-            class="p-3 border-b mt-2"
-            readonly
-            aria-readonly="true"
-          />
-        </div>
-        <div class="flex flex-col text-left my-3">
-          <label for="location" class="mt-3">Event Location</label>
-          <input
-            name="location"
-            v-model="location"
-            type="text"
-            required
-            class="p-3 border-b mt-2"
-          />
-        </div>
-        <button type="submit" class="button--green mt-4 mx-auto">Save</button>
+        <Input
+          :label="$t('admin.newEvent.fields.preset')"
+          name="preset"
+          :value="preset"
+          @input="preset = $event"
+          required
+          class="my-4"
+        />
+        <Input
+          :label="$t('admin.newEvent.fields.location')"
+          name="location"
+          :value="location"
+          @input="location = $event"
+          required
+          class="my-4"
+        />
+        <button
+          type="submit"
+          :disabled="disabled"
+          class="text-white px-5 py-3 rounded block my-8 font-semibold"
+          :class="disableClass"
+        >
+          {{ $t("admin.newEvent.actions.save") }}
+        </button>
       </form>
     </div>
   </div>
 </template>
 <script>
 import Icon from "@/components/SvgIcon.vue";
-import { add_photo } from "@/assets/icons";
+import { add_photo, back } from "@/assets/icons";
+import Input from "@/components/Input";
 
 export default {
-  components: { Icon },
+  components: { Icon, Input },
   async asyncData({ params, $axios }) {
-    const event = await $axios.$get(`api/getEvent?id=${params.event_id}`);
+    const event = await $axios.$get(`api/event/load?id=${params.event_id}`);
 
-    return !event.error ? { ...event } : {};
+    return !event.error ? { ...event, newName: event.name } : {};
   },
   data() {
     return {
-      name: "",
-      eventId: "",
+      newName: "",
+      id: "",
       preset: "",
       logo: "",
       badge: "",
       location: "",
       active: false,
       add_photo,
+      back,
     };
   },
   methods: {
@@ -142,25 +140,25 @@ export default {
       this.$toast.info("Saving event details...");
 
       const payload = {
-        name: this.name,
+        name: this.newName,
         preset: this.preset,
         logo: this.logo,
         badge: this.badge,
         location: this.location,
         active: this.active,
+        duration: this.duration,
+        _id: this._id,
+        id: this.id,
       };
 
-      const response = await this.$axios.post(
-        `/api/updateEvent?id=${this.id}`,
-        {
-          payload,
-        }
-      );
+      const response = await this.$axios.post(`/api/event/update`, {
+        payload,
+      });
 
       console.log(response);
 
-      if (response.error || response.data.error) {
-        this.$toast.error(response.data.error || response.error);
+      if (response.error) {
+        this.$toast.error(response.error);
       } else {
         this.$toast.success(
           "Event details updated succeeded. Redirecting back to event list",
@@ -204,8 +202,23 @@ export default {
 
       uploadPhotoWidget && uploadPhotoWidget.open();
     },
-    back() {
+    goBack() {
       this.$router.go(-1);
+    },
+  },
+  computed: {
+    disabled() {
+      return (
+        !this.newName ||
+        !this.preset ||
+        !this.id ||
+        !this.location ||
+        !this.logo ||
+        !this.badge
+      );
+    },
+    disableClass() {
+      return this.disabled ? "bg-gray-300" : "bg-cloudinary-green";
     },
   },
 };

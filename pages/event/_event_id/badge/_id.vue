@@ -2,7 +2,7 @@
   <div class="font-display">
     <top-bar class="py-3 text-xl">
       <back
-        :link="`/event/${badge.eventId}`"
+        :link="`/event/${badge.event.id}`"
         class="text-white ml-2 md:mx-4 self-center"
       />
       <div class="flex items-center justify-center mx-2 md:mx-3">
@@ -22,27 +22,33 @@ import TopBar from "@/components/TopBar";
 import editor from "@/mixins/editor";
 
 export default {
+  name: "EditView",
+  head() {
+    return {
+      title: `${this.badge.firstName} ${this.badge.lastName} - ${this.$t(
+        "editBadge.heading"
+      )}`,
+    };
+  },
   components: {
     Back,
     TopBar,
   },
   async asyncData({ params, query, $axios }) {
-    const response = await $axios.$get(
-      `/api/getUser?id=${params._id}&vid=${query.vid}`
+    const response = await $axios.$post(
+      `/api/badge/byKey?id=${params.id}&vid=${query.vid}&type=edit`
     );
-    const event = !response.info.error
-      ? await $axios.$get(`api/getEvent?id=${params.event_id}`)
-      : null;
 
-    return {
-      voteId: response.hasVoter && event && event.active ? query.vid : "",
-      badge: !response.info.error ? response.info.data : null,
-      event,
-      eventId: params.event_id,
-      id: params.user_id,
-      avatar: !response.info.error ? response.info.data.avatar : null,
-      ref: !response.info.error ? response.info.ref["@ref"].id : "",
-    };
+    if (response.badge) {
+      return {
+        badge: response.badge,
+      };
+    } else {
+      return {
+        error: response.error,
+        badge: {},
+      };
+    }
   },
   data() {
     return {

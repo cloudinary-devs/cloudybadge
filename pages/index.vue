@@ -65,7 +65,7 @@ export default {
     };
   },
   async asyncData({ params, $axios }) {
-    const response = await $axios.$get(`/api/getAllEvents`);
+    const response = await $axios.$get(`/api/allEvents`);
     return !response.error
       ? {
           events: response.events,

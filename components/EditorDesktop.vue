@@ -2,9 +2,9 @@
   <div class="grid grid-cols-1-3 mt-5 mb-3 mx-5">
     <div>
       <span class="py-4 block">{{ $t("editBadge.badge") }}</span>
-      <badge-comp
+      <badge
         class="flex mr-3 justify-center"
-        :badgeUrl="badge.badgeTemplate"
+        :badgeUrl="badge.event.badge"
         :name="name"
         :company="badge.company"
         :title="badge.title"
@@ -17,7 +17,7 @@
         :class="saveClass"
         @click="saveBadge"
       >
-        {{ $t("editBadge.actions.save") }}
+        {{ saveBtnLabel }}
       </button>
     </div>
     <div class="flex flex-col">
@@ -28,6 +28,7 @@
         <ClientOnly>
           <upload-btn
             class="bg-cloudinary-orange text-white rounded py-2 px-8 my-3 text-xs hover:bg-orange-700"
+            @avatar="updateAvatar"
             :config="uploadConfig"
           />
         </ClientOnly>
@@ -66,7 +67,10 @@
             class="flex flex-wrap justify-between overflow-auto h-full"
             v-show="selectedTab === 'customize' && hasAvatar"
           >
-            <transform-editor @customize="customizeEffect" />
+            <transform-editor
+              @customize="customizeEffect"
+              :effects="customEffects"
+            />
           </div>
         </div>
       </div>
@@ -78,6 +82,7 @@ import editor from "@/mixins/editor";
 import TransformEditor from "@/components/TransformEditor";
 
 export default {
+  name: "EditorDesktop",
   mixins: [editor],
   components: { TransformEditor },
   computed: {
