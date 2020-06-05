@@ -11,7 +11,10 @@ const loadEvent = async (req, res) => {
       ${conferenceByIdQuery(req.query.id)}
     }`;
 
-    const vid = req.body.payload.viewKey;
+    const vid =
+      req.body.payload && req.body.payload.viewKey
+        ? req.body.payload.viewKey
+        : "";
 
     const response = await axios.post(url, { query }, { headers });
 

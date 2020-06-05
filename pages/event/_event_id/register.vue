@@ -91,7 +91,8 @@ import Input from "@/components/Input";
 export default {
   async asyncData({ params, query, $axios }) {
     const { event } = await $axios.$post(
-      `api/event/load?id=${params.event_id}`
+      `api/event/load?id=${params.event_id}`,
+      {}
     );
 
     return !event.error ? { event } : {};
