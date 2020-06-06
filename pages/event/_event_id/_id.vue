@@ -24,12 +24,12 @@
         <span v-if="hasVoteIcon">|</span>
         <span class="mx-3">
           {{ $t("viewBadge.positionInVote") }}
-          <span class="font-semibold">{{ badge.votes.length }}</span>
+          <span class="font-semibold">{{ voters }}</span>
         </span>
         |
         <span class="mx-3">
           {{ $t("viewBadge.totalVotes") }}
-          <span class="font-semibold">{{ badge.votes.length }}</span>
+          <span class="font-semibold">{{ voters }}</span>
         </span>
       </div>
       <div
@@ -78,19 +78,28 @@ export default {
     };
   },
   async asyncData({ params, query, $axios }) {
-    const response = await $axios.$post(
-      `/api/badge/byKey?id=${params.id}&vid=${query.vid}&type=view`
-    );
+    const response = await $axios.$post(`/api/badge/view`, {
+      payload: {
+        id: params.id,
+        vid: query.vid,
+      },
+    });
 
     return {
       voteId: query.vid || "",
       badge: response.badge ? response.badge : {},
+      voters: response.voters || 0,
+      isFavorited: response.currentViewer?.voteFor === params.id || false,
+      currentViewer: response.currentViewer,
     };
   },
   data() {
     return {
       badge: null,
       voteId: "",
+      voters: [],
+      isFavorited: false,
+      currentViewer: null,
     };
   },
   computed: {
@@ -104,7 +113,7 @@ export default {
     },
     voteIcon() {
       if (this.hasVoteIcon) {
-        return this.badge.votes.includes(this.voteId) ? favorited : heart;
+        return this.isFavorited ? favorited : heart;
       }
 
       return {};
@@ -132,11 +141,19 @@ export default {
   },
   methods: {
     toggleVote() {
-      const index = this.badge.votes.indexOf(this.voteId);
+      this.isFavorited = !this.isFavorited;
 
-      index === -1
-        ? this.badge.votes.push(this.voteId)
-        : this.badge.votes.splice(index, 1);
+      if (this.currentViewer.voteFor === this.badge.viewKey) {
+        this.voters--;
+        this.currentViewer.voteFor = "";
+      } else {
+        this.voters++;
+        this.currentViewer.voteFor = this.badge.viewKey;
+      }
+
+      this.$axios.$post("/api/badge/vote", {
+        payload: this.currentViewer,
+      });
     },
   },
 };

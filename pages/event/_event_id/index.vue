@@ -12,7 +12,9 @@
     <h2
       class="text-lg md:text-2xl font-display text-center mt-5 md:mt-8 mb-4 px-2"
     >
-      {{ voteId ? $t("conference.vote") : $t("conference.registerAndVote") }}
+      {{
+        currentVoter ? $t("conference.vote") : $t("conference.registerAndVote")
+      }}
     </h2>
     <div class="flex justify-center items-center font-display my-3 md:my-5">
       <nuxt-link
@@ -27,7 +29,7 @@
       </nuxt-link>
       <nuxt-link
         :to="`/event/${event.id}/register`"
-        v-if="event.active && !voteId"
+        v-if="event.active && !currentVoter"
       >
         <div
           class="bg-cloudinary-orange hover:bg-orange-700 text-white p-3 rounded mx-2 font-semibold"
@@ -71,15 +73,19 @@
         </nuxt-link>
         <button
           class="absolute bg-white p-2 rounded-full favorite right-0 top-0 mr-5 mt-5"
-          v-if="event.active && !item.isCurrVoter"
-          @click="toggleVote(item)"
+          v-if="
+            event.active &&
+            currentVoter &&
+            item.viewKey !== currentVoter.viewKey
+          "
+          @click="vote(item)"
         >
           <svg-icon
-            :view-box="getFavoriteIcon(item.isFavorited).viewBox"
+            :view-box="getFavoriteIcon(item).viewBox"
             size="26px"
             class="hover:text-red-600"
-            :class="getColor(item.isFavorite)"
-            :icon="getFavoriteIcon(item.isFavorited).path"
+            :class="getColor(item)"
+            :icon="getFavoriteIcon(item).path"
           />
         </button>
       </div>
@@ -91,10 +97,12 @@ import TopBar from "@/components/TopBar";
 import List from "@/components/List";
 import Thumbnail from "@/components/Thumbnail";
 import Back from "@/components/BackBtn";
+import voter from "@/mixins/vote";
 import { settings, heart, favorited } from "@/assets/icons";
 
 export default {
   name: "EventView",
+  mixins: [voter],
   components: { TopBar, List, Thumbnail, Back },
   head() {
     return {
@@ -111,13 +119,12 @@ export default {
       }
     );
 
-    let favoriteBadge = "";
     return !response.error
       ? {
           ...response,
           attendants: response.event.attendants,
-          voteId: query.vid || "",
-          favoriteBadge,
+          currentVoter: response.event.currentVoter,
+          voteId: query.vid,
         }
       : {};
   },
@@ -125,9 +132,9 @@ export default {
     return {
       attendants: [],
       event: null,
-      favoriteBadge: "",
-      voteId: "",
       settings,
+      currFavorite: null,
+      currentVoter: null,
     };
   },
   computed: {
@@ -138,24 +145,13 @@ export default {
     },
   },
   methods: {
-    toggleVote(item) {
-      const currFavorite = this.attendants.find(
-        (badge) => badge.isFavorited === true
-      );
-
-      if (currFavorite) {
-        currFavorite.isFavorited = false;
-      }
-
-      if (!currFavorite || item._id !== currFavorite._id) {
-        item.isFavorited = true;
-      }
+    getFavoriteIcon(item) {
+      return this.currentVoter?.voteFor === item.viewKey ? favorited : heart;
     },
-    getFavoriteIcon(isFavorite) {
-      return isFavorite ? favorited : heart;
-    },
-    getColor(isFavorite) {
-      return isFavorite ? "text-red-600" : "text-gray-600";
+    getColor(item) {
+      return this.currentVoter?.voteFor === item.viewKey
+        ? "text-red-600"
+        : "text-gray-600";
     },
   },
 };

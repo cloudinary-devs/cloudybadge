@@ -60,11 +60,6 @@ export default {
    ** Nuxt.js modules
    */
   modules: ["@nuxtjs/axios", "@nuxtjs/toast", "@nuxtjs/tailwindcss"],
-
-  // serverMiddleware: {
-  //   '/api': '~/api/index.js'
-  // },
-
   toast: {
     position: "bottom-center",
     singleton: true,
@@ -84,5 +79,8 @@ export default {
     dir: "dist",
     extractCSS: true,
     extend(config, ctx) {},
+  },
+  generate: {
+    fallback: true,
   },
 };

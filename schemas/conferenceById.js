@@ -12,6 +12,7 @@ conferenceById(id: "${id}") {
   active
   attendants {
     data {
+      _id
       lastName
       firstName
       viewKey
@@ -19,6 +20,7 @@ conferenceById(id: "${id}") {
       company
       title
       votes
+      voteFor
       email
       avatar {
         public_id

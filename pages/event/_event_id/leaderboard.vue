@@ -43,7 +43,7 @@
                 - {{ item.firstName }} {{ item.lastName }}
               </span>
               <div class="font-semibold">
-                <span>{{ item.votes.length }}</span>
+                <span>{{ item.votes }}</span>
                 <span>/{{ users.length }}</span>
               </div>
             </div>
@@ -51,14 +51,16 @@
               <button
                 v-if="
                   event.active &&
-                  currentViewer &&
-                  currentViewer !== item.viewKey
+                  event.currentVoter &&
+                  event.currentVoter.viewKey !== item.viewKey
                 "
+                @click="toggleVote(item)"
               >
                 <svg-icon
-                  :icon="heart.path"
-                  :viewBox="heart.viewBox"
-                  class="text-white hover:text-red-600"
+                  :icon="voteIcon(item).path"
+                  :viewBox="voteIcon(item).viewBox"
+                  class="hover:text-red-600"
+                  :class="voteColor(item)"
                   size="24px"
                 />
               </button>
@@ -122,8 +124,6 @@ export default {
   },
   data() {
     return {
-      heart,
-      favorited,
       event: null,
     };
   },
@@ -133,6 +133,7 @@ export default {
       {
         payload: {
           viewKey: query.vid,
+          leaderboard: true,
         },
       }
     );
@@ -147,7 +148,7 @@ export default {
     users() {
       return (
         this.event?.attendants?.sort(
-          (badgeA, badgeB) => badgeA.votes.length - badgeB.votes.length
+          (badgeA, badgeB) => badgeB.votes - badgeA.votes
         ) || []
       );
     },
@@ -164,6 +165,40 @@ export default {
       const bgs = ["pale", "pink", "indigo", "sunny", "sea"];
 
       return `${marginBottom} bg-cloudinary-${bgs[id]}`;
+    },
+    voteIcon(item) {
+      return this.event.currentVoter.voteFor === item.viewKey
+        ? favorited
+        : heart;
+    },
+    voteColor(item) {
+      return this.event.currentVoter.voteFor === item.viewKey
+        ? "text-red-600"
+        : "text-white";
+    },
+    toggleVote(item) {
+      const attendant = this.event.attendants.find((a) => a._id === item._id);
+      const currFavorite = this.event.attendants.find(
+        (a) => a.viewKey === this.event.currentVoter.voteFor
+      );
+
+      if (this.event.currentVoter.voteFor === item.viewKey) {
+        // item.votes--;
+        attendant.votes--;
+        this.event.currentVoter.voteFor = "";
+      } else {
+        // item.votes++;
+        attendant.votes++;
+        if (currFavorite) {
+          currFavorite.votes--;
+        }
+
+        this.event.currentVoter.voteFor = item.viewKey;
+      }
+
+      this.$axios.$post("/api/badge/vote", {
+        payload: this.event.currentVoter,
+      });
     },
   },
 };

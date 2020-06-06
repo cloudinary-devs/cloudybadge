@@ -10,6 +10,7 @@ const query = () => `
       email
       eventId
       votes
+      voteFor
       avatar {
         public_id
         transformation

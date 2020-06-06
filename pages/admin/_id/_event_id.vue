@@ -155,8 +155,6 @@ export default {
         payload,
       });
 
-      console.log(response);
-
       if (response.error) {
         this.$toast.error(response.error);
       } else {
@@ -185,7 +183,6 @@ export default {
     uploadLogo() {
       const uploadPhotoWidget = this.initUploadWidget((error, result) => {
         if (!error && result && result.event === "success") {
-          console.log(result.info);
           this.logo = result.info.public_id;
         }
       });
@@ -195,7 +192,6 @@ export default {
     uploadBadge() {
       const uploadPhotoWidget = this.initUploadWidget((error, result) => {
         if (!error && result && result.event === "success") {
-          console.log(result.info);
           this.badge = result.info.public_id;
         }
       });

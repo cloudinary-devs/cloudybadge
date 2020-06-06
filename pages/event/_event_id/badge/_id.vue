@@ -35,9 +35,11 @@ export default {
     TopBar,
   },
   async asyncData({ params, query, $axios }) {
-    const response = await $axios.$post(
-      `/api/badge/byKey?id=${params.id}&vid=${query.vid}&type=edit`
-    );
+    const response = await $axios.$post(`/api/badge/edit`, {
+      payload: {
+        id: params.id,
+      },
+    });
 
     if (response.badge) {
       return {

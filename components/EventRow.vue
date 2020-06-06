@@ -61,7 +61,6 @@ export default {
       });
     },
     deleteIt() {
-      console.log("delete");
       const modal = this.$modal;
 
       this.$modal.show("dialog", {

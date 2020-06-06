@@ -11,7 +11,8 @@ createBadge(
     }
     editKey: "${data.editKey}"
     viewKey: "${data.viewKey}"
-    votes: []
+    votes: 0
+    voteFor: ""
   }
 ) {
   editKey

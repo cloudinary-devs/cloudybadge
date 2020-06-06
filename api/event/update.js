@@ -13,7 +13,6 @@ module.exports = async (req, res) => {
   try {
     const response = await axios.post(url, { query }, { headers });
 
-    console.log(response.data);
     const { updateConference: event } = response.data.data;
 
     return res.json({

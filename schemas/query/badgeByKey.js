@@ -24,7 +24,9 @@ ${queryHeaders[type](key)} {
   }
   email
   votes
+  voteFor
   editKey
+  viewKey
   event {
     badge
     id

@@ -45,4 +45,8 @@ export default {
   width: 240px;
   height: 165px;
 }
+
+.cld-image > img {
+  height: 50px;
+}
 </style>
