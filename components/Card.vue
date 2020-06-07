@@ -11,7 +11,7 @@
         width="50"
         crop="scale"
         height="50"
-        class="justify-center flex"
+        class="justify-center flex card--container-img"
       />
       <div class="font-semibold text-green-900">{{ name }}</div>
       <div class="text-gray-500 text-sm">{{ location }}</div>
@@ -45,8 +45,9 @@ export default {
   width: 240px;
   height: 165px;
 }
-
-.cld-image > img {
+</style>
+<style>
+.card--container-img img {
   height: 50px;
 }
 </style>

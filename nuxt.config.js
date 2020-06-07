@@ -1,9 +1,7 @@
 import pkg from "./package";
-const path = require("path");
 
 export default {
   mode: "spa",
-
   /*
    ** Headers of the page
    */
@@ -36,14 +34,6 @@ export default {
    ** Customize the progress-bar color
    */
   loading: { color: "#fff" },
-
-  /*
-   ** Global CSS
-   */
-  // css: [
-  //   '~/assets/css/tailwind.css'
-  // ],
-
   /*
    ** Plugins to load before mounting the App
    */
