@@ -10,8 +10,8 @@
       "baseURL": "@base_url"
     }
   },
-  "routes": {
+  "routes": [
     { "handle": "filesystem" },
     { "src": "/.*", "dest": "/index.html" }
-  }
+  ]
 }
