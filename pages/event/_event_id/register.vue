@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="bg-cloudinary text-white text-center font-display">
+    <div class="bg-primary-500 text-white text-center font-display">
       <h2 class="py-3 text-2xl">
         {{ $t("register.title") }} {{ $t("title") }}
       </h2>

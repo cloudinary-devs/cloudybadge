@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="bg-cloudinary py-5 flex flex-col items-center">
+    <div class="bg-primary-500 py-5 flex flex-col items-center">
       <div class="flex items-center justify-center">
         <c-image
           cloudName="cloudinary"
@@ -11,7 +11,7 @@
           crop="scale"
         />
         <h1
-          class="mx-3 font-display self-end text-cloudinary-light text-title leading-title"
+          class="mx-3 font-display self-end text-white text-title leading-title"
         >
           {{ $t("title") }}
         </h1>
@@ -25,7 +25,7 @@
     <div class="overflow-auto flex flex-col flex-1">
       <main class="mt-5 bg-grey flex-1">
         <div class="mx-8">
-          <div class="text-2xl font-display text-center text-cloudinary">
+          <div class="text-2xl font-display text-center text-primary-700">
             {{ $t("landing.activeEvents") }}
           </div>
           <list
@@ -37,7 +37,7 @@
           </list>
         </div>
         <div class="mrt3 mx-8" v-if="pastConfs.length > 0">
-          <div class="text-2xl font-display text-center text-cloudinary">
+          <div class="text-2xl font-display text-center text-primary-700">
             {{ $t("landing.pastEvents") }}
           </div>
           <list

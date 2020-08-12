@@ -18,7 +18,7 @@
       </c-image>
     </div>
     <h4
-      class="uppercase text-center m-2 text-sm text-cloudinary px-3"
+      class="uppercase text-center m-2 text-sm text-primary-600 px-3"
       :class="chosenEffectClass"
     >
       {{ $t(`editBadge.effects.${effect.name}`) }}

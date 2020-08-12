@@ -1,7 +1,7 @@
 <template>
   <div class="admin-dashboard">
     <div class="flex w-full py-4 items-center">
-      <div class="text-grey-darkest text-xl md:text-title mx-4">
+      <div class="text-primary-800 text-xl md:text-title mx-4">
         {{ $t("admin.dashboard.table") }}
       </div>
       <nuxt-link
@@ -19,7 +19,7 @@
       </nuxt-link>
     </div>
     <div class="bg-cloudinary-light p-3 admin-dashboard--table overflow-hidden">
-      <div class="border bg-cloudinary-darkest text-white events-table-row">
+      <div class="border bg-primary-700 text-white events-table-row">
         <div class="py-2 px-3 border-r uppercase text-center">
           {{ $t("admin.dashboard.options.name") }}
         </div>

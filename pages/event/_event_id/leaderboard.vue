@@ -18,7 +18,7 @@
     </top-bar>
     <div class="overflow-y-auto board">
       <h2
-        class="text-lg md:text-2xl font-display text-center my-3 md:my-5 md:mt-8 md:mb-6 px-2"
+        class="text-lg md:text-2xl font-display text-center my-3 md:my-5 md:mt-8 md:mb-6 px-2 text-primary-700"
       >
         {{ $t("leaderboard.heading") }}
       </h2>
@@ -84,7 +84,7 @@
           <list
             :items="users"
             list
-            class="my-2 list--full overflow-y-auto text-cloudinary"
+            class="my-2 list--full overflow-y-auto text-primary-600"
           >
             <div slot-scope="item" class="py-1">
               <span class="ml-4">

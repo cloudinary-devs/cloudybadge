@@ -77,7 +77,7 @@ const editor = {
     },
     tabClass(tab) {
       return this.selectedTab === tab
-        ? "bg-cloudinary-light text-cloudinary"
+        ? "bg-cloudinary-light text-primary-600"
         : "border-b text-gray-500";
     },
     applyEffect(effect) {

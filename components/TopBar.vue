@@ -1,5 +1,5 @@
 <template>
-  <header class="grid bg-cloudinary text-white header-container">
+  <header class="grid bg-primary-500 text-white header-container">
     <slot />
   </header>
 </template>

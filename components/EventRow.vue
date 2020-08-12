@@ -22,13 +22,13 @@
       class="border-r text-center uppercase border-l h-full flex items-center justify-center py-2"
     >
       <button
-        class="hover:bg-cloudinary-light p-3 mr-3 uppercase rounded"
+        class="hover:bg-cloudinary-light p-3 mr-3 uppercase rounded text-primary-600"
         @click="edit"
       >
         {{ $t("admin.dashboard.actions.edit") }}
       </button>
       <button
-        class="hover:bg-cloudinary-light rounded p-3 uppercase"
+        class="hover:bg-cloudinary-light rounded p-3 uppercase text-red-600"
         @click="deleteIt"
       >
         {{ $t("admin.dashboard.actions.delete") }}

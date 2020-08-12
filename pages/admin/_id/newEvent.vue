@@ -1,7 +1,7 @@
 <template>
   <div class="bg-grey-light">
     <div class="flex w-full py-4 md:my-4 items-center justify-center bg-white">
-      <h2 class="text-grey-darkest text-xl md:text-3xl mx-4">
+      <h2 class="text-primary-800 text-xl md:text-3xl mx-4">
         {{ $t("admin.newEvent.heading") }}
       </h2>
     </div>

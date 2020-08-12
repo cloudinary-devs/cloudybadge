@@ -9,7 +9,7 @@
         >
           {{ name }}:
         </span>
-        <span class="text-cloudinary break-words ml-2">"{{ value }}",</span>
+        <span class="text-primary-600 break-words ml-2">"{{ value }}",</span>
       </div>
       <div v-else>
         <span

@@ -1,8 +1,8 @@
 <template>
   <div class="flex flex-col self-start justify-center px-8 py-5">
-    <div class="flex mb-5">
+    <div class="flex mb-5 md:mb-0 items-center">
       <button
-        class="text-xs flex mr-3 hover:text-cloudinary"
+        class="text-xs flex mr-3 hover:text-primary-600"
         @click="setRotate(90)"
       >
         <svg-icon
@@ -15,7 +15,7 @@
       </button>
       |
       <button
-        class="text-xs flex mx-3 hover:text-cloudinary"
+        class="text-xs flex mx-3 hover:text-primary-600"
         @click="setRotate(-90)"
       >
         <svg-icon

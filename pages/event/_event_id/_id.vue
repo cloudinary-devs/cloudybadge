@@ -36,14 +36,14 @@
         class="bg-cloudinary-light flex-1 justify-center md:grid grid-cols-2 lg:px-20 gap-8 px-3 py-5 sm:py-8 sm:px-8 overflow-auto"
       >
         <div
-          class="code--box bg-cloudinary-darker px-2 mx-5 md:mx-0 flex flex-col h-fit"
+          class="code--box bg-primary-50 border mx-5 md:mx-0 flex flex-col h-fit"
         >
           <span
-            class="text-white px-3 py-4 border-b border-gray-400 w-100 font-display"
+            class="text-white px-5 py-4 border-b border-gray-400 w-100 font-display bg-secondary-400"
           >
             {{ $t("viewBadge.transformationEffect") }}
           </span>
-          <effects :effect="effect" class="mt-5 mx-3 mb-8 font-hairline" />
+          <effects :effect="effect" class="mt-5 mx-3 mb-8 font-hairline px-2" />
         </div>
         <div class="badge mt-8 md:mt-0">
           <badge

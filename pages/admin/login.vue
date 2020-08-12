@@ -11,7 +11,7 @@
           crop="scale"
         />
         <h1
-          class="mx-3 font-display self-end text-cloudinary-light text-title leading-title"
+          class="mx-3 font-display self-end text-white text-title leading-title"
         >
           {{ $t("title") }}
         </h1>

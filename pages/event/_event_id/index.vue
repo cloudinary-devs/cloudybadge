@@ -10,7 +10,7 @@
       </div>
     </top-bar>
     <h2
-      class="text-lg md:text-2xl font-display text-center mt-5 md:mt-8 mb-4 px-2"
+      class="text-lg md:text-2xl font-display text-center mt-5 md:mt-8 mb-4 px-2 text-primary-700"
     >
       {{
         currentVoter ? $t("conference.vote") : $t("conference.registerAndVote")
@@ -54,7 +54,7 @@
           <svg-icon
             :view-box="settings.viewBox"
             size="26px"
-            class="text-gray-500 hover:text-cloudinary"
+            class="text-gray-500 hover:text-primary-600"
             :icon="settings.path"
           />
         </nuxt-link>
@@ -69,12 +69,12 @@
             class="ma-6 border-4 rounded-full border-white badge--thumbnail"
           />
           <div
-            class="text-md text-cloudinary font-semibold text-center mt-3 font-display"
+            class="text-md text-primary-600 font-semibold text-center mt-3 font-display"
           >
             {{ item.firstName }}
           </div>
           <div
-            class="text-md text-cloudinary font-semibold text-center font-display"
+            class="text-md text-primary-600 font-semibold text-center font-display"
           >
             {{ item.lastName }}
           </div>
