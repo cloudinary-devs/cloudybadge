@@ -2,7 +2,6 @@
   "version": 2,
   "build": {
     "env": {
-      "CLOUDYBADGE_CLOUDNAME": "@cloudybadge_cloudname",
       "FAUNADB": "@faunadb",
       "SENDGRID_EMAIL": "@sendgrid_email",
       "SENDGRID_API_KEY": "@sendgrid_api_key",
