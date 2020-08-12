@@ -4,38 +4,32 @@
       <back link="/" class="text-white mx-4" size="32px" />
       <div class="flex items-center justify-center mx-3">
         <c-image :public-id="event.logo" width="50" crop="scale" />
-        <h2 class="mx-3 font-display text-xl md:text-title text-center">
+        <h2 class="mx-3 text-xl md:text-title text-center">
           {{ event.name }}
         </h2>
       </div>
     </top-bar>
     <h2
-      class="text-lg md:text-2xl font-display text-center mt-5 md:mt-8 mb-4 px-2 text-primary-700"
+      class="text-lg md:text-2xl text-center mt-5 md:mt-8 mb-4 px-2 text-primary-700"
     >
       {{
         currentVoter ? $t("conference.vote") : $t("conference.registerAndVote")
       }}
     </h2>
-    <div class="flex justify-center items-center font-display my-3 md:my-5">
+    <div class="flex justify-center items-center my-3 md:my-5">
       <nuxt-link
         :to="`/event/${event.id}/leaderboard?vid=${voteId}`"
         v-if="badges && badges.length"
+        class="bg-cloudinary-green hover:bg-green-700 text-white font-semibold p-3 rounded mx-2 m-auto"
       >
-        <div
-          class="bg-cloudinary-green hover:bg-green-700 text-white font-semibold p-3 rounded mx-2 m-auto"
-        >
-          {{ $t("conference.viewBoard") }}
-        </div>
+        {{ $t("conference.viewBoard") }}
       </nuxt-link>
       <nuxt-link
         :to="`/event/${event.id}/register`"
         v-if="event.active && !currentVoter"
+        class="bg-cloudinary-orange hover:bg-orange-700 text-white p-3 rounded mx-2 font-semibold"
       >
-        <div
-          class="bg-cloudinary-orange hover:bg-orange-700 text-white p-3 rounded mx-2 font-semibold"
-        >
-          {{ $t("conference.register") }}
-        </div>
+        {{ $t("conference.register") }}
       </nuxt-link>
     </div>
     <list
@@ -61,6 +55,7 @@
         <nuxt-link
           :to="`/event/${event.id}/${item.viewKey}?vid=${voteId}`"
           :aria-label="`Badge of ${item.firstName} ${item.lastName}`"
+          class="text-md text-primary-600 font-semibold text-center"
         >
           <thumbnail
             :id="item.viewKey"
@@ -68,20 +63,16 @@
             :avatar="item.avatar"
             class="ma-6 border-4 rounded-full border-white badge--thumbnail"
           />
-          <div
-            class="text-md text-primary-600 font-semibold text-center mt-3 font-display"
-          >
+          <div class="mt-3">
             {{ item.firstName }}
           </div>
-          <div
-            class="text-md text-primary-600 font-semibold text-center font-display"
-          >
+          <div>
             {{ item.lastName }}
           </div>
         </nuxt-link>
         <button
           :aria-label="`Vote for badge of ${item.firstName} ${item.lastName}`"
-          class="absolute bg-white p-2 rounded-full favorite right-0 top-0 mr-5 mt-5"
+          class="absolute bg-white p-2 rounded-full right-0 top-0 mr-5 mt-5"
           v-if="isActiveVoter && item.viewKey !== currentVoter.viewKey"
           @click="vote(item)"
         >
@@ -159,17 +150,3 @@ export default {
   },
 };
 </script>
-<style scoped>
-.user--icon {
-  top: 0;
-  right: 0;
-  padding: 15px;
-}
-
-.event-container {
-  display: grid;
-  grid-template-rows: min-content min-content min-content auto;
-  overflow: hidden;
-  grid-gap: 1rem;
-}
-</style>

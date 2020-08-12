@@ -20,7 +20,7 @@ export default {
   },
   computed: {
     itemClass() {
-      return `list--item pa-2 ${this.grid ? "grid--view" : ""}`;
+      return `w-full pa-2 ${this.grid ? "md:w-auto" : ""}`;
     },
     filterItems() {
       return this.items;
@@ -31,8 +31,3 @@ export default {
   },
 };
 </script>
-<style scoped>
-.list--item:not(.grid--view) {
-  width: 100%;
-}
-</style>

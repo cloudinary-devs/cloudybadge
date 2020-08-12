@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="bg-primary-500 text-white text-center font-display">
+    <div class="bg-primary-500 text-white text-center">
       <h2 class="py-3 text-2xl">
         {{ $t("register.title") }} {{ $t("title") }}
       </h2>
@@ -27,7 +27,7 @@
     </div>
     <div
       v-if="event"
-      class="flex flex-col flex-1 items-center justify-center font-display relative"
+      class="flex flex-col flex-1 items-center justify-center relative"
     >
       <form @submit.prevent="register" class="mt-5 w-5/6 overflow-auto">
         <Input

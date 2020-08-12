@@ -11,14 +11,14 @@
       />
       <div class="flex items-center justify-center mx-3">
         <c-image :public-id="event.logo" width="50" crop="scale" />
-        <h2 class="mx-3 font-display text-xl md:text-title text-center">
+        <h2 class="mx-3 text-xl md:text-title text-center">
           {{ event.name }}
         </h2>
       </div>
     </top-bar>
     <div class="overflow-y-auto board">
       <h2
-        class="text-lg md:text-2xl font-display text-center my-3 md:my-5 md:mt-8 md:mb-6 px-2 text-primary-700"
+        class="text-lg md:text-2xl text-center my-3 md:my-5 md:mt-8 md:mb-6 px-2 text-primary-700"
       >
         {{ $t("leaderboard.heading") }}
       </h2>
@@ -28,7 +28,7 @@
         <list :items="winners" list class="flex flex-col mt-2 md:mt-3">
           <div
             slot-scope="item"
-            class="flex font-display justify-between items-center text-white p-3"
+            class="flex justify-between items-center text-white p-3"
             :class="getClassRow(item.id)"
           >
             <div class="flex items-center">
@@ -66,8 +66,6 @@
               </button>
               <c-image
                 public-id="_cloudybadge/resources/trophy"
-                fetchFormat="auto"
-                quality="auto"
                 width="32"
                 crop="scale"
                 v-else-if="item.id === 0 && !event.active"
@@ -75,7 +73,7 @@
             </div>
           </div>
         </list>
-        <div class="font-display bg-cloudinary-light p-6 mt-3">
+        <div class="bg-cloudinary-light p-6 mt-3">
           <h4
             class="border-b border-gray-500 px-2 pb-1 mr-6 text-md font-semibold"
           >
@@ -93,9 +91,6 @@
               </span>
             </div>
           </list>
-          <div
-            class="bg-cloudinary-pink bg-cloudinary-pale bg-cloudinary-indigo bg-cloudinary-sunny bg-cloudinary-sea"
-          />
         </div>
       </div>
     </div>
@@ -178,11 +173,9 @@ export default {
       );
 
       if (this.event.currentVoter.voteFor === item.viewKey) {
-        // item.votes--;
         attendant.votes--;
         this.event.currentVoter.voteFor = "";
       } else {
-        // item.votes++;
         attendant.votes++;
         if (currFavorite) {
           currFavorite.votes--;

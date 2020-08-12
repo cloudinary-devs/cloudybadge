@@ -97,4 +97,13 @@ export default {
   generate: {
     fallback: "404.html",
   },
+  purgeCSS: {
+    whitelist: [
+      "bg-cloudinary-pink",
+      "bg-cloudinary-pale",
+      "bg-cloudinary-indigo",
+      "bg-cloudinary-sunny",
+      "bg-cloudinary-sea",
+    ],
+  },
 };

@@ -1,20 +1,19 @@
 <template>
-  <li
-    class="flex card--container bg-cloudinary-light hover:shadow mr-3 mb-3 flex-1"
-  >
+  <li class="flex md:w-64 bg-primary-200 hover:shadow mr-3 mb-3 flex-1 rounded">
     <nuxt-link
       :to="link"
-      class="grid grid-rows-grid-card gap-2 p-4 outline-none no-underline text-green-darker items-center text-center w-full"
+      class="grid grid-rows-grid-card gap-2 p-4 outline-none no-underline text-secondary-600 items-center text-center w-full"
     >
       <c-image
+        :alt="name"
         :public-id="logo"
         width="50"
         crop="scale"
         height="50"
         class="justify-center flex card--container-img mx-auto"
       />
-      <div class="font-semibold text-green-900 truncate">{{ name }}</div>
-      <div class="text-gray-500 text-sm capitalize">{{ location }}</div>
+      <div class="font-semibold text-secondary-600 truncate">{{ name }}</div>
+      <div class="text-secondary-500 text-sm capitalize">{{ location }}</div>
     </nuxt-link>
   </li>
 </template>
@@ -40,14 +39,3 @@ export default {
   },
 };
 </script>
-<style scoped>
-.card--container {
-  width: 240px;
-  height: 165px;
-}
-</style>
-<style>
-.card--container-img img {
-  height: 50px;
-}
-</style>

@@ -1,7 +1,7 @@
 <template>
-  <div class="layout flex flex-col flex-1 h-full">
+  <div class="mx-auto my-0 flex flex-col flex-1 h-full">
     <slot name="header" />
-    <nuxt class="flex-1" />
+    <nuxt class="flex-1 font-display flex flex-col" />
     <footer class="w-100 bg-primary-700">
       <div class="text-center text-white font-display">
         {{ $t("title") }} {{ $t("version") }}
@@ -19,26 +19,7 @@ body,
 }
 
 body {
-  font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto,
-    "Helvetica Neue", Arial, sans-serif;
-  margin: 0;
-  padding: 0;
+  @apply m-0 p-0 font-display;
   line-height: 1.5;
-}
-
-.layout {
-  margin: 0 auto;
-}
-
-.header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-  height: 80px;
-}
-
-.nav__link {
-  margin-left: 20px;
 }
 </style>
