@@ -73,6 +73,7 @@ export default {
     };
   },
   async asyncData({ params, query, $axios }) {
+    const vid = query.vid && query.vid !== "undefined" ? query.vid : "";
     const response = await $axios.$post(`/api/badge/view`, {
       payload: {
         id: params.id,
@@ -81,7 +82,7 @@ export default {
     });
 
     return {
-      voteId: query.vid || "",
+      voteId: vid,
       badge: response.badge ? response.badge : {},
       voters: response.voters || 0,
       isFavorited: response.currentViewer?.voteFor === params.id || false,

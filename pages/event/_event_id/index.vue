@@ -45,15 +45,23 @@
       v-if="badges && badges.length > 0"
     >
       <div slot-scope="item" class="m-6 relative">
-        <button class="absolute bg-white p-2 rounded-full settings ml-5 mt-5">
+        <nuxt-link
+          :to="`/event/${event.id}/badge/${voteId}`"
+          class="absolute bg-white p-2 rounded-full settings ml-5 mt-5"
+          aria-label="Modify your badge"
+          v-if="isActiveVoter && item.viewKey === currentVoter.viewKey"
+        >
           <svg-icon
             :view-box="settings.viewBox"
             size="26px"
             class="text-gray-500 hover:text-cloudinary"
             :icon="settings.path"
           />
-        </button>
-        <nuxt-link :to="`/event/${event.id}/${item.viewKey}?vid=${voteId}`">
+        </nuxt-link>
+        <nuxt-link
+          :to="`/event/${event.id}/${item.viewKey}?vid=${voteId}`"
+          :aria-label="`Badge of ${item.firstName} ${item.lastName}`"
+        >
           <thumbnail
             :id="item.viewKey"
             width="250"
@@ -72,12 +80,9 @@
           </div>
         </nuxt-link>
         <button
+          :aria-label="`Vote for badge of ${item.firstName} ${item.lastName}`"
           class="absolute bg-white p-2 rounded-full favorite right-0 top-0 mr-5 mt-5"
-          v-if="
-            event.active &&
-            currentVoter &&
-            item.viewKey !== currentVoter.viewKey
-          "
+          v-if="isActiveVoter && item.viewKey !== currentVoter.viewKey"
           @click="vote(item)"
         >
           <svg-icon
@@ -119,7 +124,7 @@ export default {
           ...response,
           attendants: response.event.attendants,
           currentVoter: response.event.currentVoter,
-          voteId: query.vid,
+          voteId: query.vid && query.vid !== "undefined" ? query.vid : "",
         }
       : {};
   },
@@ -137,6 +142,9 @@ export default {
       return this.attendants.sort(function () {
         return 0.5 - Math.random();
       });
+    },
+    isActiveVoter() {
+      return this.event.active && this.currentVoter;
     },
   },
   methods: {
