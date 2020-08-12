@@ -26,7 +26,7 @@
           {{ editorInstructions }}
         </span>
         <ClientOnly>
-          <upload-btn
+          <upload
             class="bg-cloudinary-orange text-white rounded py-2 px-8 my-3 text-xs hover:bg-orange-700"
             @avatar="updateAvatar"
             :config="uploadConfig"

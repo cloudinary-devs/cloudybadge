@@ -102,14 +102,9 @@
   </div>
 </template>
 <script>
-import TopBar from "@/components/TopBar";
-import Thumbnail from "@/components/Thumbnail";
-import Back from "@/components/BackBtn";
-import List from "@/components/List";
 import { heart, favorited } from "@/assets/icons";
 
 export default {
-  components: { TopBar, List, Thumbnail, Back },
   head() {
     return {
       title: `Leaderboard of ${this.event?.name}-${this.$t("title")}`,

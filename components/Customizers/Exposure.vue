@@ -15,10 +15,7 @@
   </div>
 </template>
 <script>
-import InputSlider from "@/components/InputSlider";
-
 export default {
-  components: { InputSlider },
   props: {
     exposure: {
       type: Object,

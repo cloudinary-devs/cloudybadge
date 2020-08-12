@@ -61,14 +61,9 @@
   </div>
 </template>
 <script>
-import TopBar from "@/components/TopBar";
-import Effects from "@/components/Effects";
-import Badge from "@/components/Badge";
-import Back from "@/components/BackBtn";
 import { favorited, heart } from "@/assets/icons";
 
 export default {
-  components: { TopBar, Effects, Badge, Back },
   name: "BadgeView",
   head() {
     return {
@@ -78,6 +73,7 @@ export default {
     };
   },
   async asyncData({ params, query, $axios }) {
+    const vid = query.vid && query.vid !== "undefined" ? query.vid : "";
     const response = await $axios.$post(`/api/badge/view`, {
       payload: {
         id: params.id,
@@ -86,7 +82,7 @@ export default {
     });
 
     return {
-      voteId: query.vid || "",
+      voteId: vid,
       badge: response.badge ? response.badge : {},
       voters: response.voters || 0,
       isFavorited: response.currentViewer?.voteFor === params.id || false,

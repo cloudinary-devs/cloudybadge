@@ -4441,16 +4441,6 @@ cloudinary-video-player@^1.1.1:
     webfontloader "^1.6.28"
     wolfy87-eventemitter "^5.1.0"
 
-cloudinary-vue@^1.0.0:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/cloudinary-vue/-/cloudinary-vue-1.0.1.tgz#4b0d3fb28f42ad5e494c7272e77ec447ab2df168"
-  integrity sha512-g322hWhWQgBPJQReTb4rGyn6Ax1iw/4Hbrzw4yvdllJRTNt00O7jEtS3u8u9RLuswn2egjN3n8kodLEeGBLugA==
-  dependencies:
-    cloudinary-core "^2.6.3"
-    cloudinary-video-player "^1.1.1"
-    core-js "2.6.9"
-    vue "^2.6.10"
-
 cloudinary-vue@^1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/cloudinary-vue/-/cloudinary-vue-1.1.1.tgz#4129a76b9aebc7dda0e2e711ad13348c12601aef"
@@ -8781,6 +8771,13 @@ number-is-nan@^1.0.0:
   resolved "https://registry.yarnpkg.com/number-is-nan/-/number-is-nan-1.0.1.tgz#097b602b53422a522c1afb8790318336941a011d"
   integrity sha1-CXtgK1NCKlIsGvuHkDGDNpQaAR0=
 
+nuxt-clipboard2@^0.2.1:
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/nuxt-clipboard2/-/nuxt-clipboard2-0.2.1.tgz#1ee042085d96fe819122ba12171b03d440c342a3"
+  integrity sha512-NZl9UpcLjePt3CRhYSmJiv7af5IiI1DRrmesGawapjImmWZ2cO+UqflimIlBqIXjJSnz3ZsaPxX4639UgkxYTA==
+  dependencies:
+    vue-clipboard2 "0.2.1"
+
 nuxt-i18n@^6.13.8:
   version "6.13.8"
   resolved "https://registry.yarnpkg.com/nuxt-i18n/-/nuxt-i18n-6.13.8.tgz#d717c4f32efa877c47fb2b68d736c898d5ae260e"
@@ -12414,6 +12411,13 @@ vue-client-only@^2.0.0:
   resolved "https://registry.yarnpkg.com/vue-client-only/-/vue-client-only-2.0.0.tgz#ddad8d675ee02c761a14229f0e440e219de1da1c"
   integrity sha512-arhk1wtWAfLsJyxGMoEYhoBowM87/i6HLSG2LH/03Yog6i2d9JEN1peMP0Ceis+/n9DxdenGYZZTxbPPJyHciA==
 
+vue-clipboard2@0.2.1:
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/vue-clipboard2/-/vue-clipboard2-0.2.1.tgz#9f06690af1c98aef344be1fc4beb00cdc5307ee1"
+  integrity sha512-n6ie/0g0bKohmLlC/5ja1esq2Q0jQ5hWmhNSZcvCsWfDeDnVARjl6cBB9p72XV1nlVfuqsZcfV8HTjjZAIlLBA==
+  dependencies:
+    clipboard "^2.0.0"
+
 vue-debounce@^2.5.6:
   version "2.5.7"
   resolved "https://registry.yarnpkg.com/vue-debounce/-/vue-debounce-2.5.7.tgz#4e2aee484ea46be343242639ea56ddcd96ab3431"
@@ -12524,7 +12528,7 @@ vue@2.6.10:
   resolved "https://registry.yarnpkg.com/vue/-/vue-2.6.10.tgz#a72b1a42a4d82a721ea438d1b6bf55e66195c637"
   integrity sha512-ImThpeNU9HbdZL3utgMCq0oiMzAkt1mcgy3/E6zWC/G6AaQoeuFdsl9nDhTDU3X1R6FK7nsIUuRACVcjI+A2GQ==
 
-vue@^2.6.10, vue@^2.6.11:
+vue@^2.6.11:
   version "2.6.11"
   resolved "https://registry.yarnpkg.com/vue/-/vue-2.6.11.tgz#76594d877d4b12234406e84e35275c6d514125c5"
   integrity sha512-VfPwgcGABbGAue9+sfrD4PuwFar7gPb1yl1UK1MwXoQPAw0BKSqWfoYCT/ThFrdEVWoI51dBuyCoiNU9bZDZxQ==

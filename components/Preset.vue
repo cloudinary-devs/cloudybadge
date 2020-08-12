@@ -37,10 +37,8 @@
 </template>
 <script>
 import { isMobileOnly } from "mobile-device-detect";
-import Effects from "@/components/Effects";
 
 export default {
-  components: { Effects },
   props: {
     effect: {
       type: Object,
