@@ -12,7 +12,7 @@
       </div>
       <div></div>
       <div class="flex items-center">
-        <icon
+        <svg-icon
           :icon="person.path"
           :viewBox="person.viewBox"
           size="24"
@@ -31,14 +31,9 @@
   </div>
 </template>
 <script>
-import Icon from "@/components/SvgIcon.vue";
-import TopBar from "@/components/TopBar.vue";
-import EventRow from "@/components/EventRow.vue";
 import { person } from "@/assets/icons";
-import List from "@/components/List.vue";
 
 export default {
-  components: { TopBar, Icon, List, EventRow },
   head() {
     return {
       title: this.$t("admin.dashboard.heading"),

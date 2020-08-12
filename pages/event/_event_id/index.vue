@@ -93,17 +93,12 @@
   </div>
 </template>
 <script>
-import TopBar from "@/components/TopBar";
-import List from "@/components/List";
-import Thumbnail from "@/components/Thumbnail";
-import Back from "@/components/BackBtn";
 import voter from "@/mixins/vote";
 import { settings, heart, favorited } from "@/assets/icons";
 
 export default {
   name: "EventView",
   mixins: [voter],
-  components: { TopBar, List, Thumbnail, Back },
   head() {
     return {
       title: `${this.event.name}-${this.$t("title")}`,

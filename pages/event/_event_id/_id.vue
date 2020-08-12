@@ -61,14 +61,9 @@
   </div>
 </template>
 <script>
-import TopBar from "@/components/TopBar";
-import Effects from "@/components/Effects";
-import Badge from "@/components/Badge";
-import Back from "@/components/BackBtn";
 import { favorited, heart } from "@/assets/icons";
 
 export default {
-  components: { TopBar, Effects, Badge, Back },
   name: "BadgeView",
   head() {
     return {

@@ -4,7 +4,7 @@
     <div class="py-2 px-3 border-r text-center h-full">{{ item.id }}</div>
     <div class="py-2 px-3 border-r text-center h-full">{{ item.id }}</div>
     <div class="py-2 px-3 border-r text-center h-full">
-      <icon
+      <svg-icon
         :icon="item.active ? event_active.path : event_inactive.path"
         :viewBox="item.active ? event_active.viewBox : event_inactive.viewBox"
         class="flex justify-center"
@@ -38,10 +38,8 @@
 </template>
 <script>
 import { event_active, event_inactive } from "@/assets/icons";
-import Icon from "@/components/SvgIcon.vue";
 
 export default {
-  components: { Icon },
   props: {
     item: {
       type: Object,

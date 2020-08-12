@@ -53,6 +53,7 @@ export default {
     "@nuxtjs/toast",
     "@nuxtjs/cloudinary",
     "nuxt-i18n",
+    "nuxt-clipboard2",
   ],
   buildModules: ["@nuxtjs/tailwindcss"],
   toast: {

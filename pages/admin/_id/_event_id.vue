@@ -5,7 +5,7 @@
         class="flex items-center uppercase p-3 hover:text-cloudinary-darkest text-cloudinary-gray mx-4"
         @click="goBack"
       >
-        <icon :icon="back.path" :viewBox="back.viewBox" size="28px" />
+        <svg-icon :icon="back.path" :viewBox="back.viewBox" size="28px" />
       </button>
       <div class="text-cloudinary-gray text-xl md:text-2xl">
         Edit "{{ name }}"
@@ -16,7 +16,7 @@
         class="focus:outline-none bg-grey-lighter m-auto flex-1 -m-0"
         @click.prevent="uploadBadge"
       >
-        <c-image
+        <cld-image
           :public-id="badge"
           responsive="true"
           crop="scale"
@@ -24,7 +24,7 @@
           class="flex justify-center"
         />
         <div v-show="!badge">
-          <icon :path="add_photo" color="#bfcbd9" size="50" class="m-4" />
+          <svg-icon :path="add_photo" color="#bfcbd9" size="50" class="m-4" />
           <div class="text-grey uppercase">
             {{ $t("admin.newEvent.actions.addBadge") }}
           </div>
@@ -36,7 +36,7 @@
             class="focus:outline-none bg-grey-lighter rounded-full m-auto"
             @click.prevent="uploadLogo"
           >
-            <c-image
+            <cld-image
               :public-id="logo"
               width="80"
               height="80"
@@ -45,7 +45,7 @@
               v-show="logo"
               class="flex"
             />
-            <icon
+            <svg-icon
               :path="add_photo"
               color="#bfcbd9"
               size="50"
@@ -103,12 +103,9 @@
   </div>
 </template>
 <script>
-import Icon from "@/components/SvgIcon.vue";
 import { add_photo, back } from "@/assets/icons";
-import Input from "@/components/Input";
 
 export default {
-  components: { Icon, Input },
   async asyncData({ params, $axios }) {
     const event = await $axios.$get(`api/event/load?id=${params.event_id}`);
 

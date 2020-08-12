@@ -8,7 +8,7 @@
         to="/admin/1/newEvent"
         class="no-underline rounded focus:outline-none flex items-center uppercase px-4 py-3 bg-cloudinary-orange hover:bg-orange-700 text-white"
       >
-        <icon
+        <svg-icon
           :icon="add_circle.path"
           :viewBox="add_circle.viewBox"
           size="20px"
@@ -49,13 +49,9 @@
   </div>
 </template>
 <script>
-import Icon from "@/components/SvgIcon.vue";
-import EventRow from "@/components/EventRow.vue";
 import { add_circle } from "@/assets/icons";
-import List from "@/components/List.vue";
 
 export default {
-  components: { Icon, List, EventRow },
   async asyncData({ params, $axios }) {
     const response = await $axios.$get(`/api/allEvents`);
     return !response.error

@@ -40,10 +40,8 @@
 import { isMobileOnly } from "mobile-device-detect";
 import { block } from "@/assets/icons";
 import colorizes from "@/assets/colorizes.json";
-import InputSlider from "@/components/InputSlider";
 
 export default {
-  components: { InputSlider },
   props: {
     colorize: {
       type: Object,

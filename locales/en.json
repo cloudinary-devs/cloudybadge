@@ -92,6 +92,10 @@
     "status": {
       "success": "Your badge has been saved.",
       "error": "Can't save your badge at the moment. Please try again."
+    },
+    "copy": {
+      "success": "Your badge link has been copied.",
+      "error": "Can't copy your badge link for voting. Please try again."
     }
   },
   "admin": {

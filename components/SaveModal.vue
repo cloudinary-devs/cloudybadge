@@ -68,7 +68,15 @@ export default {
     };
   },
   methods: {
-    copyLink() {},
+    copyLink() {
+      this.$copyText(this.voteLink)
+        .then(() =>
+          this.$toast.success(this.$t("editBadge.copy.status.success"))
+        )
+        .catch(() =>
+          this.$toast.success(this.$t("editBadge.copy.status.error"))
+        );
+    },
     shareLink() {},
     close() {
       this.$emit("close");

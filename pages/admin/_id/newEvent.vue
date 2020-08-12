@@ -18,7 +18,7 @@
           class="flex justify-center mx-4"
         />
         <div v-show="!badge">
-          <icon
+          <svg-icon
             :icon="add_photo.path"
             :viewBox="add_photo.viewBox"
             size="50px"
@@ -44,7 +44,7 @@
               v-show="logo"
               class="flex"
             />
-            <icon
+            <svg-icon
               :icon="add_photo.path"
               :viewBox="add_photo.viewBox"
               size="50px"
@@ -112,12 +112,10 @@
   </div>
 </template>
 <script>
-import Icon from "@/components/SvgIcon.vue";
 import { add_photo } from "@/assets/icons";
 import Input from "@/components/Input";
 
 export default {
-  components: { Icon, Input },
   data() {
     return {
       name: "",

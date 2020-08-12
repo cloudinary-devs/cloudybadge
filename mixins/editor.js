@@ -1,18 +1,8 @@
-import Badge from "@/components/Badge";
-import UploadBtn from "@/components/Upload";
-import Preset from "@/components/Preset";
 import presets from "@/assets/presets.json";
 import { copy, share, done, settings } from "@/assets/icons";
-import Effects from "@/components/Effects";
 import SaveModal from "@/components/SaveModal";
 
 const editor = {
-  components: {
-    Badge,
-    UploadBtn,
-    Preset,
-    Effects,
-  },
   props: {
     badge: {
       type: Object,
@@ -123,7 +113,7 @@ const editor = {
         this.$modal.show(
           SaveModal,
           {
-            voteLink: `/event/${this.badge.event.id}?vid=${this.badge.editKey}`,
+            voteLink: `${window.location.protocol}//${window.location.hostname}/event/${this.badge.event.id}?vid=${this.badge.editKey}`,
           },
           {
             height: "auto",

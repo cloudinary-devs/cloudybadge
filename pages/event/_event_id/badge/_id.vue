@@ -17,8 +17,6 @@
   </div>
 </template>
 <script>
-import Back from "@/components/BackBtn";
-import TopBar from "@/components/TopBar";
 import editor from "@/mixins/editor";
 
 export default {
@@ -29,10 +27,6 @@ export default {
         "editBadge.heading"
       )}`,
     };
-  },
-  components: {
-    Back,
-    TopBar,
   },
   async asyncData({ params, query, $axios }) {
     const response = await $axios.$post(`/api/badge/edit`, {
