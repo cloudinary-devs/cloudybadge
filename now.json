@@ -8,5 +8,9 @@
       "SENDGRID_TEMPLATE_REGISTER": "@sendgrid_template_register",
       "baseURL": "@base_url"
     }
-  }
+  },
+  "routes": [
+    { "handle": "filesystem" },
+    { "src": "/.*", "dest": "/index.html" }
+  ]
 }
