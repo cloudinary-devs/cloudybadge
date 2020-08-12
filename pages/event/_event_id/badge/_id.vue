@@ -42,6 +42,7 @@ export default {
     });
 
     if (response.badge) {
+      console.log(response);
       return {
         badge: response.badge,
       };

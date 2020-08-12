@@ -1,6 +1,6 @@
 <template>
   <div>
-    <cld-image
+    <c-image
       :public-id="publicId"
       :transformation="transformation"
       :width="width"

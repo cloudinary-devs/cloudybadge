@@ -16,7 +16,7 @@
         class="focus:outline-none bg-grey-lighter m-auto flex-1 -m-0"
         @click.prevent="uploadBadge"
       >
-        <cld-image
+        <c-image
           :public-id="badge"
           responsive="true"
           crop="scale"
@@ -36,7 +36,7 @@
             class="focus:outline-none bg-grey-lighter rounded-full m-auto"
             @click.prevent="uploadLogo"
           >
-            <cld-image
+            <c-image
               :public-id="logo"
               width="80"
               height="80"

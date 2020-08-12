@@ -1,6 +1,6 @@
 <template>
   <div class="flex">
-    <cld-image
+    <c-image
       :public-id="badgeUrl"
       class="border-2 border-cloudinary self-center"
       :transformation="transformation"

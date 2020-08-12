@@ -10,7 +10,7 @@
         size="32px"
       />
       <div class="flex items-center justify-center mx-3">
-        <cld-image :public-id="event.logo" width="50" crop="scale" />
+        <c-image :public-id="event.logo" width="50" crop="scale" />
         <h2 class="mx-3 font-display text-xl md:text-title text-center">
           {{ event.name }}
         </h2>
@@ -64,7 +64,7 @@
                   size="24px"
                 />
               </button>
-              <cld-image
+              <c-image
                 public-id="_cloudybadge/resources/trophy"
                 fetchFormat="auto"
                 quality="auto"

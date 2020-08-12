@@ -12,7 +12,7 @@
         size="32px"
       />
     </div>
-    <cld-image
+    <c-image
       :public-id="item.logo"
       width="30"
       crop="scale"

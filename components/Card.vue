@@ -6,15 +6,15 @@
       :to="link"
       class="grid grid-rows-grid-card gap-2 p-4 outline-none no-underline text-green-darker items-center text-center w-full"
     >
-      <cld-image
+      <c-image
         :public-id="logo"
         width="50"
         crop="scale"
         height="50"
-        class="justify-center flex card--container-img"
+        class="justify-center flex card--container-img mx-auto"
       />
-      <div class="font-semibold text-green-900">{{ name }}</div>
-      <div class="text-gray-500 text-sm">{{ location }}</div>
+      <div class="font-semibold text-green-900 truncate">{{ name }}</div>
+      <div class="text-gray-500 text-sm capitalize">{{ location }}</div>
     </nuxt-link>
   </li>
 </template>

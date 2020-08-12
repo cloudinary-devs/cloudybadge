@@ -2,6 +2,7 @@ import pkg from "./package";
 
 export default {
   mode: "spa",
+  components: true,
   /*
    ** Headers of the page
    */
@@ -39,9 +40,7 @@ export default {
    */
   plugins: [
     "./plugins/vueToggle",
-    "./plugins/cloudinary",
     "./plugins/vue-js-modal",
-    "./plugins/i18n",
     "./plugins/global",
     "./plugins/vue-debounce",
   ],
@@ -49,7 +48,13 @@ export default {
   /*
    ** Nuxt.js modules
    */
-  modules: ["@nuxtjs/axios", "@nuxtjs/toast", "@nuxtjs/tailwindcss"],
+  modules: [
+    "@nuxtjs/axios",
+    "@nuxtjs/toast",
+    "@nuxtjs/cloudinary",
+    "nuxt-i18n",
+  ],
+  buildModules: ["@nuxtjs/tailwindcss"],
   toast: {
     position: "bottom-center",
     singleton: true,
@@ -58,6 +63,24 @@ export default {
   },
   axios: {
     baseURL: process.env.baseURL,
+  },
+  cloudinary: {
+    cloudName: process.env.CLOUDNAME,
+    privateCDN: false,
+  },
+  i18n: {
+    defaultLocale: "en",
+    vueI18n: {
+      locale: "en",
+
+      // Set the fallback locale in case the current locale can't be found
+      fallbackLocale: "en",
+
+      // Associate each locale to a content file
+      messages: {
+        en: require("./locales/en.json"),
+      },
+    },
   },
   /*
    ** Build configuration

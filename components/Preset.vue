@@ -5,7 +5,7 @@
     v-if="avatar"
   >
     <div @click="applyEffect" class="cursor-pointer" :class="presetClass">
-      <cld-image
+      <c-image
         v-bind="effect"
         :public-id="`${avatar.public_id}.png`"
         :width="presetImageSize"
@@ -14,8 +14,8 @@
         radius="max"
         class="border-4 rounded-full border-white w-fit"
       >
-        <cld-transformation v-if="effect.extra" v-bind="extra" />
-      </cld-image>
+        <c-transformation v-if="effect.extra" v-bind="extra" />
+      </c-image>
     </div>
     <h4
       class="uppercase text-center m-2 text-sm text-cloudinary px-3"

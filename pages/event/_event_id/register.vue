@@ -5,7 +5,7 @@
         {{ $t("register.title") }} {{ $t("title") }}
       </h2>
       <div class="flex items-center justify-center">
-        <cld-image
+        <c-image
           cloudName="cloudinary"
           public-id="logo/for_black_bg/cloudinary_icon_for_black_bg"
           width="60"
@@ -15,7 +15,7 @@
         />
         <div class="flex items-center" v-if="event && event.logo">
           <span class="text-3xl ml-5 mr-5">❤️</span>
-          <cld-image :public-id="event.logo" width="60" crop="scale" />
+          <c-image :public-id="event.logo" width="60" crop="scale" />
         </div>
       </div>
       <h3 class="my-3 text-xl">

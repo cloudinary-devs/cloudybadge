@@ -2,7 +2,7 @@
   <div class="font-display">
     <top-bar class="py-3 items-center px-3">
       <div class="flex items-center justify-center">
-        <cld-image
+        <c-image
           public-id="https://res.cloudinary.com/cloudinary/image/upload/c_scale,w_45/v1/logo/for_black_bg/cloudinary_icon_for_black_bg.png"
           class="pr-3 mr-2 border-r border-grey-darker"
         />

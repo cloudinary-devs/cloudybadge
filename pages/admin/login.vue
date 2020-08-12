@@ -2,7 +2,7 @@
   <div class="font-display">
     <div class="bg-cloudinary py-5 flex flex-col items-center">
       <div class="flex items-center justify-center">
-        <cld-image
+        <c-image
           cloudName="cloudinary"
           public-id="logo/for_black_bg/cloudinary_icon_for_black_bg"
           width="80"
