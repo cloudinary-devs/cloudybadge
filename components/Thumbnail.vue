@@ -53,6 +53,9 @@ export default {
             },
             effect.preset || {},
             ...(effect.transformation || []),
+            {
+              radius: "max",
+            },
           ]
         : [];
     },
