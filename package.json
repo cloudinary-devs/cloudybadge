@@ -28,7 +28,7 @@
     "current-script-polyfill": "^1.0.0",
     "dotenv": "^8.2.0",
     "esm": "^3.2.25",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "faunadb": "^2.10.0",
     "mobile-device-detect": "^0.3.3",
     "nuxt": "2.14.1",
