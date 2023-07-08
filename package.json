@@ -21,7 +21,7 @@
     "@nuxtjs/axios": "^5.9.0",
     "@nuxtjs/cloudinary": "^0.0.8",
     "@nuxtjs/toast": "^3.3.0",
-    "@sendgrid/mail": "^6.5.1",
+    "@sendgrid/mail": "^7.7.0",
     "body-parser": "^1.19.0",
     "core-js": "2",
     "cross-env": "^5.2.0",
